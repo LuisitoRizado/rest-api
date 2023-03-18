@@ -28,6 +28,29 @@ app.get('/getAllHorarios', async (req, res) => {
   }));
   res.json(users);
 });
+//----Eliminar horario
+app.delete('/deleteHorario/:id', async (req, res) => {
+  const id = req.params.id;
+  try {
+    const sql = "DELETE FROM Horario WHERE Id_Horario = ?";
+    const [result] = await pool.query(sql, [id]);
+    if (result.affectedRows === 0) {
+      res.status(404).json({
+        message: `No se encontró el horario con el ID ${id}`
+      });
+    } else {
+      res.status(200).json({
+        message: `Horario con ID ${id} ha sido eliminado exitosamente`
+      });
+    }
+  } catch (error) {
+    console.error(`Error while deleting horario record: ${error}`);
+    res.status(500).json({
+      message: "Error al eliminar el horario"
+    });
+  }
+});
+
 
 app.post('/addAula', async (req, res) => {
   const { ID_AULA, NOMBRE, EDIFICIO, CAPACIDAD } = req.body;
