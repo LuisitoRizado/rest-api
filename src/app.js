@@ -9,7 +9,7 @@ app.use(express.json());
 app.get('/getEmpleado/:usuario/:contrasena', async (req, res) => {
   const { usuario, contrasena } = req.params;
 
-  const sql = "SELECT * FROM Empleados ";
+  let sql = "SELECT * FROM Empleados WHERE usuario = ? AND contrasena = ?";
   try {
     let result = await pool.query(sql, [usuario, contrasena]);
 
@@ -19,8 +19,8 @@ app.get('/getEmpleado/:usuario/:contrasena', async (req, res) => {
     }
 
     const userSchema = {
-        usuario: result[0].usuario,
-        contrasena: result[0].contrasena,
+        "usuario": result[0].usuario,
+        "contrasena": result[0].contrasena,
     };
 
     res.json(userSchema);
