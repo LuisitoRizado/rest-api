@@ -90,14 +90,14 @@ app.post('/addNewMateria', async (req, res) => {
 
 
 //-------------------------------------------------OPERACIONES CON  DOCENTES
-router.get('/getAllDocentes', async (req, res) => {
+app.get('/getAllDocentes', async (req, res) => {
   const sql = "SELECT * FROM Docente";
   const [result] = await pool.query(sql);
   const docentes = result.map(docente => ({
       Id_Docente: docente.Id_Docente,
       Nombre: docente.Nombre,
-      AP_PATERNO: docente.AP_PATERNO,
-      AP_MATERNO: docente.AP_MATERNO
+      AP_PATERNO: docente.Ap_Paterno,
+      AP_MATERNO: docente.Ap_Materno
   }));
   res.json(docentes);
 });
@@ -150,7 +150,7 @@ app.put("/updateDocente/:ID_DOCENTE", async (req, res) => {
 //Obtener un docente
 app.get('/getDocente/:id', async (req, res) => {
   const { id } = req.params;
-  const sql = "SELECT * FROM Docente WHERE ID_DOCENTE = ?";
+  const sql = "SELECT * FROM Docente WHERE Id_Docente = ?";
   const [result] = await pool.query(sql, [id]);
 
   if (result.length === 0) {
