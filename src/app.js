@@ -125,8 +125,6 @@ app.put("/updateHorario/:ID_HORARIO", async (req, res) => {
   }
 });
 
-
-//--agregar un horario
 //Agregar un horario
 app.post('/addHorario', async (req, res) => {
   const { ID_HORARIO, HORA_INICIO_LUNES, HORA_FINAL_LUNES } = req.body;
@@ -231,7 +229,7 @@ app.delete('/deleteAula/:Id_Aula', async (req, res) => {
 app.put("/updateAula/:ID_AULA", async (req, res) => {
   const { NOMBRE, EDIFICIO, CAPACIDAD } = req.body;
   const { ID_AULA } = req.params;
-  sql = "update AULA set NOMBRE=:NOMBRE, EDIFICIO=:EDIFICIO, CAPACIDAD=:CAPACIDAD where ID_AULA=:ID_AULA";
+  sql = "update Aula set NOMBRE=:NOMBRE, EDIFICIO=:EDIFICIO, CAPACIDAD=:CAPACIDAD where ID_AULA=:ID_AULA";
     
   await BD.Open(sql, [NOMBRE, EDIFICIO, CAPACIDAD, ID_AULA], true);
   
