@@ -307,7 +307,7 @@ app.get('/getAllMaterias', async (req, res) => {
   }
 });
 
-//EOBTENER TODAS LAS MATERIAS ASIGNDAS A PROFESOR
+//EOBTENER TODAS LAS MATERIAS ASIGNDAS A PROFESOR(lISTO)
 app.get('/getAllMats', async (req, res) => {
   try {
     const [result] = await pool.query(`
@@ -336,7 +336,7 @@ app.get('/getAllMats', async (req, res) => {
     res.status(500).json({ error: `Error al obtener las materias: ${error.message}` });
   }
 });
-
+//CONSULTAR MATERIA POR NOMBRE
 app.get('/getMats/:MAT', async (req, res) => {
   const { MAT } = req.params;
   //Obtener materia asignada al profesor
@@ -366,6 +366,25 @@ app.get('/getMats/:MAT', async (req, res) => {
       res.json(Users);
   });
 });
+
+app.get('/getMaterias_asigandas', async (req, res) => {
+  const sql = "SELECT * FROM materia_asignada_profesor";
+  try {
+    const [result] = await pool.query(sql);
+    const Users = result.map(user => ({
+      Id_Docxmath: user.Id_Docxmath,
+      Id_Docente: user.Id_Docente,
+      Id_Materia: user.Id_Materia
+    }));
+    res.json(Users);
+  } catch (error) {
+    console.error(`Error while getting MATERIAS ASIGNADAS records: ${error}`);
+    res.status(500).json({
+      message: `Error while getting MATERIAS ASIGNADAS records: ${error.message}`
+    });
+  }
+});
+
 
 //------------------------------------------------------------------OPERACIONES CON  DOCENTES
 app.get('/getAllDocentes', async (req, res) => {
@@ -446,8 +465,29 @@ app.get('/getDocente/:id', async (req, res) => {
   res.json(userSchema);
 });
 
+//--------------------------------------------------------------OPERACIONES CON CARRERAS
+//Obtener todas las carrerras
+app.get('/getCarreras', async (req, res) => {
+  const sql = "SELECT * FROM Carrera";
+  
+  try {
+    const [result] = await pool.query(sql);
+    const Users = result.map(user => ({
+      Id_Carrera: user.Id_Carrera,
+      Carrera: user.Carrera,
+      Plan_Estudios: user.Plan_Estudios
+    }));
+    res.json(Users);
+  } catch (error) {
+    console.error(`Error while getting CARRERA records: ${error}`);
+    res.status(500).json({
+      message: `Error while getting CARRERA records: ${error.message}`
+    });
+  }
+});
 
 
+//------------------------------------PESTAÑA DE ALUMNOS..........
 
 
 app.get('/create', async (req, res) => {
