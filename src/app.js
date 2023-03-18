@@ -43,11 +43,11 @@ app.get('/getAllHorarios', async (req, res) => {
   res.json(users);
 });
 //----Eliminar horario
-app.delete('/deleteHorario/:id', async (req, res) => {
+aapp.delete('/deleteHorario/:id', async (req, res) => {
   const id = req.params.id;
   try {
     const sql = "DELETE FROM Horario WHERE Id_Horario = ?";
-    const [result] = await pool.query(sql, [id]);
+    const [result] = await pool.execute(sql, [id]);
     if (result.affectedRows === 0) {
       res.status(404).json({
         message: `No se encontró el horario con el ID ${id}`
@@ -64,6 +64,7 @@ app.delete('/deleteHorario/:id', async (req, res) => {
     });
   }
 });
+
 
 //------------------------------------------------------OPERACIONES CON AULAS
 //--buscar aula 
