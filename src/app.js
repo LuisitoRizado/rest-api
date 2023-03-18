@@ -278,7 +278,7 @@ app.get('/getMaterias/:semestre', async (req, res) => {
   }
 });
 
-//Obtener todas las materias, con horario, aula y carrera////ERROR
+//Obtener todas las materias, con horario, aula y carrera//(LISTO)
 app.get('/getAllMaterias', async (req, res) => {
   const sql = "SELECT * FROM Materia JOIN Carrera ON Materia.Id_Carrera = Carrera.Id_Carrera JOIN Horario ON Materia.Id_Horario = Horario.Id_Horario JOIN Aula ON Materia.Id_Aula = Aula.Id_Aula";
 
@@ -310,33 +310,34 @@ app.get('/getAllMaterias', async (req, res) => {
 //ERROR
 app.get('/getAllMats', async (req, res) => {
   try {
-      const connection = await mysql.createPool(config.db);
-      const result = await connection.execute(`
-          SELECT ID_DOCXMATH,Docente.ID_DOCENTE, Materia.ID_MATERIA, Materia.MATERIA, Docente.NOMBRE,DOCENTE.AP_PATERNO, Docente.AP_MATERNO, Aula.NOMBRE, Horario.HORA_INICIO_LUNES
-          FROM Materia
-          INNER JOIN MATERIA_ASIGNADA_PROFESOR ON Materia.ID_MATERIA = Materia_Asignada_Profesor.ID_MATERIA
-          INNER JOIN DOCENTE ON Materia_Asignada_Profesor.ID_DOCENTE = Docente.ID_DOCENTE
-          INNER JOIN AULA ON Materia.ID_AULA = Aula.ID_AULA
-          INNER JOIN HORARIO ON Materia.ID_HORARIO = Horario.ID_HORARIO
-      `);
-      const Users = result[0].map(user => ({
-          "ID_DOCXMATH": user.Id_Docxmath,
-          "ID_DOCENTE": user.Id_Docente,
-          "ID_MATERIA": user.Id_Materia,
-          "MATERIA": user.Materia,
-          "NOMBRE": user.Nombre,
-          "AP_PATERNO": user.Ap_Paterno,
-          "AP_MATERNO": user.Ap_Materno,
-          "HORA_INICIO_LUNES": user.Hora_Inicio_Lunes,
-          "HORA_FINAL_LUNES": user.Hora_Final_Lunes,
-          "AULA": user.NOMBRE
-      }));
-      res.json(Users);
+    const connection = await mysql.createPool(config.db);
+    const result = await connection.execute(`
+      SELECT Id_Docxmath,Docente.Id_Docente, Materia.Id_Materia, Materia.Materia, Docente.Nombre,DOCENTE.Ap_Paterno, Docente.Ap_Materno, Aula.Nombre, Horario.Hora_Inicio_Lunes
+      FROM Materia
+      INNER JOIN Materia_Asignada_Profesor ON Materia.Id_Materia = Materia_Asignada_Profesor.Id_Materia
+      INNER JOIN Docente ON Materia_Asignada_Profesor.Id_Docente = Docente.Id_Docente
+      INNER JOIN Aula ON Materia.Id_Aula = Aula.Id_Aula
+      INNER JOIN Horario ON Materia.Id_Horario = Horario.Id_Horario
+    `);
+    const Users = result[0].map(user => ({
+      Id_Docxmath: user.Id_Docxmath,
+      Id_Docente: user.Id_Docente,
+      Id_Materia: user.Id_Materia,
+      Materia: user.Materia,
+      Nombre: user.Nombre,
+      Ap_Paterno: user.Ap_Paterno,
+      Ap_Materno: user.Ap_Materno,
+      Hora_Inicio_Lunes: user.Hora_Inicio_Lunes,
+      Hora_Final_Lunes: user.Hora_Final_Lunes,
+      NOMBRE: user.NOMBRE
+    }));
+    res.json(Users);
   } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Internal server error' });
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
+
 app.get('/getMats/:MAT', async (req, res) => {
   const { MAT } = req.params;
   //Obtener materia asignada al profesor
