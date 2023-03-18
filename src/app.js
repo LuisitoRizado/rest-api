@@ -633,7 +633,7 @@ app.get('/getCarreras', async (req, res) => {
     });
   }
 });
-
+//obtener todas las carreras (Listo)
 app.get('/getAllCarreras', async (req, res) => {
   try {
       const sql = "SELECT * FROM Carrera";
@@ -651,7 +651,7 @@ app.get('/getAllCarreras', async (req, res) => {
 })
 
 //------------------------------------PESTAÑA DE ALUMNOS..........
-//obtener un solo alumno
+//obtener un solo alumno (LISTO)
 app.get('/getAlumno/:id', async (req, res) => {
   const { id } = req.params;
   try {
@@ -675,7 +675,7 @@ app.get('/getAlumno/:id', async (req, res) => {
       res.status(500).json({ message: "Error al obtener el alumno" });
   }
 })
-//obtener todos los alumnos
+//obtener todos los alumnos (LISTO)
 app.get('/getAllAlumnos', async (req, res) => {
   try {
       const sql = "SELECT * FROM Alumnos";
@@ -698,7 +698,7 @@ app.get('/getAllAlumnos', async (req, res) => {
       res.status(500).json({ message: "Error al obtener los alumnos" });
   }
 })
-//actualizar un alumno
+//actualizar un alumno /LISTO/ (MANDAR TODO EN MAYUSCULAS)
 app.put("/updateAlumno/:NCONTROL", async (req, res) => {
   const { NOMBRE, AP_PATERNO, AP_MATERNO, SEMESTRE, PERIODO, CREDITOS_DISPONIBLES, ESPECIALIDAD } = req.body;
   const { NCONTROL } = req.params;
@@ -722,7 +722,7 @@ app.post('/addAlumno', async (req, res) => {
   const { NCONTROL, ID_CARRERA, NOMBRE, AP_PATERNO, AP_MATERNO, SEMESTRE, PERIODO, CREDITOS_DISPONIBLES, ESPECIALIDAD, CONTRASENA } = req.body;
 
   //Secuencia sql para poder agregar el alumno a la base de datos
-  sql = "INSERT INTO Alumnos(NCONTROL, ID_CARRERA, NOMBRE, AP_PATERNO, AP_MATERNO, SEMESTRE, PERIODO, CREDITOS_DISPONIBLES, ESPECIALIDAD, CONTRASENA) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+  const sql = "INSERT INTO Alumnos(NCONTROL, ID_CARRERA, NOMBRE, AP_PATERNO, AP_MATERNO, SEMESTRE, PERIODO, CREDITOS_DISPONIBLES, ESPECIALIDAD, CONTRASENA) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
 
   await pool.query(sql, [NCONTROL, ID_CARRERA, NOMBRE, AP_PATERNO, AP_MATERNO, SEMESTRE, PERIODO, CREDITOS_DISPONIBLES, ESPECIALIDAD, CONTRASENA]);
   res.status(200).json({
