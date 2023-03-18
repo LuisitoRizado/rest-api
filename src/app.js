@@ -438,7 +438,7 @@ app.get('/getMateria/:id', async (req, res) => {
   
   res.json(users);
 });
-//--------- AGREGAR MATERIA
+//--------- AGREGAR MATERIA(listo pero agrega un alumno, no una materia xd)
 app.post('/addMateria', async (req, res) => {
   const { NCONTROL, ID_CARRERA, NOMBRE, AP_PATERNO, AP_MATERNO, SEMESTRE, PERIODO, CREDITOS_DISPONIBLES, ESPECIALIDAD, CONTRASENA } = req.body;
 
@@ -467,7 +467,7 @@ app.post('/addMateria', async (req, res) => {
 });
 
 //modificar materia ?
-app.put("/updateMateria/:ID_MATERIAA", async (req, res) => {
+app.put("/updateMateria/:ID_MATERIA", async (req, res) => {
   const { HORA_INICIO_LUNES, HORA_FINAL_LUNES } = req.body;
   const { ID_MATERIA } = req.params;
   sql = "UPDATE Horario SET Hora_Inicio_Lunes = ?, Hora_Final_Lunes = ? WHERE Id_Horario = ?";
