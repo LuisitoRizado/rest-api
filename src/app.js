@@ -237,7 +237,7 @@ app.put("/updateAula/:ID_AULA", async (req, res) => {
 
 
 //-------------------------------------------------------------------OPERACIONES CON MATERIAS
-//AGREGAR MATERIA
+//AGREGAR MATERIA (FUNCIONA)
 app.post('/addNewMateria', async (req, res) => {
   const { ID_MATERIA, ID_HORARIO, ID_AULA, ID_CARRERA, MATERIA, CREDITOS, CUPO, SEMESTRE} = req.body;
 
@@ -263,11 +263,11 @@ app.get('/getMaterias/:semestre', async (req, res) => {
   try {
     let result = await pool.query(sql, [semestre]);
     let Users = result.map(user => ({
-      "ID_MATERIA": user.ID_MATERIA,
-      "MATERIA": user.MATERIA,
-      "CUPO": user.CUPO,
-      "CREDITOS": user.CREDITOS,
-      "SEMESTRE": user.SEMESTRE
+      "ID_MATERIA": user.Id_Materia,
+      "MATERIA": user.Materia,
+      "CUPO": user.Cupo,
+      "CREDITOS": user.Creditos,
+      "SEMESTRE": user.Semestre
     }));
     res.json(Users);
   } catch (error) {
@@ -277,24 +277,24 @@ app.get('/getMaterias/:semestre', async (req, res) => {
     });
   }
 });
-//Obtener todas las materias, con horario, aula y carrera
+//Obtener todas las materias, con horario, aula y carrera////ERROR
 app.get('/getAllMaterias', async (req, res) => {
-  sql = "SELECT * FROM Materia JOIN CARRERA ON MATERIA.id_carrera = CARRERA.id_carrera JOIN HORARIO ON MATERIA.id_horario = HORARIO.id_horario JOIN AULA ON MATERIA.id_aula = AULA.id_aula ";
+  sql = "SELECT * FROM Materia JOIN Carrera ON Materia.id_carrera = Carrera.id_carrera JOIN Horario ON Materia.id_horario = Horario.id_horario JOIN Aula ON Materia.id_aula = Aula.id_aula ";
 
   try {
     const [result, fields] = await pool.query(sql);
     const Users = result.map(user => ({
-      "ID_MATERIA": user.ID_MATERIA,
-      "ID_HORARIO": user.ID_HORARIO,
-      "ID_AULA": user.ID_AULA,
-      "ID_CARRERA": user.ID_CARRERA,
-      "MATERIA": user.MATERIA,
-      "CREDITOS": user.CREDITOS,
-      "CUPO": user.CUPO,
-      "SEMESTRE": user.SEMESTRE,
-      "NOMBRE": user.NOMBRE,
-      "HORA_INICIO_LUNES": user.HORA_INICIO_LUNES,
-      "HORA_FINAL_LUNES": user.HORA_FINAL_LUNES,
+      "ID_MATERIA": user.Id_Materia,
+      "ID_HORARIO": user.Id_Horario,
+      "ID_AULA": user.Id_Aula,
+      "ID_CARRERA": user.Id_Carrera,
+      "MATERIA": user.Materia,
+      "CREDITOS": user.Creditos,
+      "CUPO": user.Cupo,
+      "SEMESTRE": user.Semestre,
+      "NOMBRE": user.Nombre,
+      "HORA_INICIO_LUNES": user.Hora_Inicio_Lunes,
+      "HORA_FINAL_LUNES": user.Hora_Final_Lunes,
       "Nombre": user.Nombre
     }));
     res.json(Users);
@@ -303,7 +303,7 @@ app.get('/getAllMaterias', async (req, res) => {
     res.status(500).send("Error al obtener las materias");
   }
 });
-
+//ERROR
 app.get('/getAllMats', async (req, res) => {
   try {
       const connection = await mysql.createPool(config.db);
@@ -316,15 +316,15 @@ app.get('/getAllMats', async (req, res) => {
           INNER JOIN HORARIO ON Materia.ID_HORARIO = Horario.ID_HORARIO
       `);
       const Users = result[0].map(user => ({
-          "ID_DOCXMATH": user.ID_DOCXMATH,
-          "ID_DOCENTE": user.ID_DOCENTE,
-          "ID_MATERIA": user.ID_MATERIA,
-          "MATERIA": user.MATERIA,
-          "NOMBRE": user.NOMBRE,
-          "AP_PATERNO": user.AP_PATERNO,
-          "AP_MATERNO": user.AP_MATERNO,
-          "HORA_INICIO_LUNES": user.HORA_INICIO_LUNES,
-          "HORA_FINAL_LUNES": user.HORA_FINAL_LUNES,
+          "ID_DOCXMATH": user.Id_Docxmath,
+          "ID_DOCENTE": user.Id_Docente,
+          "ID_MATERIA": user.Id_Materia,
+          "MATERIA": user.Materia,
+          "NOMBRE": user.Nombre,
+          "AP_PATERNO": user.Ap_Paterno,
+          "AP_MATERNO": user.Ap_Materno,
+          "HORA_INICIO_LUNES": user.Hora_Inicio_Lunes,
+          "HORA_FINAL_LUNES": user.Hora_Final_Lunes,
           "AULA": user.NOMBRE
       }));
       res.json(Users);
