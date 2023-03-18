@@ -3,13 +3,6 @@ import { pool } from './db.js'
 import {PORT} from './config.js'
 const app = express()
 app.use(express.json());
-/* const bodyParser = require('body-parser');
-app.use(bodyParser.json()); */
-
-app.get('/', async (req, res) => {
-  const [rows] = await pool.query('SELECT * FROM users')
-  res.json(rows)
-})
 
 //-----------------------LOGIN
 app.get('/getLogin/:id/:password', async (req, res) => {
@@ -30,6 +23,7 @@ app.get('/getLogin/:id/:password', async (req, res) => {
   }));
   res.json(users);
 })
+
 
 //-----------------------------------------------------------------------OPERACIONES CON HORARIOS
 app.get('/getAllHorarios', async (req, res) => {
@@ -97,7 +91,6 @@ app.get('/getHorario/:id', async (req, res) => {
     });
   }
 });
-
 //actualizar horario
 app.put("/updateHorario/:ID_HORARIO", async (req, res) => {
   const { HORA_INICIO_LUNES, HORA_FINAL_LUNES } = req.body;
@@ -124,7 +117,6 @@ app.put("/updateHorario/:ID_HORARIO", async (req, res) => {
     });
   }
 });
-
 //Agregar un horario
 app.post('/addHorario', async (req, res) => {
   const { ID_HORARIO, HORA_INICIO_LUNES, HORA_FINAL_LUNES } = req.body;
@@ -176,8 +168,6 @@ app.get('/getAllAulas', async (req, res) => {
   }));
   res.json(users);
 });
-
-
 //--gregar aula
 app.post('/addAula', async (req, res) => {
   const { ID_AULA, NOMBRE, EDIFICIO, CAPACIDAD } = req.body;
@@ -223,8 +213,6 @@ app.delete('/deleteAula/:Id_Aula', async (req, res) => {
     });
   }
 });
-
-
 //---actualizar aula 
 app.put("/updateAula/:ID_AULA", async (req, res) => {
   const { NOMBRE, EDIFICIO, CAPACIDAD } = req.body;
@@ -248,21 +236,132 @@ app.put("/updateAula/:ID_AULA", async (req, res) => {
 });
 
 
-//---------------------------------------------------OPERACIONES CON MATERIAS
+//-------------------------------------------------------------------OPERACIONES CON MATERIAS
+//AGREGAR MATERIA
 app.post('/addNewMateria', async (req, res) => {
   const { ID_MATERIA, ID_HORARIO, ID_AULA, ID_CARRERA, MATERIA, CREDITOS, CUPO, SEMESTRE} = req.body;
 
-  //Secuencia sql para poder agregar el alumno a la base de datos
-  //Primero agregarmos la materia sin asignar el docente
-  let sql = "INSERT INTO MATERIA (ID_MATERIA, ID_HORARIO, ID_AULA, ID_CARRERA, MATERIA,CREDITOS,CUPO,SEMESTRE) values(?, ?, ?, ?, ?, ?, ?, ?)";
+  //Secuencia sql para poder agregar la materia a la base de datos
+  //Primero agregamos la materia sin asignar el docente
+  const sql = "INSERT INTO MATERIA (ID_MATERIA, ID_HORARIO, ID_AULA, ID_CARRERA, MATERIA, CREDITOS, CUPO, SEMESTRE) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-  await BD.Open(sql, [ID_MATERIA, ID_HORARIO, ID_AULA, ID_CARRERA, MATERIA, CREDITOS, CUPO, SEMESTRE], true);
-  
- 
-   
-  res.status(200).json();
-})
+  try {
+    await pool.query(sql, [ID_MATERIA, ID_HORARIO, ID_AULA, ID_CARRERA, MATERIA, CREDITOS, CUPO, SEMESTRE]);
+    console.log(`Inserted new MATERIA record with ID_MATERIA=${ID_MATERIA}`);
+    res.status(200).json({});
+  } catch (error) {
+    console.error(`Error while adding new MATERIA record: ${error}`);
+    res.status(500).json({
+      message: `Error while adding new MATERIA record: ${error.message}`
+    });
+  }
+});
+//Materas por semestre:
+app.get('/getMaterias/:semestre', async (req, res) => {
+  const { semestre } = req.params;
+  sql = "SELECT ID_MATERIA, MATERIA, CUPO, CREDITOS, SEMESTRE FROM MATERIA WHERE SEMESTRE=?";
+  try {
+    let result = await pool.query(sql, [semestre]);
+    let Users = result.map(user => ({
+      "ID_MATERIA": user.ID_MATERIA,
+      "MATERIA": user.MATERIA,
+      "CUPO": user.CUPO,
+      "CREDITOS": user.CREDITOS,
+      "SEMESTRE": user.SEMESTRE
+    }));
+    res.json(Users);
+  } catch (error) {
+    console.error(`Error while getting MATERIA records: ${error}`);
+    res.status(500).json({
+      message: `Error while getting MATERIA records: ${error.message}`
+    });
+  }
+});
+//Obtener todas las materias, con horario, aula y carrera
+app.get('/getAllMaterias', async (req, res) => {
+  sql = "SELECT * FROM MATERIA JOIN CARRERA ON MATERIA.id_carrera = CARRERA.id_carrera JOIN HORARIO ON MATERIA.id_horario = HORARIO.id_horario JOIN AULA ON MATERIA.id_aula = AULA.id_aula ";
 
+  try {
+    const [result, fields] = await pool.query(sql);
+    const Users = result.map(user => ({
+      "ID_MATERIA": user.ID_MATERIA,
+      "ID_HORARIO": user.ID_HORARIO,
+      "ID_AULA": user.ID_AULA,
+      "ID_CARRERA": user.ID_CARRERA,
+      "MATERIA": user.MATERIA,
+      "CREDITOS": user.CREDITOS,
+      "CUPO": user.CUPO,
+      "SEMESTRE": user.SEMESTRE,
+      "NOMBRE": user.NOMBRE,
+      "HORA_INICIO_LUNES": user.HORA_INICIO_LUNES,
+      "HORA_FINAL_LUNES": user.HORA_FINAL_LUNES,
+      "Nombre": user.Nombre
+    }));
+    res.json(Users);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error al obtener las materias");
+  }
+});
+
+app.get('/getAllMats', async (req, res) => {
+  try {
+      const connection = await mysql.createPool(config.db);
+      const result = await connection.execute(`
+          SELECT ID_DOCXMATH,DOCENTE.ID_DOCENTE, MATERIA.ID_MATERIA, MATERIA.MATERIA, DOCENTE.NOMBRE,DOCENTE.AP_PATERNO, DOCENTE.AP_MATERNO, AULA.NOMBRE, HORARIO.HORA_INICIO_LUNES
+          FROM MATERIA
+          INNER JOIN MATERIA_ASIGNADA_PROFESOR ON MATERIA.ID_MATERIA = MATERIA_ASIGNADA_PROFESOR.ID_MATERIA
+          INNER JOIN DOCENTE ON MATERIA_ASIGNADA_PROFESOR.ID_DOCENTE = DOCENTE.ID_DOCENTE
+          INNER JOIN AULA ON MATERIA.ID_AULA = AULA.ID_AULA
+          INNER JOIN HORARIO ON MATERIA.ID_HORARIO = HORARIO.ID_HORARIO
+      `);
+      const Users = result[0].map(user => ({
+          "ID_DOCXMATH": user.ID_DOCXMATH,
+          "ID_DOCENTE": user.ID_DOCENTE,
+          "ID_MATERIA": user.ID_MATERIA,
+          "MATERIA": user.MATERIA,
+          "NOMBRE": user.NOMBRE,
+          "AP_PATERNO": user.AP_PATERNO,
+          "AP_MATERNO": user.AP_MATERNO,
+          "HORA_INICIO_LUNES": user.HORA_INICIO_LUNES,
+          "HORA_FINAL_LUNES": user.HORA_FINAL_LUNES,
+          "AULA": user.NOMBRE
+      }));
+      res.json(Users);
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal server error' });
+  }
+});
+app.get('/getMats/:MAT', async (req, res) => {
+  const { MAT } = req.params;
+  //Obtener materia asignada al profesor
+  const sql = `SELECT ID_DOCXMATH, DOCENTE.ID_DOCENTE, MATERIA.ID_MATERIA, MATERIA.MATERIA, DOCENTE.NOMBRE,DOCENTE.AP_PATERNO, DOCENTE.AP_MATERNO, AULA.NOMBRE, HORARIO.HORA_INICIO_LUNES
+      FROM MATERIA
+      INNER JOIN MATERIA_ASIGNADA_PROFESOR ON MATERIA.ID_MATERIA = MATERIA_ASIGNADA_PROFESOR.ID_MATERIA
+      INNER JOIN DOCENTE ON MATERIA_ASIGNADA_PROFESOR.ID_DOCENTE = DOCENTE.ID_DOCENTE
+      INNER JOIN AULA ON MATERIA.ID_AULA = AULA.ID_AULA
+      INNER JOIN HORARIO ON MATERIA.ID_HORARIO = HORARIO.ID_HORARIO WHERE MATERIA_ASIGNADA_PROFESOR.ID_DOCXMATH =?`;
+
+  await pool.query(sql, [MAT], (error, result) => {
+      if (error) throw error;
+
+      const Users = result.map(user => ({
+          "ID_DOCXMATH":user.ID_DOCXMATH,
+          "ID_DOCENTE":user.ID_DOCENTE,
+          "ID_MATERIA":user.ID_MATERIA,
+          "MATERIA": user.MATERIA,
+          "NOMBRE": user.NOMBRE,
+          "AP_PATERNO": user.AP_PATERNO,
+          "AP_MATERNO": user.AP_MATERNO,
+          "HORA_INICIO_LUNES": user.HORA_INICIO_LUNES,
+          "HORA_FINAL_LUNES": user.HORA_FINAL_LUNES,
+          "AULA": user.NOMBRE
+      }));
+
+      res.json(Users);
+  });
+});
 
 //------------------------------------------------------------------OPERACIONES CON  DOCENTES
 app.get('/getAllDocentes', async (req, res) => {
