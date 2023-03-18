@@ -25,7 +25,7 @@ app.get('/getAllHorarios', async (req, res) => {
   }));
   res.json(users);
 });
-router.post('/addAula', async (req, res) => {
+app.post('/addAula', async (req, res) => {
   const { ID_AULA, NOMBRE, EDIFICIO, CAPACIDAD } = req.body;
 
   const sql = "INSERT INTO AULA (ID_AULA, NOMBRE, EDIFICIO, CAPACIDAD) VALUES (?, ?, ?, ?)";
