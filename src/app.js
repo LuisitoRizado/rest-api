@@ -56,7 +56,7 @@ app.post('/addAula', async (req, res) => {
   console.log(`Received data: ID_AULA=${ID_AULA}, NOMBRE=${NOMBRE}, EDIFICIO=${EDIFICIO}, CAPACIDAD=${CAPACIDAD}`);
 
   try {
-    const sql = "INSERT INTO AULA (ID_AULA, NOMBRE, EDIFICIO, CAPACIDAD) VALUES (?, ?, ?, ?)";
+    const sql = "INSERT INTO Aula (ID_AULA, NOMBRE, EDIFICIO, CAPACIDAD) VALUES (?, ?, ?, ?)";
     await pool.query(sql, [ID_AULA, NOMBRE, EDIFICIO, CAPACIDAD]);
     console.log(`Inserted new AULA record with ID_AULA=${ID_AULA}`);
     res.status(200).json({
