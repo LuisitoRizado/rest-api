@@ -50,7 +50,7 @@ app.delete('/deleteHorario/:id', async (req, res) => {
   }
 });
 
-
+//------------------------------------------------------OPERACIONES CON AULAS
 app.post('/addAula', async (req, res) => {
   const { ID_AULA, NOMBRE, EDIFICIO, CAPACIDAD } = req.body;
   console.log(`Received data: ID_AULA=${ID_AULA}, NOMBRE=${NOMBRE}, EDIFICIO=${EDIFICIO}, CAPACIDAD=${CAPACIDAD}`);
@@ -72,6 +72,102 @@ app.post('/addAula', async (req, res) => {
   });
   }
 });
+
+//---------------------------------------------------OPERACIONES CON MATERIAS
+app.post('/addNewMateria', async (req, res) => {
+  const { ID_MATERIA, ID_HORARIO, ID_AULA, ID_CARRERA, MATERIA, CREDITOS, CUPO, SEMESTRE} = req.body;
+
+  //Secuencia sql para poder agregar el alumno a la base de datos
+  //Primero agregarmos la materia sin asignar el docente
+  let sql = "INSERT INTO MATERIA (ID_MATERIA, ID_HORARIO, ID_AULA, ID_CARRERA, MATERIA,CREDITOS,CUPO,SEMESTRE) values(?, ?, ?, ?, ?, ?, ?, ?)";
+
+  await BD.Open(sql, [ID_MATERIA, ID_HORARIO, ID_AULA, ID_CARRERA, MATERIA, CREDITOS, CUPO, SEMESTRE], true);
+  
+ 
+   
+  res.status(200).json();
+})
+
+
+//-------------------------------------------------OPERACIONES CON  DOCENTES
+router.get('/getAllDocentes', async (req, res) => {
+  const sql = "SELECT * FROM Docente";
+  const [result] = await pool.query(sql);
+  const docentes = result.map(docente => ({
+      Id_Docente: docente.Id_Docente,
+      Nombre: docente.Nombre,
+      AP_PATERNO: docente.AP_PATERNO,
+      AP_MATERNO: docente.AP_MATERNO
+  }));
+  res.json(docentes);
+});
+//agregar docente
+app.post('/addDocente', async (req, res) => {
+  const { ID_DOCENTE, NOMBRE, AP_PATERNO, AP_MATERNO } = req.body;
+
+  // Secuencia sql para poder agregar el docente a la base de datos
+  const sql = "INSERT INTO Docente(ID_DOCENTE, NOMBRE, AP_PATERNO, AP_MATERNO) VALUES (?, ?, ?, ?)";
+
+  try {
+    await pool.query(sql, [ID_DOCENTE, NOMBRE, AP_PATERNO, AP_MATERNO]);
+    console.log(`Inserted new DOCENTE record with ID_DOCENTE=${ID_DOCENTE}`);
+    res.status(200).json({
+      "ID_DOCENTE": ID_DOCENTE,
+      "NOMBRE": NOMBRE,
+      "AP_PATERNO": AP_PATERNO,
+      "AP_MATERNO": AP_MATERNO
+    });
+  } catch (error) {
+    console.error(`Error while adding new DOCENTE record: ${error}`);
+    res.status(500).json({
+      "message": `Error while adding new DOCENTE record: ${error.message}`
+    });
+  }
+});
+
+//--actualizar docente
+app.put("/updateDocente/:ID_DOCENTE", async (req, res) => {
+  const { NOMBRE, AP_PATERNO, AP_MATERNO } = req.body;
+  const { ID_DOCENTE } = req.params;
+  const sql = "UPDATE Docente SET NOMBRE=?, AP_PATERNO=?, AP_MATERNO=? WHERE ID_DOCENTE=?";
+  const params = [NOMBRE, AP_PATERNO, AP_MATERNO, ID_DOCENTE];
+
+  try {
+    const result = await pool.query(sql, params);
+    console.log(`Updated record for Docente with ID_DOCENTE=${ID_DOCENTE}`);
+    res.status(200).json({
+      "NOMBRE": NOMBRE,
+      "AP_PATERNO": AP_PATERNO,
+      "AP_MATERNO": AP_MATERNO
+    });
+  } catch (error) {
+    console.error(`Error while updating record for Docente with ID_DOCENTE=${ID_DOCENTE}: ${error}`);
+    res.status(500).json({
+      "message": `Error while updating record for Docente with ID_DOCENTE=${ID_DOCENTE}: ${error.message}`
+    });
+  }
+});
+//Obtener un docente
+app.get('/getDocente/:id', async (req, res) => {
+  const { id } = req.params;
+  const sql = "SELECT * FROM Docente WHERE ID_DOCENTE = ?";
+  const [result] = await pool.query(sql, [id]);
+
+  if (result.length === 0) {
+    res.status(404).json({ message: "Docente no encontrado" });
+    return;
+  }
+
+  const userSchema = {
+    "Id_Docente": result[0].ID_DOCENTE,
+    "Nombre": result[0].NOMBRE,
+    "AP_PATERNO": result[0].AP_PATERNO,
+    "AP_MATERNO": result[0].AP_MATERNO
+  };
+
+  res.json(userSchema);
+});
+
 
 
 
