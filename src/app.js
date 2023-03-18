@@ -263,11 +263,11 @@ app.get('/getMaterias/:semestre', async (req, res) => {
   try {
     let result = await pool.query(sql, [semestre]);
     let Users = result.map(user => ({
-      "ID_MATERIA": user.Id_Materia,
-      "MATERIA": user.Materia,
-      "CUPO": user.Cupo,
-      "CREDITOS": user.Creditos,
-      "SEMESTRE": user.Semestre
+      "Id_Materia": user.Id_Materia,
+      "Materia": user.Materia,
+      "Cupo": user.Cupo,
+      "Creditos": user.Creditos,
+      "Semestre": user.Semestre
     }));
     res.json(Users);
   } catch (error) {
