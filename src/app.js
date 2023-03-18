@@ -80,7 +80,7 @@ app.get('/getAula/:id', async (req, res) => {
   res.json(aulas);
 });
 //--obtener todas las aulas 
-router.get('/getAllAulas', async (req, res) => {
+app.get('/getAllAulas', async (req, res) => {
   const sql = "SELECT * FROM Aula";
   const [result] = await pool.query(sql);
   const users = result.map(user => ({
@@ -135,7 +135,7 @@ app.delete("/deleteAula/:Id_Aula", async (req, res) => {
 })
 
 //---actualizar aula 
-router.put("/updateAula/:ID_AULA", async (req, res) => {
+app.put("/updateAula/:ID_AULA", async (req, res) => {
   const { NOMBRE, EDIFICIO, CAPACIDAD } = req.body;
   const { ID_AULA } = req.params;
   sql = "update AULA set NOMBRE=:NOMBRE, EDIFICIO=:EDIFICIO, CAPACIDAD=:CAPACIDAD where ID_AULA=:ID_AULA";
