@@ -19,8 +19,8 @@ app.get('/getEmpleado/:usuario/:contrasena', async (req, res) => {
     }
 
     const userSchema = {
-        "usuario": result[0].usuario,
-        "contrasena": result[0].contrasena,
+        "usuario": result[0].Usuario,
+        "contrasena": result[0].Contrasena,
     };
 
     res.json(userSchema);
