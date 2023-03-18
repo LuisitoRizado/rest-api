@@ -328,7 +328,7 @@ app.get('/getAllMats', async (req, res) => {
       Ap_Materno: user.Ap_Materno,
       Hora_Inicio_Lunes: user.Hora_Inicio_Lunes,
       Hora_Final_Lunes: user.Hora_Final_Lunes,
-      NOMBRE: user.Nombre
+      NOMBRE: user.NOMBRE
     }));
     res.json(Users);
   } catch (error) {
