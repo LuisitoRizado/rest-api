@@ -67,9 +67,9 @@ app.post('/addAula', async (req, res) => {
     });
   } catch (error) {
     console.error(`Error while adding new AULA record: ${error}`);
-    res.status(500).json({
-      "message": "Error while adding new AULA record"
-    });
+  res.status(500).json({
+    "message": `Error while adding new AULA record: ${error.message}`
+  });
   }
 });
 
