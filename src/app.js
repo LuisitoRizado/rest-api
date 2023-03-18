@@ -368,7 +368,7 @@ app.get('/getMats/:MAT', async (req, res) => {
 });
 
 app.get('/getMaterias_asigandas', async (req, res) => {
-  const sql = "SELECT * FROM materia_asignada_profesor";
+  const sql = "SELECT * FROM Materia_Asignada_Profesor";
   try {
     const [result] = await pool.query(sql);
     const Users = result.map(user => ({
