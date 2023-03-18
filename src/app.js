@@ -280,10 +280,10 @@ app.get('/getMaterias/:semestre', async (req, res) => {
 
 //Obtener todas las materias, con horario, aula y carrera////ERROR
 app.get('/getAllMaterias', async (req, res) => {
-  sql = "SELECT * FROM Materia JOIN Carrera ON Materia.id_carrera = Carrera.id_carrera JOIN Horario ON Materia.id_horario = Horario.id_horario JOIN Aula ON Materia.id_aula = Aula.id_aula ";
+  const sql = "SELECT * FROM Materia JOIN Carrera ON Materia.Id_Carrera = Carrera.Id_Carrera JOIN Horario ON Materia.Id_Horario = Horario.Id_Horario JOIN Aula ON Materia.Id_Aula = Aula.Id_Aula";
 
   try {
-    const [result, fields] = await pool.query(sql);
+    const [result] = await pool.query(sql);
     const Users = result.map(user => ({
       Id_Materia: user.Id_Materia,
       Id_Horario: user.Id_Horario,
@@ -293,17 +293,20 @@ app.get('/getAllMaterias', async (req, res) => {
       Creditos: user.Creditos,
       Cupo: user.Cupo,
       Semestre: user.Semestre,
-      Nombre: user.Nombre,
+      Nombre_Carrera: user.Nombre_Carrera,
       Hora_Inicio_Lunes: user.Hora_Inicio_Lunes,
       Hora_Final_Lunes: user.Hora_Final_Lunes,
-      Nombre: user.Nombre
+      Nombre_Aula: user.Nombre_Aula
     }));
     res.json(Users);
-  } catch (err) {
-    console.log(err);
-    res.status(500).send("Error al obtener las materias");
+  } catch (error) {
+    console.error(`Error while getting MATERIA records: ${error}`);
+    res.status(500).json({
+      message: `Error while getting MATERIA records: ${error.message}`
+    });
   }
 });
+
 //ERROR
 app.get('/getAllMats', async (req, res) => {
   try {
