@@ -5,7 +5,7 @@ const app = express()
 app.use(express.json());
 
 
-//-----------------------EMPLEADO
+//-----------------------EMPLEADO (LISTO)
 app.get('/getEmpleado/:usuario/:contrasena', async (req, res) => {
   const { usuario, contrasena } = req.params;
 
@@ -53,6 +53,7 @@ app.get('/getLogin/:id/:password', async (req, res) => {
 
 
 //-----------------------------------------------------------------------OPERACIONES CON HORARIOS
+//GET ALL HORARIOS (LISTO)
 app.get('/getAllHorarios', async (req, res) => {
   const sql = "SELECT * FROM Horario";
   const [result] = await pool.query(sql);
@@ -63,7 +64,7 @@ app.get('/getAllHorarios', async (req, res) => {
   }));
   res.json(users);
 });
-//----Eliminar horario
+//----Eliminar horario(LISTO)
 app.delete('/deleteHorario/:id', async (req, res) => {
   const id = req.params.id;
   try {
@@ -85,7 +86,7 @@ app.delete('/deleteHorario/:id', async (req, res) => {
     });
   }
 });
-//Obtener un solo horario
+//Obtener un solo horario(LISTO)
 app.get('/getHorario/:id', async (req, res) => {
   const { id } = req.params;
   const sql = "SELECT * FROM Horario WHERE Id_Horario = ?";
@@ -118,7 +119,7 @@ app.get('/getHorario/:id', async (req, res) => {
     });
   }
 });
-//actualizar horario
+//actualizar horario(LISTO)
 app.put("/updateHorario/:ID_HORARIO", async (req, res) => {
   const { HORA_INICIO_LUNES, HORA_FINAL_LUNES } = req.body;
   const { ID_HORARIO } = req.params;
@@ -144,7 +145,7 @@ app.put("/updateHorario/:ID_HORARIO", async (req, res) => {
     });
   }
 });
-//Agregar un horario
+//Agregar un horario(LISTO)
 app.post('/addHorario', async (req, res) => {
   const { ID_HORARIO, HORA_INICIO_LUNES, HORA_FINAL_LUNES } = req.body;
 
@@ -170,7 +171,7 @@ app.post('/addHorario', async (req, res) => {
 
 
 //------------------------------------------------------OPERACIONES CON AULAS
-//--buscar aula 
+//--buscar aula (LISTO)
 app.get('/getAula/:id', async (req, res) => {
   const { id } = req.params;
   const sql = "SELECT * FROM Aula WHERE Id_Aula = ?";
@@ -183,7 +184,7 @@ app.get('/getAula/:id', async (req, res) => {
   }));
   res.json(aulas);
 });
-//--obtener todas las aulas 
+//--obtener todas las aulas (LISTO)
 app.get('/getAllAulas', async (req, res) => {
   const sql = "SELECT * FROM Aula";
   const [result] = await pool.query(sql);
@@ -195,7 +196,7 @@ app.get('/getAllAulas', async (req, res) => {
   }));
   res.json(users);
 });
-//--gregar aula
+//--gregar aula(LISTO)
 app.post('/addAula', async (req, res) => {
   const { ID_AULA, NOMBRE, EDIFICIO, CAPACIDAD } = req.body;
   console.log(`Received data: ID_AULA=${ID_AULA}, NOMBRE=${NOMBRE}, EDIFICIO=${EDIFICIO}, CAPACIDAD=${CAPACIDAD}`);
@@ -217,7 +218,7 @@ app.post('/addAula', async (req, res) => {
   });
   }
 });
-//eliminar aula
+//eliminar aula(LISTO)
 app.delete('/deleteAula/:Id_Aula', async (req, res) => {
   const { Id_Aula } = req.params;
 
@@ -240,7 +241,7 @@ app.delete('/deleteAula/:Id_Aula', async (req, res) => {
     });
   }
 });
-//---actualizar aula 
+//---actualizar aula (LISTO)
 app.put("/updateAula/:ID_AULA", async (req, res) => {
   const { NOMBRE, EDIFICIO, CAPACIDAD } = req.body;
   const { ID_AULA } = req.params;
@@ -393,7 +394,7 @@ app.get('/getMats/:MAT', async (req, res) => {
       res.json(Users);
   });
 });
-//Obtener materias asignadas
+//Obtener materias asignadas(LISTO)
 app.get('/getMaterias_asigandas', async (req, res) => {
   const sql = "SELECT * FROM Materia_Asignada_Profesor";
   try {
@@ -411,7 +412,7 @@ app.get('/getMaterias_asigandas', async (req, res) => {
     });
   }
 });
-//(No listo)
+//(OBTENER MATERIA POR ID (LISTO)
 app.get('/getMateria/:id', async (req, res) => {
   const { id } = req.params;
   const sql = `SELECT Materia.Id_Materia, Materia.Materia, Docente.Nombre, Docente.Ap_Paterno, Docente.Ap_Materno, Aula.Nombre AS NOMBRE, Horario.Hora_Inicio_Lunes, Horario.Hora_Final_Lunes
@@ -439,32 +440,32 @@ app.get('/getMateria/:id', async (req, res) => {
 });
 //--------- AGREGAR MATERIA
 app.post('/addMateria', async (req, res) => {
-  const { NCONTROL, ID_CARRERA, NOMBRE, AP_PATERNO, AP_MATERNO, SEMESTRE, PERIODO, CREDITOS_DISPONIBLES,ESPECIALIDAD, CONTRASENA } = req.body;
+  const { NCONTROL, ID_CARRERA, NOMBRE, AP_PATERNO, AP_MATERNO, SEMESTRE, PERIODO, CREDITOS_DISPONIBLES, ESPECIALIDAD, CONTRASENA } = req.body;
 
   //Secuencia sql para poder agregar el alumno a la base de datos
-  sql = "insert into Alumnos(Ncontrol, Id_Carrera, Nombre, Ap_Paterno, Ap_Materno, Semestre, Periodo, Creditos_Disponibles, Especialidad,Contrasena) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+  const sql = "INSERT INTO Alumnos(Ncontrol, Id_Carrera, Nombre, Ap_Paterno, Ap_Materno, Semestre, Periodo, Creditos_Disponibles, Especialidad,Contrasena) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
   try {
-      const connection = await pool.getConnection();
-      await connection.query(sql, [NCONTROL, ID_CARRERA, NOMBRE, AP_PATERNO, AP_MATERNO, SEMESTRE, PERIODO, CREDITOS_DISPONIBLES, ESPECIALIDAD, CONTRASENA]);
-      connection.release();
-      res.status(200).json({
-          "NCONTROL": NCONTROL,
-          "ID_MATERIA": ID_CARRERA,
-          "NOMBRE": NOMBRE,
-          "AP_PATERNO":AP_PATERNO,
-          "AP_MATERNO":AP_MATERNO,
-          "SEMESTRE":SEMESTRE,
-          "PERIODO":PERIODO,
-          "CREDITOS_DISPONIBLES":CREDITOS_DISPONIBLES,
-          "ESPECIALIDAD":ESPECIALIDAD,
-          "CONTRASENA":CONTRASENA,
-      });
+    const result = await pool.query(sql, [NCONTROL, ID_CARRERA, NOMBRE, AP_PATERNO, AP_MATERNO, SEMESTRE, PERIODO, CREDITOS_DISPONIBLES, ESPECIALIDAD, CONTRASENA]);
+
+    res.status(200).json({
+      "NCONTROL": NCONTROL,
+      "ID_CARRERA": ID_CARRERA,
+      "NOMBRE": NOMBRE,
+      "AP_PATERNO":AP_PATERNO,
+      "AP_MATERNO":AP_MATERNO,
+      "SEMESTRE":SEMESTRE,
+      "PERIODO":PERIODO,
+      "CREDITOS_DISPONIBLES":CREDITOS_DISPONIBLES,
+      "ESPECIALIDAD":ESPECIALIDAD,
+      "CONTRASENA":CONTRASENA,
+    });
   } catch (error) {
-      console.log(error);
-      res.status(500).json({ "msg": "Error al agregar la materia" });
+    console.error(error);
+    res.status(500).json({ "msg": "Error al agregar la materia: " + error.message });
   }
 });
+
 //modificar materia ?
 app.put("/updateMateria/:ID_MATERIAA", async (req, res) => {
   const { HORA_INICIO_LUNES, HORA_FINAL_LUNES } = req.body;
