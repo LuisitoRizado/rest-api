@@ -256,7 +256,7 @@ app.post('/addNewMateria', async (req, res) => {
     });
   }
 });
-//Materas por semestre: ///////ERROR
+//Materas por semestre:(FUNCIONA)
 app.get('/getMaterias/:semestre', async (req, res) => {
   const { semestre } = req.params;
   const sql = "SELECT Id_Materia, Materia, Cupo, Creditos, Semestre FROM Materia WHERE Semestre=?";
@@ -285,18 +285,18 @@ app.get('/getAllMaterias', async (req, res) => {
   try {
     const [result, fields] = await pool.query(sql);
     const Users = result.map(user => ({
-      "ID_MATERIA": user.Id_Materia,
-      "ID_HORARIO": user.Id_Horario,
-      "ID_AULA": user.Id_Aula,
-      "ID_CARRERA": user.Id_Carrera,
-      "MATERIA": user.Materia,
-      "CREDITOS": user.Creditos,
-      "CUPO": user.Cupo,
-      "SEMESTRE": user.Semestre,
-      "NOMBRE": user.Nombre,
-      "HORA_INICIO_LUNES": user.Hora_Inicio_Lunes,
-      "HORA_FINAL_LUNES": user.Hora_Final_Lunes,
-      "Nombre": user.Nombre
+      Id_Materia: user.Id_Materia,
+      Id_Horario: user.Id_Horario,
+      Id_Aula: user.Id_Aula,
+      Id_Carrera: user.Id_Carrera,
+      Materia: user.Materia,
+      Creditos: user.Creditos,
+      Cupo: user.Cupo,
+      Semestre: user.Semestre,
+      Nombre: user.Nombre,
+      Hora_Inicio_Lunes: user.Hora_Inicio_Lunes,
+      Hora_Final_Lunes: user.Hora_Final_Lunes,
+      Nombre: user.Nombre
     }));
     res.json(Users);
   } catch (err) {
