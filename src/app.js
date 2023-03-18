@@ -64,6 +64,91 @@ app.delete('/deleteHorario/:id', async (req, res) => {
     });
   }
 });
+//Obtener un solo horario
+app.get('/getHorario/:id', async (req, res) => {
+  const { id } = req.params;
+  const sql = "SELECT * FROM Horario WHERE Id_Horario = ?";
+  try {
+    const [result] = await pool.query(sql, [id]);
+    if (result.length === 0) {
+      res.status(404).json({
+        message: `No se encontró el horario con el ID ${id}`
+      });
+    } else {
+      const horario = {
+        "Id_Horario": result[0].Id_Horario,
+        "Hora_Inicio_Lunes": result[0].Hora_Inicio_Lunes,
+        "Hora_Final_Lunes": result[0].Hora_Final_Lunes,
+        "Hora_Inicio_Martes": result[0].Hora_Inicio_Martes,
+        "Hora_Final_Martes": result[0].Hora_Final_Martes,
+        "Hora_Inicio_Miercoles": result[0].Hora_Inicio_Miercoles,
+        "Hora_Final_Miercoles": result[0].Hora_Final_Miercoles,
+        "Hora_Inicio_Jueves": result[0].Hora_Inicio_Jueves,
+        "Hora_Final_Jueves": result[0].Hora_Final_Jueves,
+        "Hora_Inicio_Viernes": result[0].Hora_Inicio_Viernes,
+        "Hora_Final_Viernes": result[0].Hora_Final_Viernes
+      };
+      res.json(horario);
+    }
+  } catch (error) {
+    console.error(`Error while getting horario record: ${error}`);
+    res.status(500).json({
+      message: "Error al obtener el horario"
+    });
+  }
+});
+
+//actualizar horario
+app.put("/updateHorario/:ID_HORARIO", async (req, res) => {
+  const { HORA_INICIO_LUNES, HORA_FINAL_LUNES } = req.body;
+  const { ID_HORARIO } = req.params;
+  sql = "UPDATE HORARIO SET HORA_INICIO_LUNES=?, HORA_FINAL_LUNES=? WHERE ID_HORARIO=?";
+  
+  try {
+    const [result] = await pool.query(sql, [HORA_INICIO_LUNES, HORA_FINAL_LUNES, ID_HORARIO]);
+
+    if (result.affectedRows === 0) {
+      res.status(404).json({
+        message: `No se encontró el horario con el ID ${ID_HORARIO}`
+      });
+    } else {
+      res.status(200).json({
+        HORA_INICIO_LUNES: HORA_INICIO_LUNES,
+        HORA_FINAL_LUNES: HORA_FINAL_LUNES
+      });
+    }
+  } catch (error) {
+    console.error(`Error while updating horario record: ${error}`);
+    res.status(500).json({
+      message: "Error al actualizar el horario"
+    });
+  }
+});
+
+//--agregar un horario
+//Agregar un horario
+app.post('/addHorario', async (req, res) => {
+  const { ID_HORARIO, HORA_INICIO_LUNES, HORA_FINAL_LUNES } = req.body;
+
+  // Secuencia sql para poder agregar el horario a la base de datos
+  sql = "INSERT INTO HORARIO (ID_HORARIO, HORA_INICIO_LUNES, HORA_FINAL_LUNES) VALUES (?, ?, ?)";
+
+  try {
+    const [result] = await pool.execute(sql, [ID_HORARIO, HORA_INICIO_LUNES, HORA_FINAL_LUNES]);
+
+    res.status(200).json({
+      "ID_HORARIO": ID_HORARIO,
+      "HORA_INICIO_LUNES": HORA_INICIO_LUNES,
+      "HORA_FINAL_LUNES": HORA_FINAL_LUNES,
+    });
+  } catch (error) {
+    console.error(`Error while adding horario record: ${error}`);
+    res.status(500).json({
+      message: "Error al agregar el horario"
+    });
+  }
+});
+
 
 
 //------------------------------------------------------OPERACIONES CON AULAS
