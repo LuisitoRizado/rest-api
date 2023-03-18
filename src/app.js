@@ -4,8 +4,8 @@ import {PORT} from './config.js'
 
 const app = express()
 
-const bodyParser = require('body-parser');
-app.use(bodyParser.json());
+/* const bodyParser = require('body-parser');
+app.use(bodyParser.json()); */
 
 app.get('/', async (req, res) => {
   const [rows] = await pool.query('SELECT * FROM users')
