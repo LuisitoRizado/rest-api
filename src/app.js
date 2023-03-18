@@ -470,7 +470,7 @@ app.post('/addMateria', async (req, res) => {
 app.put("/updateMateria/:ID_MATERIA", async (req, res) => {
   const { HORA_INICIO_LUNES, HORA_FINAL_LUNES } = req.body;
   const { ID_MATERIA } = req.params;
-  sql = "UPDATE Horario SET Hora_Inicio_Lunes = ?, Hora_Final_Lunes = ? WHERE Id_Horario = ?";
+  const sql = "UPDATE Horario SET Hora_Inicio_Lunes = ?, Hora_Final_Lunes = ? WHERE Id_Horario = ?";
     
   await pool.query(sql, [HORA_INICIO_LUNES, HORA_FINAL_LUNES, ID_MATERIA]);
   
