@@ -312,7 +312,7 @@ app.get('/getAllMats', async (req, res) => {
   try {
     const connection = await mysql.createPool(config.db);
     const result = await connection.execute(`
-      SELECT Id_Docxmath,Docente.Id_Docente, Materia.Id_Materia, Materia.Materia, Docente.Nombre,DOCENTE.Ap_Paterno, Docente.Ap_Materno, Aula.Nombre, Horario.Hora_Inicio_Lunes
+      SELECT Id_Docxmath,Docente.Id_Docente, Materia.Id_Materia, Materia.Materia, Docente.Nombre,Docente.Ap_Paterno, Docente.Ap_Materno, Aula.Nombre, Horario.Hora_Inicio_Lunes
       FROM Materia
       INNER JOIN Materia_Asignada_Profesor ON Materia.Id_Materia = Materia_Asignada_Profesor.Id_Materia
       INNER JOIN Docente ON Materia_Asignada_Profesor.Id_Docente = Docente.Id_Docente
@@ -328,8 +328,8 @@ app.get('/getAllMats', async (req, res) => {
       Ap_Paterno: user.Ap_Paterno,
       Ap_Materno: user.Ap_Materno,
       Hora_Inicio_Lunes: user.Hora_Inicio_Lunes,
-      Hora_Final_Lunes: user.Hora_Final_Lunes,
-      NOMBRE: user.NOMBRE
+      Hora_Final_Lunes: user.Hora_Final_Lunes
+      //NOMBRE: user.NOMBRE
     }));
     res.json(Users);
   } catch (error) {
