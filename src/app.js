@@ -43,7 +43,7 @@ app.get('/getAllHorarios', async (req, res) => {
   res.json(users);
 });
 //----Eliminar horario
-aapp.delete('/deleteHorario/:id', async (req, res) => {
+app.delete('/deleteHorario/:id', async (req, res) => {
   const id = req.params.id;
   try {
     const sql = "DELETE FROM Horario WHERE Id_Horario = ?";
