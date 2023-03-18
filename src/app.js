@@ -9,9 +9,9 @@ app.use(express.json());
 app.get('/getEmpleado/:usuario/:contrasena', async (req, res) => {
   const { usuario, contrasena } = req.params;
 
-  let sql = "SELECT * FROM Empleados WHERE usuario = ? AND contrasena = ?";
+  const sql = "SELECT * FROM Empleados WHERE usuario = ? AND contrasena = ?";
   try {
-    let result = await pool.query(sql, [usuario, contrasena]);
+    let [result] = await pool.query(sql, [usuario, contrasena]);
 
     if (result.length === 0) {
         res.status(401).json({ message: "Usuario o contraseña incorrectos" });
