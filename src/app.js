@@ -159,10 +159,10 @@ app.get('/getDocente/:id', async (req, res) => {
   }
 
   const userSchema = {
-    "Id_Docente": result[0].ID_DOCENTE,
-    "Nombre": result[0].NOMBRE,
-    "AP_PATERNO": result[0].AP_PATERNO,
-    "AP_MATERNO": result[0].AP_MATERNO
+    "Id_Docente": result[0].Id_Docente,
+    "Nombre": result[0].Nombre,
+    "AP_PATERNO": result[0].Ap_Paterno,
+    "AP_MATERNO": result[0].Ap_Materno
   };
 
   res.json(userSchema);
