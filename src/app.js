@@ -243,7 +243,7 @@ app.post('/addNewMateria', async (req, res) => {
 
   //Secuencia sql para poder agregar la materia a la base de datos
   //Primero agregamos la materia sin asignar el docente
-  const sql = "INSERT INTO MATERIA (ID_MATERIA, ID_HORARIO, ID_AULA, ID_CARRERA, MATERIA, CREDITOS, CUPO, SEMESTRE) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+  const sql = "INSERT INTO Materia (ID_MATERIA, ID_HORARIO, ID_AULA, ID_CARRERA, MATERIA, CREDITOS, CUPO, SEMESTRE) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
   try {
     await pool.query(sql, [ID_MATERIA, ID_HORARIO, ID_AULA, ID_CARRERA, MATERIA, CREDITOS, CUPO, SEMESTRE]);
@@ -256,10 +256,10 @@ app.post('/addNewMateria', async (req, res) => {
     });
   }
 });
-//Materas por semestre:
+//Materas por semestre: ///////ERROR
 app.get('/getMaterias/:semestre', async (req, res) => {
   const { semestre } = req.params;
-  sql = "SELECT ID_MATERIA, MATERIA, CUPO, CREDITOS, SEMESTRE FROM MATERIA WHERE SEMESTRE=?";
+  sql = "SELECT ID_MATERIA, MATERIA, CUPO, CREDITOS, SEMESTRE FROM Materia WHERE SEMESTRE=?";
   try {
     let result = await pool.query(sql, [semestre]);
     let Users = result.map(user => ({
@@ -279,7 +279,7 @@ app.get('/getMaterias/:semestre', async (req, res) => {
 });
 //Obtener todas las materias, con horario, aula y carrera
 app.get('/getAllMaterias', async (req, res) => {
-  sql = "SELECT * FROM MATERIA JOIN CARRERA ON MATERIA.id_carrera = CARRERA.id_carrera JOIN HORARIO ON MATERIA.id_horario = HORARIO.id_horario JOIN AULA ON MATERIA.id_aula = AULA.id_aula ";
+  sql = "SELECT * FROM Materia JOIN CARRERA ON MATERIA.id_carrera = CARRERA.id_carrera JOIN HORARIO ON MATERIA.id_horario = HORARIO.id_horario JOIN AULA ON MATERIA.id_aula = AULA.id_aula ";
 
   try {
     const [result, fields] = await pool.query(sql);
@@ -308,12 +308,12 @@ app.get('/getAllMats', async (req, res) => {
   try {
       const connection = await mysql.createPool(config.db);
       const result = await connection.execute(`
-          SELECT ID_DOCXMATH,DOCENTE.ID_DOCENTE, MATERIA.ID_MATERIA, MATERIA.MATERIA, DOCENTE.NOMBRE,DOCENTE.AP_PATERNO, DOCENTE.AP_MATERNO, AULA.NOMBRE, HORARIO.HORA_INICIO_LUNES
-          FROM MATERIA
-          INNER JOIN MATERIA_ASIGNADA_PROFESOR ON MATERIA.ID_MATERIA = MATERIA_ASIGNADA_PROFESOR.ID_MATERIA
-          INNER JOIN DOCENTE ON MATERIA_ASIGNADA_PROFESOR.ID_DOCENTE = DOCENTE.ID_DOCENTE
-          INNER JOIN AULA ON MATERIA.ID_AULA = AULA.ID_AULA
-          INNER JOIN HORARIO ON MATERIA.ID_HORARIO = HORARIO.ID_HORARIO
+          SELECT ID_DOCXMATH,Docente.ID_DOCENTE, Materia.ID_MATERIA, Materia.MATERIA, Docente.NOMBRE,DOCENTE.AP_PATERNO, Docente.AP_MATERNO, Aula.NOMBRE, Horario.HORA_INICIO_LUNES
+          FROM Materia
+          INNER JOIN MATERIA_ASIGNADA_PROFESOR ON Materia.ID_MATERIA = Materia_Asignada_Profesor.ID_MATERIA
+          INNER JOIN DOCENTE ON Materia_Asignada_Profesor.ID_DOCENTE = Docente.ID_DOCENTE
+          INNER JOIN AULA ON Materia.ID_AULA = Aula.ID_AULA
+          INNER JOIN HORARIO ON Materia.ID_HORARIO = Horario.ID_HORARIO
       `);
       const Users = result[0].map(user => ({
           "ID_DOCXMATH": user.ID_DOCXMATH,
@@ -336,12 +336,12 @@ app.get('/getAllMats', async (req, res) => {
 app.get('/getMats/:MAT', async (req, res) => {
   const { MAT } = req.params;
   //Obtener materia asignada al profesor
-  const sql = `SELECT ID_DOCXMATH, DOCENTE.ID_DOCENTE, MATERIA.ID_MATERIA, MATERIA.MATERIA, DOCENTE.NOMBRE,DOCENTE.AP_PATERNO, DOCENTE.AP_MATERNO, AULA.NOMBRE, HORARIO.HORA_INICIO_LUNES
-      FROM MATERIA
-      INNER JOIN MATERIA_ASIGNADA_PROFESOR ON MATERIA.ID_MATERIA = MATERIA_ASIGNADA_PROFESOR.ID_MATERIA
-      INNER JOIN DOCENTE ON MATERIA_ASIGNADA_PROFESOR.ID_DOCENTE = DOCENTE.ID_DOCENTE
-      INNER JOIN AULA ON MATERIA.ID_AULA = AULA.ID_AULA
-      INNER JOIN HORARIO ON MATERIA.ID_HORARIO = HORARIO.ID_HORARIO WHERE MATERIA_ASIGNADA_PROFESOR.ID_DOCXMATH =?`;
+  const sql = `SELECT ID_DOCXMATH, Docente.ID_DOCENTE, Materia.ID_MATERIA, Materia.MATERIA, Docente.NOMBRE,DOCENTE.AP_PATERNO, Docente.AP_MATERNO, Aula.NOMBRE, Horario.HORA_INICIO_LUNES
+      FROM Materia
+      INNER JOIN MATERIA_ASIGNADA_PROFESOR ON Materia.ID_MATERIA = Materia_Asignada_Profesor.ID_MATERIA
+      INNER JOIN DOCENTE ON Materia_Asignada_Profesor.ID_DOCENTE = Docente.ID_DOCENTE
+      INNER JOIN AULA ON Materia.ID_AULA = Aula.ID_AULA
+      INNER JOIN HORARIO ON Materia.ID_HORARIO = Horario.ID_HORARIO WHERE Materia_Asignada_Profesor.ID_DOCXMATH =?`;
 
   await pool.query(sql, [MAT], (error, result) => {
       if (error) throw error;
