@@ -307,7 +307,7 @@ app.get('/getAllMaterias', async (req, res) => {
   }
 });
 
-//ERROR
+//EOBTENER TODAS LAS MATERIAS ASIGNDAS A PROFESOR
 app.get('/getAllMats', async (req, res) => {
   try {
     const [result] = await pool.query(`
@@ -327,7 +327,8 @@ app.get('/getAllMats', async (req, res) => {
       Ap_Paterno: user.Ap_Paterno,
       Ap_Materno: user.Ap_Materno,
       Hora_Inicio_Lunes: user.Hora_Inicio_Lunes,
-      Hora_Final_Lunes: user.Hora_Final_Lunes
+      Hora_Final_Lunes: user.Hora_Final_Lunes,
+      Nombre: user.Nombre
     }));
     res.json(Users);
   } catch (error) {
