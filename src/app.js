@@ -466,7 +466,7 @@ app.post('/addMateria', async (req, res) => {
   }
 });
 
-//modificar materia ?
+//modificar materia ? (LISTO)
 app.put("/updateMateria/:ID_MATERIA", async (req, res) => {
   const { HORA_INICIO_LUNES, HORA_FINAL_LUNES } = req.body;
   const { ID_MATERIA } = req.params;
@@ -481,7 +481,7 @@ app.put("/updateMateria/:ID_MATERIA", async (req, res) => {
 });
 
 //post materia??
-
+//BNo util /LISTO
 app.post('/postMateria/:ID_MATERIA/:HORA/:AULA/:ID_CARRERA/:MATERIA/:CREDITOS/:CUPO/:SEMESTRE', async (req, res) => {
     const { ID_MATERIA, HORA, AULA, ID_CARRERA, MATERIA, CREDITOS, CUPO, SEMESTRE } = req.params;
 
@@ -590,7 +590,7 @@ app.get('/getDocente/:id', async (req, res) => {
 
   res.json(userSchema);
 });
-//Eliminar docente
+//Eliminar docente (no util) (LISTO)
 app.delete("/deleteDocente/:Id_Docente", async (req, res) => {
   const { Id_Docente } = req.params;
  
@@ -636,7 +636,7 @@ app.get('/getCarreras', async (req, res) => {
 
 app.get('/getAllCarreras', async (req, res) => {
   try {
-      const sql = "SELECT * FROM carrera";
+      const sql = "SELECT * FROM Carrera";
       const result = await pool.query(sql);
       const carreras = result[0].map(carrera => ({
           Id_Carrera: carrera.Id_Carrera,
