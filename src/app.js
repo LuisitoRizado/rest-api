@@ -117,23 +117,31 @@ app.post('/addAula', async (req, res) => {
   }
 });
 //eliminar aula
-app.delete("/deleteAula/:Id_Aula", async (req, res) => {
+app.delete('/deleteAula/:Id_Aula', async (req, res) => {
   const { Id_Aula } = req.params;
 
-  // También tenemos que eliminar las materias asignadas que tiene
-  const queryDeleteMaterias = "DELETE FROM Materias WHERE Id_Aula = ?";
-  const [resultMaterias] = await pool.execute(queryDeleteMaterias, [Id_Aula]);
+  try {
+    // Eliminamos las materias asignadas al aula
+    const queryDeleteMaterias = "DELETE FROM Materias WHERE Id_Aula = ?";
+    await pool.execute(queryDeleteMaterias, [Id_Aula]);
 
-  // Eliminamos el aula
-  const queryDeleteAula = "DELETE FROM Aula WHERE Id_Aula = ?";
-  const [resultAula] = await pool.execute(queryDeleteAula, [Id_Aula]);
+    // Eliminamos el aula
+    const queryDeleteAula = "DELETE FROM Aula WHERE Id_Aula = ?";
+    const [result] = await pool.execute(queryDeleteAula, [Id_Aula]);
 
-  if (resultAula.affectedRows === 1) {
-    res.json({ "msg": "Aula Eliminada" });
-  } else {
-    res.json({ "msg": "No se pudo eliminar el aula" });
+    if (result.affectedRows === 1) {
+      res.json({ "msg": "Aula Eliminada" });
+    } else {
+      res.json({ "msg": "No se pudo eliminar el aula" });
+    }
+  } catch (error) {
+    console.error(`Error while deleting aula record: ${error}`);
+    res.status(500).json({
+      message: "Error al eliminar el aula"
+    });
   }
-})
+});
+
 
 //---actualizar aula 
 app.put("/updateAula/:ID_AULA", async (req, res) => {
