@@ -334,7 +334,7 @@ app.get('/getAllMats', async (req, res) => {
     res.json(Users);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: `Error al obtener las materias: ${error.message}` });
   }
 });
 
