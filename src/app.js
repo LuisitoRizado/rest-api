@@ -259,7 +259,7 @@ app.post('/addNewMateria', async (req, res) => {
 //Materas por semestre: ///////ERROR
 app.get('/getMaterias/:semestre', async (req, res) => {
   const { semestre } = req.params;
-  sql = "SELECT ID_MATERIA, Materia.MATERIA, CUPO, CREDITOS, SEMESTRE FROM Materia WHERE SEMESTRE=?";
+  sql = "SELECT Id_Materia, Materia, Cupo, Creditos, Semestre FROM Materia WHERE Semestre=?";
   try {
     let result = await pool.query(sql, [semestre]);
     let Users = result.map(user => ({
