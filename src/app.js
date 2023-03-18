@@ -25,18 +25,27 @@ app.get('/getAllHorarios', async (req, res) => {
   }));
   res.json(users);
 });
+
 app.post('/addAula', async (req, res) => {
   const { ID_AULA, NOMBRE, EDIFICIO, CAPACIDAD } = req.body;
+  console.log(`Received data: ID_AULA=${ID_AULA}, NOMBRE=${NOMBRE}, EDIFICIO=${EDIFICIO}, CAPACIDAD=${CAPACIDAD}`);
 
-  const sql = "INSERT INTO AULA (ID_AULA, NOMBRE, EDIFICIO, CAPACIDAD) VALUES (?, ?, ?, ?)";
-
-  await pool.query(sql, [ID_AULA, NOMBRE, EDIFICIO, CAPACIDAD]);
-  res.status(200).json({
-    "ID_AULA": ID_AULA,
-    "NOMBRE": NOMBRE,
-    "EDIFICIO": EDIFICIO,
-    "CAPACIDAD": CAPACIDAD
-  });
+  try {
+    const sql = "INSERT INTO AULA (ID_AULA, NOMBRE, EDIFICIO, CAPACIDAD) VALUES (?, ?, ?, ?)";
+    await pool.query(sql, [ID_AULA, NOMBRE, EDIFICIO, CAPACIDAD]);
+    console.log(`Inserted new AULA record with ID_AULA=${ID_AULA}`);
+    res.status(200).json({
+      "ID_AULA": ID_AULA,
+      "NOMBRE": NOMBRE,
+      "EDIFICIO": EDIFICIO,
+      "CAPACIDAD": CAPACIDAD
+    });
+  } catch (error) {
+    console.error(`Error while adding new AULA record: ${error}`);
+    res.status(500).json({
+      "message": "Error while adding new AULA record"
+    });
+  }
 });
 
 
