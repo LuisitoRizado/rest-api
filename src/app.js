@@ -1,9 +1,9 @@
 import express from 'express'
 import { pool } from './db.js'
 import {PORT} from './config.js'
-
+import bodyParser from 'body-parser'
 const app = express()
-
+app.use(bodyParser.json());
 /* const bodyParser = require('body-parser');
 app.use(bodyParser.json()); */
 
