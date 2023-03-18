@@ -131,11 +131,9 @@ app.put("/updateHorario/:ID_HORARIO", async (req, res) => {
 app.post('/addHorario', async (req, res) => {
   const { ID_HORARIO, HORA_INICIO_LUNES, HORA_FINAL_LUNES } = req.body;
 
-  // Secuencia sql para poder agregar el horario a la base de datos
-  sql = "INSERT INTO Horario (ID_HORARIO, HORA_INICIO_LUNES, HORA_FINAL_LUNES) VALUES (?, ?, ?)";
-
   try {
-    const result = await pool.execute(sql, [ID_HORARIO, HORA_INICIO_LUNES, HORA_FINAL_LUNES]);
+    const sql = "INSERT INTO Horario (ID_HORARIO, HORA_INICIO_LUNES, HORA_FINAL_LUNES) VALUES (?, ?, ?)";
+    await pool.query(sql, [ID_HORARIO, HORA_INICIO_LUNES, HORA_FINAL_LUNES]);
 
     res.status(200).json({
       "ID_HORARIO": ID_HORARIO,
@@ -149,6 +147,8 @@ app.post('/addHorario', async (req, res) => {
     });
   }
 });
+
+
 
 
 
