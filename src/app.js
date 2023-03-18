@@ -259,17 +259,17 @@ app.post('/addNewMateria', async (req, res) => {
 //Materas por semestre: ///////ERROR
 app.get('/getMaterias/:semestre', async (req, res) => {
   const { semestre } = req.params;
-  sql = "SELECT Id_Materia, Materia, Cupo, Creditos, Semestre FROM Materia WHERE Semestre=?";
+  const sql = "SELECT Id_Materia, Materia, Cupo, Creditos, Semestre FROM Materia WHERE Semestre=?";
   try {
-    let result = await pool.query(sql, [semestre]);
-    let Users = result.map(user => ({
+    const [result] = await pool.query(sql, [semestre]);
+    const users = result.map(user => ({
       Id_Materia: user.Id_Materia,
       Materia: user.Materia,
       Cupo: user.Cupo,
       Creditos: user.Creditos,
       Semestre: user.Semestre
     }));
-    res.json(Users);
+    res.json(users);
   } catch (error) {
     console.error(`Error while getting MATERIA records: ${error}`);
     res.status(500).json({
@@ -277,6 +277,7 @@ app.get('/getMaterias/:semestre', async (req, res) => {
     });
   }
 });
+
 //Obtener todas las materias, con horario, aula y carrera////ERROR
 app.get('/getAllMaterias', async (req, res) => {
   sql = "SELECT * FROM Materia JOIN Carrera ON Materia.id_carrera = Carrera.id_carrera JOIN Horario ON Materia.id_horario = Horario.id_horario JOIN Aula ON Materia.id_aula = Aula.id_aula ";
