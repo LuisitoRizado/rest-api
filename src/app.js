@@ -310,8 +310,7 @@ app.get('/getAllMaterias', async (req, res) => {
 //ERROR
 app.get('/getAllMats', async (req, res) => {
   try {
-    const connection = await mysql.createPool(config.db);
-    const result = await connection.execute(`
+    const [result] = await pool.query(`
       SELECT Id_Docxmath,Docente.Id_Docente, Materia.Id_Materia, Materia.Materia, Docente.Nombre,Docente.Ap_Paterno, Docente.Ap_Materno, Aula.Nombre, Horario.Hora_Inicio_Lunes
       FROM Materia
       INNER JOIN Materia_Asignada_Profesor ON Materia.Id_Materia = Materia_Asignada_Profesor.Id_Materia
@@ -319,7 +318,7 @@ app.get('/getAllMats', async (req, res) => {
       INNER JOIN Aula ON Materia.Id_Aula = Aula.Id_Aula
       INNER JOIN Horario ON Materia.Id_Horario = Horario.Id_Horario
     `);
-    const Users = result[0].map(user => ({
+    const Users = result.map(user => ({
       Id_Docxmath: user.Id_Docxmath,
       Id_Docente: user.Id_Docente,
       Id_Materia: user.Id_Materia,
@@ -329,11 +328,10 @@ app.get('/getAllMats', async (req, res) => {
       Ap_Materno: user.Ap_Materno,
       Hora_Inicio_Lunes: user.Hora_Inicio_Lunes,
       Hora_Final_Lunes: user.Hora_Final_Lunes
-      //NOMBRE: user.NOMBRE
     }));
     res.json(Users);
   } catch (error) {
-    console.error(error);
+    console.error(`Error al obtener las materias: ${error}`);
     res.status(500).json({ error: `Error al obtener las materias: ${error.message}` });
   }
 });
