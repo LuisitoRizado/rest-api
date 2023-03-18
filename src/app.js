@@ -11,9 +11,24 @@ app.get('/', async (req, res) => {
   res.json(rows)
 })
 
-app.get('/ping', async (req, res) => {
-  const [result] = await pool.query(`SELECT "hello world" as RESULT`);
-  res.json(result[0])
+//-----------------------LOGIN
+app.get('/getLogin/:id/:password', async (req, res) => {
+  const { id, password } = req.params;
+  const sql = "SELECT * FROM Alumnos WHERE NControl = ? AND CONTRASENA = ?";
+  const [result] = await pool.query(sql, [id, password]);
+  const users = result.map(user => ({
+    NControl: user.NControl,
+    ID_Carrera: user.Id_Carrera,
+    Nombre: user.Nombre,
+    AP_PATERNO: user.Ap_Paterno,
+    AP_MATERNO: user.Ap_Materno,
+    SEMESTRE: user.Semestre,
+    PERIODO: user.Periodo,
+    CREDITOS_DISPONIBLES: user.Creditos_Disponibles,
+    ESPECIALIDAD: user.Especialidad,
+    CONTRASENA: user.Contrasena
+  }));
+  res.json(users);
 })
 
 //-----------------------------------------------------------------------OPERACIONES CON HORARIOS
@@ -51,6 +66,34 @@ app.delete('/deleteHorario/:id', async (req, res) => {
 });
 
 //------------------------------------------------------OPERACIONES CON AULAS
+//--buscar aula 
+app.get('/getAula/:id', async (req, res) => {
+  const { id } = req.params;
+  const sql = "SELECT * FROM Aula WHERE Id_Aula = ?";
+  const [result] = await pool.query(sql, [id]);
+  const aulas = result.map(aula => ({
+    Id_Aula: aula.Id_Aula,
+    Nombre: aula.Nombre,
+    Edificio: aula.Edificio,
+    Capacidad: aula.Capacidad
+  }));
+  res.json(aulas);
+});
+//--obtener todas las aulas 
+router.get('/getAllAulas', async (req, res) => {
+  const sql = "SELECT * FROM Aula";
+  const [result] = await pool.query(sql);
+  const users = result.map(user => ({
+    Id_Aula: user.Id_Aula,
+    Nombre: user.Nombre,
+    Edificio: user.Edificio,
+    Capacidad: user.Capacidad
+  }));
+  res.json(users);
+});
+
+
+//--gregar aula
 app.post('/addAula', async (req, res) => {
   const { ID_AULA, NOMBRE, EDIFICIO, CAPACIDAD } = req.body;
   console.log(`Received data: ID_AULA=${ID_AULA}, NOMBRE=${NOMBRE}, EDIFICIO=${EDIFICIO}, CAPACIDAD=${CAPACIDAD}`);
@@ -72,6 +115,39 @@ app.post('/addAula', async (req, res) => {
   });
   }
 });
+//eliminar aula
+app.delete("/deleteAula/:Id_Aula", async (req, res) => {
+  const { Id_Aula } = req.params;
+
+  // También tenemos que eliminar las materias asignadas que tiene
+  const queryDeleteMaterias = "DELETE FROM Materias WHERE Id_Aula = ?";
+  const [resultMaterias] = await pool.execute(queryDeleteMaterias, [Id_Aula]);
+
+  // Eliminamos el aula
+  const queryDeleteAula = "DELETE FROM Aula WHERE Id_Aula = ?";
+  const [resultAula] = await pool.execute(queryDeleteAula, [Id_Aula]);
+
+  if (resultAula.affectedRows === 1) {
+    res.json({ "msg": "Aula Eliminada" });
+  } else {
+    res.json({ "msg": "No se pudo eliminar el aula" });
+  }
+})
+
+//---actualizar aula 
+router.put("/updateAula/:ID_AULA", async (req, res) => {
+  const { NOMBRE, EDIFICIO, CAPACIDAD } = req.body;
+  const { ID_AULA } = req.params;
+  sql = "update AULA set NOMBRE=:NOMBRE, EDIFICIO=:EDIFICIO, CAPACIDAD=:CAPACIDAD where ID_AULA=:ID_AULA";
+    
+  await BD.Open(sql, [NOMBRE, EDIFICIO, CAPACIDAD, ID_AULA], true);
+  
+  res.status(200).json({
+    "NOMBRE": NOMBRE,
+    "EDIFICIO": EDIFICIO,
+    "CAPACIDAD": CAPACIDAD
+  });
+});
 
 //---------------------------------------------------OPERACIONES CON MATERIAS
 app.post('/addNewMateria', async (req, res) => {
@@ -89,7 +165,7 @@ app.post('/addNewMateria', async (req, res) => {
 })
 
 
-//-------------------------------------------------OPERACIONES CON  DOCENTES
+//------------------------------------------------------------------OPERACIONES CON  DOCENTES
 app.get('/getAllDocentes', async (req, res) => {
   const sql = "SELECT * FROM Docente";
   const [result] = await pool.query(sql);
@@ -167,6 +243,7 @@ app.get('/getDocente/:id', async (req, res) => {
 
   res.json(userSchema);
 });
+
 
 
 
