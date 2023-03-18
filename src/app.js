@@ -121,9 +121,7 @@ app.delete('/deleteAula/:Id_Aula', async (req, res) => {
   const { Id_Aula } = req.params;
 
   try {
-    // Eliminamos las materias asignadas al aula
-    const queryDeleteMaterias = "DELETE FROM Materias WHERE Id_Aula = ?";
-    await pool.execute(queryDeleteMaterias, [Id_Aula]);
+    
 
     // Eliminamos el aula
     const queryDeleteAula = "DELETE FROM Aula WHERE Id_Aula = ?";
