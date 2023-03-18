@@ -229,16 +229,24 @@ app.delete('/deleteAula/:Id_Aula', async (req, res) => {
 app.put("/updateAula/:ID_AULA", async (req, res) => {
   const { NOMBRE, EDIFICIO, CAPACIDAD } = req.body;
   const { ID_AULA } = req.params;
-  sql = "update Aula set NOMBRE=:NOMBRE, EDIFICIO=:EDIFICIO, CAPACIDAD=:CAPACIDAD where ID_AULA=:ID_AULA";
-    
-  await BD.Open(sql, [NOMBRE, EDIFICIO, CAPACIDAD, ID_AULA], true);
   
-  res.status(200).json({
-    "NOMBRE": NOMBRE,
-    "EDIFICIO": EDIFICIO,
-    "CAPACIDAD": CAPACIDAD
-  });
+  try {
+    const sql = "UPDATE Aula SET NOMBRE = ?, EDIFICIO = ?, CAPACIDAD = ? WHERE ID_AULA = ?";
+    await pool.query(sql, [NOMBRE, EDIFICIO, CAPACIDAD, ID_AULA]);
+    console.log(`Updated AULA record with ID_AULA=${ID_AULA}`);
+    res.status(200).json({
+      "NOMBRE": NOMBRE,
+      "EDIFICIO": EDIFICIO,
+      "CAPACIDAD": CAPACIDAD
+    });
+  } catch (error) {
+    console.error(`Error while updating AULA record: ${error}`);
+    res.status(500).json({
+      message: `Error while updating AULA record: ${error.message}`
+    });
+  }
 });
+
 
 //---------------------------------------------------OPERACIONES CON MATERIAS
 app.post('/addNewMateria', async (req, res) => {
