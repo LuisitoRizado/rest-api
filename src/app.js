@@ -13,6 +13,8 @@ app.get('/ping', async (req, res) => {
   const [result] = await pool.query(`SELECT "hello world" as RESULT`);
   res.json(result[0])
 })
+
+//-----------------------------------------------------------------------OPERACIONES CON HORARIOS
 app.get('/getAllHorarios', async (req, res) => {
   const sql = "SELECT * FROM Horario";
   const [result] = await pool.query(sql);
@@ -23,6 +25,21 @@ app.get('/getAllHorarios', async (req, res) => {
   }));
   res.json(users);
 });
+router.post('/addAula', async (req, res) => {
+  const { ID_AULA, NOMBRE, EDIFICIO, CAPACIDAD } = req.body;
+
+  const sql = "INSERT INTO AULA (ID_AULA, NOMBRE, EDIFICIO, CAPACIDAD) VALUES (?, ?, ?, ?)";
+
+  await pool.query(sql, [ID_AULA, NOMBRE, EDIFICIO, CAPACIDAD]);
+  res.status(200).json({
+    "ID_AULA": ID_AULA,
+    "NOMBRE": NOMBRE,
+    "EDIFICIO": EDIFICIO,
+    "CAPACIDAD": CAPACIDAD
+  });
+});
+
+
 
 app.get('/create', async (req, res) => {
   const result = await pool.query('INSERT INTO users(name) VALUES ("John")')
