@@ -609,6 +609,7 @@ app.get('/getJusAtMateria/:ID_MATERIA', async (req, res) => {
       let userSchema = {
           "ID_MATERIA": user.Id_Materia,
           "ID_HORARIO": user.Id_Horario,
+          "HORA_INICIO_LUNES": user.Hora_Inicio_Lunes,
           "ID_AULA": user.Id_Aula,
           "ID_CARRERA": user.Id_Carrera,
           "MATERIA": user.Materia,
