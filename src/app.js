@@ -668,7 +668,7 @@ app.post('/addDocente', async (req, res) => {
 app.put("/updateDocente/:ID_DOCENTE", async (req, res) => {
   const { NOMBRE, AP_PATERNO, AP_MATERNO } = req.body;
   const { ID_DOCENTE } = req.params;
-  const sql = "UPDATE Docente SET NOMBRE=?, AP_PATERNO=?, AP_MATERNO=? WHERE ID_DOCENTE=?";
+  const sql = "UPDATE Docente SET Nombre=?, Ap_Paterno=?, Ap_Materno=? WHERE Id_Docente=?";
   const params = [NOMBRE, AP_PATERNO, AP_MATERNO, ID_DOCENTE];
 
   try {
