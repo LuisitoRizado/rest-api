@@ -600,7 +600,7 @@ app.delete("/deleteMateria_Asignada/:ID_DOCXMATH", async (req, res) => {
 //Obtener solo una materia:  (LISTO)
 app.get('/getJusAtMateria/:ID_MATERIA', async (req, res) => {
   const { ID_MATERIA } = req.params;
-  const sql = "SELECT * FROM Materia INNER JOIN Carrera ON Materia.Id_Carrera = Carrera.Id_Carrera WHERE Materia.Id_Materia = ?";
+  const sql = "SELECT * FROM Materia INNER JOIN Carrera ON Materia.Id_Carrera = Carrera.Id_Carrera INNER JOIN Horario ON Materia.Id_Horario = Horario.Id_Horario INNER JOIN Aula ON Materia.Id_Aula = Aula.Id_Aula WHERE Materia.Id_Materia = ?";
 
   let [result] = await pool.execute(sql, [ID_MATERIA]);
   let users = [];
