@@ -324,10 +324,10 @@ app.get('/getAllMaterias', async (req, res) => {
       Creditos: user.Creditos,
       Cupo: user.Cupo,
       Semestre: user.Semestre,
-      Nombre_Carrera: user.Nombre_Carrera,
+      Nombre_Carrera: user.Nombre,
       Hora_Inicio_Lunes: user.Hora_Inicio_Lunes,
       Hora_Final_Lunes: user.Hora_Final_Lunes,
-      Nombre_Aula: user.Nombre_Aula
+      Nombre_Aula: user.Nombre
     }));
     res.json(Users);
   } catch (error) {
