@@ -697,14 +697,15 @@ app.get('/getDocente/:id', async (req, res) => {
     return;
   }
 
-  const [userSchema] = {
+  const userSchema = {
     "Id_Docente": result[0].Id_Docente,
     "Nombre": result[0].Nombre,
     "AP_PATERNO": result[0].Ap_Paterno,
     "AP_MATERNO": result[0].Ap_Materno
   };
-
-  res.json(userSchema);
+  let data = []
+  data.push(userSchema);
+  res.json(data);
 });
 //Eliminar docente (no util) (LISTO)
 app.delete("/deleteDocente/:Id_Docente", async (req, res) => {
