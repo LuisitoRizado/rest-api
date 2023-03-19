@@ -509,6 +509,81 @@ app.post('/postMateria/:ID_MATERIA/:HORA/:AULA/:ID_CARRERA/:MATERIA/:CREDITOS/:C
         res.status(500).json({ message: 'Internal server error' });
     }
 });
+//Eliminar materia
+router.delete("/deleteMateria_Asignada/:ID_DOCXMATH", async (req, res) => {
+  const { ID_DOCXMATH } = req.params;
+
+  try {
+      // Query para eliminar la materia asignada del profesor
+      const sql = 'DELETE FROM Materia_Asignada_Profesor WHERE Id_DocxMath = ?';
+      
+      // Ejecutar la consulta utilizando la conexión del pool
+      await pool.query(sql, [ID_DOCXMATH]);
+
+      // Enviar respuesta de éxito
+      res.json({ "msg": "Horario Eliminada" });
+  } catch (error) {
+      console.log(error);
+      res.status(500).json({ "msg": "Error al eliminar la materia asignada" });
+  }
+});
+//Obtener solo una materia:
+app.get('/getJusAtMateria/:ID_MATERIA', async (req, res) => {
+    const { ID_MATERIA } = req.params;
+    const sql = "select * from Materia, Carrera where Id_Materia = :ID_MATERIA";
+
+    let result = await pool.execute(sql, [ID_MATERIA]);
+    Users = [];
+
+    result.rows.map(user => {
+        let userSchema = {
+            "ID_MATERIA": user[0],
+            "ID_HORARIO": user[1],
+            "ID_AULA": user[2],
+            "ID_CARRERA": user[3],
+            "MATERIA": user[4],
+            "CREDITOS": user[5],
+            "CUPO": user[6],
+            "SEMESTRE": user[7],
+            "NOMBRE": user[9]
+
+        }
+
+        Users.push(userSchema);
+    })
+
+    res.json(Users);
+})
+
+
+//AGREGAR MATERIA ASIGNADA
+app.post('/addMateria_Asignada', async (req, res) => {
+    const { ID_DOCXMATH, ID_DOCENTE, ID_MATERIA } = req.body;
+    const sql = "Insert into Materia_Asignada_Profesor VALUES (?, ?, ?)";
+
+    try {
+        await pool.query(sql, [ID_DOCXMATH, ID_DOCENTE, ID_MATERIA]);
+        res.status(200).json({
+            "ID_DOCXMATH": ID_DOCXMATH,
+            "ID_DOCENTE": ID_DOCENTE,
+            "ID_MATERIA": ID_MATERIA,
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ "msg": "Error al agregar la materia asignada" });
+    }
+})
+//actualizar materia
+app.put('/updateMat/:ID_MATERIA', async (req, res) => {
+  const {ID_HORARIO, ID_AULA, ID_CARRERA, MATERIA, CREDITOS, CUPO,SEMESTRE} = req.body;
+  const {ID_MATERIA} = req.params;
+  const sql = "UPDATE Materia set Id_Horario = :ID_HORARIO, Id_Aula = :ID_AULA, Id_Carrera = :ID_CARRERA, Materia = :MATERIA, Creditos = :CREDITOS, Cupo=:CUPO, Semestre=:SEMESTRE WHERE Id_Materia=:ID_MATERIA ";
+
+  const result = await pool.execute(sql, [ID_HORARIO, ID_AULA, ID_CARRERA, MATERIA, CREDITOS, CUPO, SEMESTRE,ID_MATERIA]);
+
+  res.status(200).json()
+})
+
 
 
 
@@ -717,7 +792,7 @@ app.put("/updateAlumno/:NCONTROL", async (req, res) => {
       res.status(500).json({ message: "Error al actualizar el alumno" });
   }
 });
-//agregar un alumno
+//agregar un alumno (LISTO)
 app.post('/addAlumno', async (req, res) => {
   const { NCONTROL, ID_CARRERA, NOMBRE, AP_PATERNO, AP_MATERNO, SEMESTRE, PERIODO, CREDITOS_DISPONIBLES, ESPECIALIDAD, CONTRASENA } = req.body;
 
@@ -738,7 +813,7 @@ app.post('/addAlumno', async (req, res) => {
       "CONTRASENA":CONTRASENA
   });
 });
-//Eliminar alumno
+//Eliminar alumno (LISTO)
 app.delete("/deleteAlumno/:ncontrol", async (req, res) => {
   const { ncontrol } = req.params;
   try {
