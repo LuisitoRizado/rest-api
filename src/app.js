@@ -174,13 +174,14 @@ app.post('/addHorario', async (req, res) => {
 //----------------------------------------------------OPERACIONES GRUPOS/CARGA(PENDIENTE)
 app.get('/getGrupos/:MATERIA', async (req, res) => {
   const { MATERIA } = req.params;
-  const sql = `SELECT Materia.Id_Materia, Materia.Materia, Docente.Nombre,Docente.Ap_Paterno, Docente.Ap_Materno, Aula.Nombre as NOMBRE, Horario.Hora_Inicio_Lunes, Id_DocxMath
+  const sql = `SELECT Materia.Id_Materia, Materia.Materia, Docente.Nombre, Docente.Ap_Paterno, Docente.Ap_Materno, Aula.Nombre as NOMBRE, Horario.Hora_Inicio_Lunes, Horario.Hora_Final_Lunes, Id_DocxMath
   FROM Materia
   INNER JOIN Materia_Asignada_Profesor ON Materia.Id_Materia = Materia_Asignada_Profesor.Id_Materia
   INNER JOIN Docente ON Materia_Asignada_Profesor.Id_Docente = Docente.Id_Docente
   INNER JOIN Aula ON Materia.Id_Aula = Aula.Id_Aula
   INNER JOIN Horario ON Materia.Id_Horario = Horario.Id_Horario WHERE Materia.Id_Materia=?
   `;
+
 
   pool.query(sql, [MATERIA], (error, result, fields) => {
     if (error) throw error;
