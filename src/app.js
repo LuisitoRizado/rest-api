@@ -733,7 +733,7 @@ app.delete('/deleteADocente/:ID_DOCENTE', async (req, res) => {
   const { ID_DOCENTE } = req.params;
   
   // También tenemos que eliminar las materias asignadas que tiene
-  const sql = 'DELETE FROM DOCENTE WHERE ID_DOCENTE = ?';
+  const sql = 'DELETE FROM Docente WHERE Id_Docente = ?';
   try {
     await pool.query(sql, [ID_DOCENTE]);
     // También tenemos que eliminar las materias asignadas que tiene
