@@ -311,7 +311,7 @@ app.get('/getMaterias/:semestre', async (req, res) => {
 
 //Obtener todas las materias, con horario, aula y carrera//(LISTO)
 app.get('/getAllMaterias', async (req, res) => {
-  const sql = "SELECT * FROM Materia JOIN Carrera ON Materia.Id_Carrera = Carrera.Id_Carrera JOIN Horario ON Materia.Id_Horario = Horario.Id_Horario JOIN Aula ON Materia.Id_Aula = Aula.Id_Aula";
+  const sql = "SELECT Materia.Id_Materia, Materia.Id_Horario, Materia.Id_Aula, Materia.Id_Carrera, Materia.Materia, Creditos, Cupo, Semestre, Carrera.Nombre AS NOMBRE, Horario.Hora_Inicio_Lunes, Horario.Hora_Final_Lunes, Aula.Nombre FROM Materia JOIN Carrera ON Materia.Id_Carrera = Carrera.Id_Carrera JOIN Horario ON Materia.Id_Horario = Horario.Id_Horario JOIN Aula ON Materia.Id_Aula = Aula.Id_Aula";
 
   try {
     const [result] = await pool.query(sql);
@@ -324,10 +324,10 @@ app.get('/getAllMaterias', async (req, res) => {
       Creditos: user.Creditos,
       Cupo: user.Cupo,
       Semestre: user.Semestre,
-      Nombre_Carrera: user.Carrera.Nombre,
+      Nombre_Carrera: user.NOMBRE,
       Hora_Inicio_Lunes: user.Hora_Inicio_Lunes,
       Hora_Final_Lunes: user.Hora_Final_Lunes,
-      Nombre_Aula: user.Aula.Nombre
+      Nombre_Aula: user.Nombre
     }));
     res.json(Users);
   } catch (error) {
