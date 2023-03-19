@@ -529,31 +529,32 @@ app.delete("/deleteMateria_Asignada/:ID_DOCXMATH", async (req, res) => {
 });
 //Obtener solo una materia: (NO UTIL) (LISTO)
 app.get('/getJusAtMateria/:ID_MATERIA', async (req, res) => {
-    const { ID_MATERIA } = req.params;
-    const sql = "select * from Materia, Carrera where Id_Materia = ?";
+  const { ID_MATERIA } = req.params;
+  const sql = "SELECT * FROM Materia INNER JOIN Carrera ON Materia.Id_Carrera = Carrera.Id_Carrera WHERE Materia.Id_Materia = ?";
 
-    let result = await pool.execute(sql, [ID_MATERIA]);
-    let Users = [];
+  let [result] = await pool.execute(sql, [ID_MATERIA]);
+  let users = [];
 
-    result.rows.map(user => {
-        let userSchema = {
-            "ID_MATERIA": user[0],
-            "ID_HORARIO": user[1],
-            "ID_AULA": user[2],
-            "ID_CARRERA": user[3],
-            "MATERIA": user[4],
-            "CREDITOS": user[5],
-            "CUPO": user[6],
-            "SEMESTRE": user[7],
-            "NOMBRE": user[9]
+  result[0].map(user => {
+      let userSchema = {
+          "ID_MATERIA": user.Id_Materia,
+          "ID_HORARIO": user.Id_Horario,
+          "ID_AULA": user.Id_Aula,
+          "ID_CARRERA": user.Id_Carrera,
+          "MATERIA": user.Materia,
+          "CREDITOS": user.Creditos,
+          "CUPO": user.Cupo,
+          "SEMESTRE": user.Semestre,
+          "NOMBRE": user.Nombre
 
-        }
+      }
 
-        Users.push(userSchema);
-    })
+      users.push(userSchema);
+  })
 
-    res.json(Users);
+  res.json(users);
 })
+
 
 
 //AGREGAR MATERIA ASIGNADA (LISTO)
