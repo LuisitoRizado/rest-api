@@ -172,7 +172,7 @@ app.post('/addHorario', async (req, res) => {
 });
 
 //----------------------------------------------------OPERACIONES GRUPOS/CARGA
-router.get('/getGrupos/:MATERIA', async (req, res) => {
+app.get('/getGrupos/:MATERIA', async (req, res) => {
   const { MATERIA } = req.params;
   const sql = `SELECT Materia.Id_Materia, Materia.Materia, Docente.Nombre,Docente.Ap_Paterno, Docente.Ap_Materno, Aula.Nombre as NOMBRE, Horario.Hora_Inicio_Lunes, Id_DocxMath
   FROM Materia
