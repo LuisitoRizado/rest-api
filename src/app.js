@@ -202,6 +202,26 @@ app.get('/getGrupos/:MATERIA', async (req, res) => {
     res.status(500).send('Server error');
   }
 });
+app.post('/addCarga', async (req, res) => {
+  const { Id_Carga, Ncontrol, Id_DocxMath, Calificacion } = req.body;
+
+  const sql = "INSERT INTO Carga(Id_Carga, NControl, Id_DocxMath, Calificacion) VALUES (?, ?, ?, ?)";
+
+  try {
+    const result = await pool.query(sql, [Id_Carga, Ncontrol, Id_DocxMath, Calificacion]);
+    res.status(200).json({
+      "Id_Carga": Id_Carga,
+      "Ncontrol": Ncontrol,
+      "Id_DocxMath": Id_DocxMath,
+      "Calificacion": Calificacion
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: 'Error al insertar los datos en la base de datos'
+    });
+  }
+});
 
 
 
