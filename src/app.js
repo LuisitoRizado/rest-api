@@ -499,6 +499,24 @@ app.put('/updateMat/:ID_MATERIA', async (req, res) => {
     });
   }
 });
+//ELIMINAR MATERIA
+app.delete('/deleteMateria/:ID_MATERIA', async (req, res) => {
+  const { ID_MATERIA } = req.params;
+  
+  // También tenemos que eliminar las materias asignadas que tiene
+  const sql = 'DELETE FROM Materia WHERE Id_Materia = ?';
+  try {
+    await pool.query(sql, [ID_MATERIA]);
+    // También tenemos que eliminar las materias asignadas que tiene
+    res.json({ "msg": "MATERIA Eliminada" });
+  } catch (error) {
+    console.error(`Error while deleting MATERIA record: ${error}`);
+    res.status(500).json({
+      message: `Error while deleting MATERIA record: ${error.message}`
+    });
+  }
+});
+
 
 
 //post materia??
