@@ -179,28 +179,30 @@ app.get('/getGrupos/:MATERIA', async (req, res) => {
   INNER JOIN Materia_Asignada_Profesor ON Materia.Id_Materia = Materia_Asignada_Profesor.Id_Materia
   INNER JOIN Docente ON Materia_Asignada_Profesor.Id_Docente = Docente.Id_Docente
   INNER JOIN Aula ON Materia.Id_Aula = Aula.Id_Aula
-  INNER JOIN Horario ON Materia.Id_Horario = Horario.Id_Horario WHERE Materia=?
+  INNER JOIN Horario ON Materia.Id_Horario = Horario.Id_Horario WHERE Materia.Id_Materia=?
   `;
 
-
-  pool.query(sql, [MATERIA], (error, result, fields) => {
-    if (error) throw error;
-
-    let Users = result.map(user => ({
-      "ID_MATERIA": user.Id_Materia,
-      "MATERIA": user.Materia,
-      "NOMBRE": user.Nombre,
-      "AP_PATERNO": user.Ap_Paterno,
-      "AP_MATERNO": user.Ap_Materno,
-      "HORA_INICIO_LUNES": user.Hora_Inicio_Lunes,
-      "HORA_FINAL_LUNES": user.Hora_Final_Lunes,
-      "AULA": user.NOMBRE,
-      "ID_DOCXMATH": user.Id_DocxMath
+  try {
+    const result = await pool.query(sql, [MATERIA]);
+    const users = result.map(user => ({
+      ID_MATERIA: user.Id_Materia,
+      MATERIA: user.Materia,
+      NOMBRE: user.Nombre,
+      AP_PATERNO: user.Ap_Paterno,
+      AP_MATERNO: user.Ap_Materno,
+      HORA_INICIO_LUNES: user.Hora_Inicio_Lunes,
+      HORA_FINAL_LUNES: user.Hora_Final_Lunes,
+      AULA: user.NOMBRE,
+      ID_DOCXMATH: user.Id_DocxMath
     }));
 
-    res.json(Users);
-  });
+    res.json(users);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Server error');
+  }
 });
+
 
 
 
