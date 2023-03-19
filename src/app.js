@@ -530,7 +530,7 @@ app.delete("/deleteMateria_Asignada/:ID_DOCXMATH", async (req, res) => {
 //Obtener solo una materia: (NO UTIL) (LISTO)
 app.get('/getJusAtMateria/:ID_MATERIA', async (req, res) => {
     const { ID_MATERIA } = req.params;
-    const sql = "select * from Materia, Carrera where Id_Materia = :ID_MATERIA";
+    const sql = "select * from Materia, Carrera where Id_Materia = ?";
 
     let result = await pool.execute(sql, [ID_MATERIA]);
     Users = [];
@@ -573,7 +573,7 @@ app.post('/addMateria_Asignada', async (req, res) => {
         res.status(500).json({ "msg": "Error al agregar la materia asignada" });
     }
 })
-//actualizar materia
+//actualizar materia (LISTO)
 app.put('/updateMat/:ID_MATERIA', async (req, res) => {
   const {ID_HORARIO, ID_AULA, ID_CARRERA, MATERIA, CREDITOS, CUPO, SEMESTRE} = req.body;
   const {ID_MATERIA} = req.params;
