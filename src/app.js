@@ -728,6 +728,23 @@ app.delete("/deleteDocente/:Id_Docente", async (req, res) => {
   // Enviamos el mensaje de éxito
   res.json({ "msg": "Docente Eliminado" })
 });
+//ELIMINAR UN DOCENTE (VERDADERO)
+app.delete('/deleteADocente/:ID_DOCENTE', async (req, res) => {
+  const { ID_DOCENTE } = req.params;
+  
+  // También tenemos que eliminar las materias asignadas que tiene
+  const sql = 'DELETE FROM DOCENTE WHERE ID_DOCENTE = ?';
+  try {
+    await pool.query(sql, [ID_DOCENTE]);
+    // También tenemos que eliminar las materias asignadas que tiene
+    res.json({ "msg": "Docente Eliminado" });
+  } catch (error) {
+    console.error(`Error while deleting DOCENTE record: ${error}`);
+    res.status(500).json({
+      message: `Error while deleting DOCENTE record: ${error.message}`
+    });
+  }
+});
 
 //--------------------------------------------------------------OPERACIONES CON CARRERAS
 //Obtener todas las carrerras
@@ -765,6 +782,7 @@ app.get('/getAllCarreras', async (req, res) => {
       res.status(500).json({ message: "Error al obtener las carreras" });
   }
 })
+
 
 //------------------------------------PESTAÑA DE ALUMNOS..........
 //obtener un solo alumno (LISTO)
