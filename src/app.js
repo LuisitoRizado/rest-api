@@ -373,7 +373,7 @@ app.get('/getAllMaterias', async (req, res) => {
 app.get('/getAllMats', async (req, res) => {
   try {
     const [result] = await pool.query(`
-      SELECT Id_Docxmath,Docente.Id_Docente, Materia.Id_Materia, Materia.Materia, Docente.Nombre,Docente.Ap_Paterno, Docente.Ap_Materno, Aula.Nombre AS NOMBRE, Horario.Hora_Inicio_Lunes
+      SELECT Id_Docxmath,Docente.Id_Docente, Materia.Id_Materia, Materia.Materia, Docente.Nombre,Docente.Ap_Paterno, Docente.Ap_Materno, Aula.Nombre AS NOMBRE, Horario.Hora_Inicio_Lunes, Horario.Hora_Final_Lunes
       FROM Materia
       INNER JOIN Materia_Asignada_Profesor ON Materia.Id_Materia = Materia_Asignada_Profesor.Id_Materia
       INNER JOIN Docente ON Materia_Asignada_Profesor.Id_Docente = Docente.Id_Docente
