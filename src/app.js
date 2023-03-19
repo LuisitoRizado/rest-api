@@ -533,7 +533,7 @@ app.get('/getJusAtMateria/:ID_MATERIA', async (req, res) => {
     const sql = "select * from Materia, Carrera where Id_Materia = ?";
 
     let result = await pool.execute(sql, [ID_MATERIA]);
-    Users = [];
+    let Users = [];
 
     result.rows.map(user => {
         let userSchema = {
