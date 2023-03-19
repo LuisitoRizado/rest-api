@@ -1,9 +1,10 @@
 import express from 'express'
 import { pool } from './db.js'
 import {PORT} from './config.js'
+const cors = require('cors');
 const app = express()
 app.use(express.json());
-
+app.use(cors());
 
 //-----------------------EMPLEADO (LISTO)
 app.get('/getEmpleado/:usuario/:contrasena', async (req, res) => {
@@ -527,7 +528,7 @@ app.delete("/deleteMateria_Asignada/:ID_DOCXMATH", async (req, res) => {
       res.status(500).json({ "msg": "Error al eliminar la materia asignada" });
   }
 });
-//Obtener solo una materia: (NO UTIL) (LISTO)
+//Obtener solo una materia:  (LISTO)
 app.get('/getJusAtMateria/:ID_MATERIA', async (req, res) => {
   const { ID_MATERIA } = req.params;
   const sql = "SELECT * FROM Materia INNER JOIN Carrera ON Materia.Id_Carrera = Carrera.Id_Carrera WHERE Materia.Id_Materia = ?";
