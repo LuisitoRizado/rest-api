@@ -487,7 +487,7 @@ app.put('/updateMat/:ID_MATERIA', async (req, res) => {
   const {ID_HORARIO, ID_AULA, ID_CARRERA, MATERIA, CREDITOS, CUPO,SEMESTRE} = req.body;
   const {ID_MATERIA} = req.params;
 
-  const sql = "UPDATE MATERIA set ID_HORARIO = ?, ID_AULA = ?, ID_CARRERA = ?, MATERIA = ?, CREDITOS = ?, CUPO=?, SEMESTRE=? WHERE ID_MATERIA=?";
+  const sql = "UPDATE Materia set Id_Horario = ?, Id_Aula = ?, Id_Carrera = ?, Materia = ?, Creditos = ?, Cupo=?, Semestre=? WHERE Id_Materia=?";
 
   try {
     const result = await pool.query(sql, [ID_HORARIO, ID_AULA, ID_CARRERA, MATERIA, CREDITOS, CUPO, SEMESTRE, ID_MATERIA]);
