@@ -113,7 +113,9 @@ app.get('/getHorario/:id', async (req, res) => {
         "Hora_Inicio_Viernes": result[0].Hora_Inicio_Viernes,
         "Hora_Final_Viernes": result[0].Hora_Final_Viernes
       };
-      res.json(horario);
+      let data= [];
+      data.push(horario)
+      res.json(data);
     }
   } catch (error) {
     console.error(`Error while getting horario record: ${error}`);
