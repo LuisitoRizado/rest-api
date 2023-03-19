@@ -535,7 +535,7 @@ app.get('/getJusAtMateria/:ID_MATERIA', async (req, res) => {
   let [result] = await pool.execute(sql, [ID_MATERIA]);
   let users = [];
 
-  result[0].map(user => {
+  result.map(user => {
       let userSchema = {
           "ID_MATERIA": user.Id_Materia,
           "ID_HORARIO": user.Id_Horario,
