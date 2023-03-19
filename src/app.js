@@ -510,7 +510,7 @@ app.post('/postMateria/:ID_MATERIA/:HORA/:AULA/:ID_CARRERA/:MATERIA/:CREDITOS/:C
     }
 });
 //Eliminar materia
-router.delete("/deleteMateria_Asignada/:ID_DOCXMATH", async (req, res) => {
+app.delete("/deleteMateria_Asignada/:ID_DOCXMATH", async (req, res) => {
   const { ID_DOCXMATH } = req.params;
 
   try {
