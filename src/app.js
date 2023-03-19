@@ -327,7 +327,7 @@ app.get('/getAllMaterias', async (req, res) => {
       Nombre_Carrera: user.Carrera.Nombre,
       Hora_Inicio_Lunes: user.Hora_Inicio_Lunes,
       Hora_Final_Lunes: user.Hora_Final_Lunes,
-      Nombre_Aula: user.Nombre
+      Nombre_Aula: user.Aula.Nombre
     }));
     res.json(Users);
   } catch (error) {
