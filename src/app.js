@@ -482,6 +482,24 @@ app.put("/updateMateria/:ID_MATERIA", async (req, res) => {
     "HORA_FINAL_LUNES": HORA_FINAL_LUNES,
   });
 });
+//MODIFICAR MATERIA
+app.put('/updateMat/:ID_MATERIA', async (req, res) => {
+  const {ID_HORARIO, ID_AULA, ID_CARRERA, MATERIA, CREDITOS, CUPO,SEMESTRE} = req.body;
+  const {ID_MATERIA} = req.params;
+
+  const sql = "UPDATE MATERIA set ID_HORARIO = ?, ID_AULA = ?, ID_CARRERA = ?, MATERIA = ?, CREDITOS = ?, CUPO=?, SEMESTRE=? WHERE ID_MATERIA=?";
+
+  try {
+    const result = await pool.query(sql, [ID_HORARIO, ID_AULA, ID_CARRERA, MATERIA, CREDITOS, CUPO, SEMESTRE, ID_MATERIA]);
+    res.status(200).json();
+  } catch (error) {
+    console.error(`Error while updating MATERIA record: ${error}`);
+    res.status(500).json({
+      message: `Error while updating MATERIA record: ${error.message}`
+    });
+  }
+});
+
 
 //post materia??
 //BNo util /LISTO
