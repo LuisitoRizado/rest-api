@@ -171,6 +171,35 @@ app.post('/addHorario', async (req, res) => {
   }
 });
 
+//----------------------------------------------------OPERACIONES GRUPOS/CARGA
+router.get('/getGrupos/:MATERIA', async (req, res) => {
+  const { MATERIA } = req.params;
+  const sql = `SELECT Materia.Id_Materia, Materia.Materia, Docente.Nombre,Docente.Ap_Paterno, Docente.Ap_Materno, Aula.Nombre as NOMBRE, Horario.Hora_Inicio_Lunes, Id_DocxMath
+  FROM Materia
+  INNER JOIN Materia_Asignada_Profesor ON Materia.Id_Materia = Materia_Asignada_Profesor.Id_Materia
+  INNER JOIN Docente ON Materia_Asignada_Profesor.Id_Docente = Docente.Id_Docente
+  INNER JOIN Aula ON Materia.Id_Aula = Aula.Id_Aula
+  INNER JOIN Horario ON Materia.Id_Horario = Horario.Id_Horario WHERE Materia=?
+  `;
+
+  pool.query(sql, [MATERIA], (error, result, fields) => {
+    if (error) throw error;
+
+    let Users = result.map(user => ({
+      "ID_MATERIA": user.Id_Materia,
+      "MATERIA": user.Materia,
+      "NOMBRE": user.Nombre,
+      "AP_PATERNO": user.Ap_Paterno,
+      "AP_MATERNO": user.Ap_Materno,
+      "HORA_INICIO_LUNES": user.Hora_Inicio_Lunes,
+      "HORA_FINAL_LUNES": user.Hora_Final_Lunes,
+      "AULA": user.NOMBRE,
+      "ID_DOCXMATH": user.Id_DocxMath
+    }));
+
+    res.json(Users);
+  });
+});
 
 
 
