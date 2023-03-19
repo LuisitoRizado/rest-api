@@ -179,11 +179,11 @@ app.get('/getGrupos/:MATERIA', async (req, res) => {
   INNER JOIN Materia_Asignada_Profesor ON Materia.Id_Materia = Materia_Asignada_Profesor.Id_Materia
   INNER JOIN Docente ON Materia_Asignada_Profesor.Id_Docente = Docente.Id_Docente
   INNER JOIN Aula ON Materia.Id_Aula = Aula.Id_Aula
-  INNER JOIN Horario ON Materia.Id_Horario = Horario.Id_Horario WHERE Materia=?
+  INNER JOIN Horario ON Materia.Id_Horario = Horario.Id_Horario WHERE Materia= ?
   `;
 
   try {
-    const result = await pool.query(sql, [MATERIA]);
+    const [result] = await pool.query(sql, [MATERIA]);
     const users = result.map(user => ({
       ID_MATERIA: user.Id_Materia,
       MATERIA: user.Materia,
