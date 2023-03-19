@@ -509,7 +509,7 @@ app.post('/postMateria/:ID_MATERIA/:HORA/:AULA/:ID_CARRERA/:MATERIA/:CREDITOS/:C
         res.status(500).json({ message: 'Internal server error' });
     }
 });
-//Eliminar materia
+//Eliminar materia asingada (LISTO)
 app.delete("/deleteMateria_Asignada/:ID_DOCXMATH", async (req, res) => {
   const { ID_DOCXMATH } = req.params;
 
@@ -527,7 +527,7 @@ app.delete("/deleteMateria_Asignada/:ID_DOCXMATH", async (req, res) => {
       res.status(500).json({ "msg": "Error al eliminar la materia asignada" });
   }
 });
-//Obtener solo una materia:
+//Obtener solo una materia: (NO UTIL) (LISTO)
 app.get('/getJusAtMateria/:ID_MATERIA', async (req, res) => {
     const { ID_MATERIA } = req.params;
     const sql = "select * from Materia, Carrera where Id_Materia = :ID_MATERIA";
@@ -556,7 +556,7 @@ app.get('/getJusAtMateria/:ID_MATERIA', async (req, res) => {
 })
 
 
-//AGREGAR MATERIA ASIGNADA
+//AGREGAR MATERIA ASIGNADA (LISTO)
 app.post('/addMateria_Asignada', async (req, res) => {
     const { ID_DOCXMATH, ID_DOCENTE, ID_MATERIA } = req.body;
     const sql = "Insert into Materia_Asignada_Profesor VALUES (?, ?, ?)";
@@ -575,14 +575,15 @@ app.post('/addMateria_Asignada', async (req, res) => {
 })
 //actualizar materia
 app.put('/updateMat/:ID_MATERIA', async (req, res) => {
-  const {ID_HORARIO, ID_AULA, ID_CARRERA, MATERIA, CREDITOS, CUPO,SEMESTRE} = req.body;
+  const {ID_HORARIO, ID_AULA, ID_CARRERA, MATERIA, CREDITOS, CUPO, SEMESTRE} = req.body;
   const {ID_MATERIA} = req.params;
-  const sql = "UPDATE Materia set Id_Horario = :ID_HORARIO, Id_Aula = :ID_AULA, Id_Carrera = :ID_CARRERA, Materia = :MATERIA, Creditos = :CREDITOS, Cupo=:CUPO, Semestre=:SEMESTRE WHERE Id_Materia=:ID_MATERIA ";
+  const sql = "UPDATE Materia SET Id_Horario = ?, Id_Aula = ?, Id_Carrera = ?, Materia = ?, Creditos = ?, Cupo = ?, Semestre = ? WHERE Id_Materia = ?";
 
-  const result = await pool.execute(sql, [ID_HORARIO, ID_AULA, ID_CARRERA, MATERIA, CREDITOS, CUPO, SEMESTRE,ID_MATERIA]);
+  const result = await pool.execute(sql, [ID_HORARIO, ID_AULA, ID_CARRERA, MATERIA, CREDITOS, CUPO, SEMESTRE, ID_MATERIA]);
 
-  res.status(200).json()
+  res.status(200).json(result);
 })
+
 
 
 
