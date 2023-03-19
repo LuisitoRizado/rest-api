@@ -720,7 +720,7 @@ app.get('/getAllCarreras', async (req, res) => {
       const result = await pool.query(sql);
       const carreras = result[0].map(carrera => ({
           Id_Carrera: carrera.Id_Carrera,
-          Nombre: carrera.Carrera,
+          Nombre: carrera.Nombre,
           Plan_Estudios: carrera.Plan_Estudios
       }));
       res.json(carreras);
