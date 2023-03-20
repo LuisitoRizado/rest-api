@@ -19,13 +19,14 @@ app.get('/getEmpleado/:usuario/:contrasena', async (req, res) => {
         res.status(401).json({ message: "Usuario o contraseña incorrectos" });
         return;
     }
-
+    let data = []
+    
     const userSchema = {
         "usuario": result[0].usuario,
         "contrasena": result[0].contrasena,
     };
-
-    res.json(userSchema);
+    data.splice(userSchema)
+    res.json(data);
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Error en la consulta: " + err.message });
