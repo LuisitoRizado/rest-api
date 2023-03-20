@@ -25,7 +25,7 @@ app.get('/getEmpleado/:usuario/:contrasena', async (req, res) => {
         "usuario": result[0].usuario,
         "contrasena": result[0].contrasena,
     };
-    data.splice(userSchema)
+    data.push(userSchema)
     res.json(data);
   } catch (err) {
     console.error(err);
