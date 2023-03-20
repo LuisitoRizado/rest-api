@@ -505,6 +505,9 @@ app.get('/getMateria/:id', async (req, res) => {
 
   const users = data.map(user => ({
     Id_Materia: user.Id_Materia,
+    Id_Horario: user.Id_Horario,
+    Id_Aula: user.Id_Aula,
+    Id_Carrera: user.Id_Carrera,
     Materia: user.Materia,
     Nombre: user.Nombre,
     Ap_Paterno: user.Ap_Paterno,
