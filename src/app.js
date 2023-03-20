@@ -493,12 +493,14 @@ app.get('/getMaterias_asigandas', async (req, res) => {
 //(OBTENER MATERIA POR ID (LISTO)
 app.get('/getMateria/:id', async (req, res) => {
   const { id } = req.params;
-  const sql = `SELECT Materia.Id_Materia, Materia.Materia, Docente.Nombre, Docente.Ap_Paterno, Docente.Ap_Materno, Aula.Nombre AS NOMBRE, Horario.Hora_Inicio_Lunes, Horario.Hora_Final_Lunes, Materia.Id_Aula, Materia.Id_Carrera, Materia.Id_Aula, Materia.Id_Horario, Materia.Semestre, Materia.Cupo,Materia.Creditos, Carrera.Nombre AS Nombre_Carrera
-  FROM Materia
-  INNER JOIN Materia_Asignada_Profesor ON Materia.Id_Materia = Materia_Asignada_Profesor.Id_Materia
-  INNER JOIN Docente ON Materia_Asignada_Profesor.Id_Docente = Docente.Id_Docente
-  INNER JOIN Aula ON Materia.Id_Aula = Aula.Id_Aula
-  INNER JOIN Horario ON Materia.Id_Horario = Horario.Id_Horario WHERE Materia.Id_Materia=?`;
+  const sql = `SELECT Materia.Id_Materia, Materia.Materia, Docente.Nombre, Docente.Ap_Paterno, Docente.Ap_Materno, Aula.Nombre AS NOMBRE, Horario.Hora_Inicio_Lunes, Horario.Hora_Final_Lunes, Materia.Id_Aula, Materia.Id_Carrera, Materia.Id_Aula, Materia.Id_Horario, Materia.Semestre, Materia.Cupo, Materia.Creditos, Carrera.Nombre AS Nombre_Carrera
+FROM Materia
+INNER JOIN Materia_Asignada_Profesor ON Materia.Id_Materia = Materia_Asignada_Profesor.Id_Materia
+INNER JOIN Docente ON Materia_Asignada_Profesor.Id_Docente = Docente.Id_Docente
+INNER JOIN Aula ON Materia.Id_Aula = Aula.Id_Aula
+INNER JOIN Horario ON Materia.Id_Horario = Horario.Id_Horario
+INNER JOIN Carrera ON Materia.Id_Carrera = Carrera.Id_Carrera
+WHERE Materia.Id_Materia=?`;
 
   const result = await pool.query(sql, [id]);
   const data = result[0];
