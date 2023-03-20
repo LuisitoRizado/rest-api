@@ -8,7 +8,6 @@ app.use(cors());
 
 //-----------------------EMPLEADO (LISTO)
 app.get('/getEmpleado/:usuario/:contrasena', async (req, res) => {
-  res.header("Access-Control-Allow-Origin", "*");
 
   const { usuario, contrasena } = req.params;
 
