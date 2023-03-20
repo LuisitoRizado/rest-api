@@ -519,7 +519,8 @@ WHERE Materia.Id_Materia=?`;
     Semestre:user.Semestre,
     Hora_Inicio_Lunes: user.Hora_Inicio_Lunes,
     Hora_Final_Lunes: user.Hora_Final_Lunes,
-    Aula: user.NOMBRE
+    Aula: user.NOMBRE,
+    Nombre_Carrera: user.Nombre_Carrera
   }));
   
   res.json(users);
