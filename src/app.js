@@ -512,6 +512,9 @@ app.get('/getMateria/:id', async (req, res) => {
     Nombre: user.Nombre,
     Ap_Paterno: user.Ap_Paterno,
     Ap_Materno: user.Ap_Materno,
+    Creditos:user.Creditos,
+    Cupo:user.Cupo,
+    Semestre:user.Semestre,
     Hora_Inicio_Lunes: user.Hora_Inicio_Lunes,
     Hora_Final_Lunes: user.Hora_Final_Lunes,
     Aula: user.NOMBRE
