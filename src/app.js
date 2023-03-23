@@ -929,7 +929,25 @@ app.put('/updateCarrera/:ID_CARRERA', async (req,res)=>{
     });
   }
 })
+app.get('/getCarrera/:ID_CARRERA', async (req, res) => {
+  const { ID_CARRERA } = req.params;
+  const sql = "SELECT * FROM Carrera WHERE Id_Carrera = ?";
+  const [result] = await pool.query(sql, [ID_CARRERA]);
 
+  if (result.length === 0) {
+    res.status(404).json({ message: "Docente no encontrado" });
+    return;
+  }
+
+  const userSchema = {
+    "Id_Carrera": result[0].Id_Carrera,
+    "Nombre": result[0].Nombre,
+    "Plan_Estudios": result[0].Plan_Estudios,
+  };
+  let data = []
+  data.push(userSchema);
+  res.json(data);
+})
 //------------------------------------PESTAÑA DE ALUMNOS..........
 //obtener un solo alumno (LISTO)
 app.get('/getAlumno/:id', async (req, res) => {
