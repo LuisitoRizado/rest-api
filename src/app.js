@@ -301,8 +301,6 @@ app.delete('/deleteAula/:Id_Aula', async (req, res) => {
   const { Id_Aula } = req.params;
 
   try {
-    
-
     // Eliminamos el aula
     const queryDeleteAula = "DELETE FROM Aula WHERE Id_Aula = ?";
     const [result] = await pool.execute(queryDeleteAula, [Id_Aula]);
@@ -891,7 +889,29 @@ app.post('/addCarrera', async (req, res)=>{
     });
   }
 })
+app.delete('/deleteCarrera/:Id_Carrera', async(req,res)=>{
+  const { Id_Carrera } = req.params;
 
+  try {
+    // Eliminamos el aula
+    const queryDeleteAula = "DELETE FROM Carrera WHERE Id_Carrera = ?";
+    const [result] = await pool.execute(queryDeleteAula, [Id_Carrera]);
+
+    if (result.affectedRows === 1) {
+      res.json({ "msg": "Carrera Eliminada" });
+    } else {
+      res.json({ "msg": "No se pudo eliminar la carrera" });
+    }
+  } catch (error) {
+    console.error(`Error while deleting aula record: ${error}`);
+    res.status(500).json({
+      message: "Error al eliminar el carrera"
+    });
+  }
+})
+app.put('/updateCarrea', async (req,res)=>{
+
+})
 
 //------------------------------------PESTAÑA DE ALUMNOS..........
 //obtener un solo alumno (LISTO)
