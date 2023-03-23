@@ -909,8 +909,25 @@ app.delete('/deleteCarrera/:Id_Carrera', async(req,res)=>{
     });
   }
 })
-app.put('/updateCarrea', async (req,res)=>{
+app.put('/updateCarrera/:ID_CARRERA', async (req,res)=>{
+  const { NOMBRE, PLAN_ESTUDIOS } = req.body;
+  const { ID_CARRERA } = req.params;
+  const sql = "UPDATE Carrera SET Nombre=?, Plan_Estudios=? WHERE Id_Carrera=?";
+  const params = [NOMBRE, PLAN_ESTUDIOS, ID_CARRERA];
 
+  try {
+    const result = await pool.query(sql, params);
+    console.log(`Updated record for Docente with ID_DOCENTE=${ID_CARRERA}`);
+    res.status(200).json({
+      "NOMBRE": NOMBRE,
+      "PLAN_ESTUDIOS": PLAN_ESTUDIOS,
+    });
+  } catch (error) {
+    console.error(`Error while updating record for Docente with ID_DOCENTE=${ID_CARRERA}: ${error}`);
+    res.status(500).json({
+      "message": `Error while updating record for Docente with ID_DOCENTE=${ID_CARRERA}: ${error.message}`
+    });
+  }
 })
 
 //------------------------------------PESTAÑA DE ALUMNOS..........
