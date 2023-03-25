@@ -832,6 +832,26 @@ app.delete('/deleteADocente/:ID_DOCENTE', async (req, res) => {
     });
   }
 });
+app.get('/getMaterias_docente/:id', async (req, res) => {
+  const { id } = req.params;
+  const sql = "SELECT Materia_Asignada_Docente.Id_DocxMath, Materia_Asignada_Docente.Id_Docente, Materia_Asignada_Docente.Id_Materia, Materia.Nombre FROM Materia_Asignada_Docente JOIN Materia ON Materia_Asignada_Docente.Id_Materia = Materia.Id_Materia WHERE Materia_Asignada_Docente.Id_Docente = ?";
+  const [result] = await pool.query(sql, [id]);
+
+  if (result.length === 0) {
+    res.status(404).json({ message: "Docente no encontrado" });
+    return;
+  }
+
+  const userSchema = {
+    "Id_DocxMath": result[0].Id_DocxMath,
+    "Id_Docente": result[0].Id_Docente,
+    "Id_Materia": result[0].Id_Materia,
+    "Nombre":result[0].Nombre
+  };
+  let data = []
+  data.push(userSchema);
+  res.json(data);
+});
 
 //--------------------------------------------------------------OPERACIONES CON CARRERAS
 //Obtener todas las carrerras
