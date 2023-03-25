@@ -834,7 +834,7 @@ app.delete('/deleteADocente/:ID_DOCENTE', async (req, res) => {
 });
 app.get('/getMaterias_docente/:id', async (req, res) => {
   const { id } = req.params;
-  const sql = "SELECT Materia_Asignada_Docente.Id_DocxMath, Materia_Asignada_Docente.Id_Docente, Materia_Asignada_Docente.Id_Materia, Materia.Nombre FROM Materia_Asignada_Docente JOIN Materia ON Materia_Asignada_Docente.Id_Materia = Materia.Id_Materia WHERE Materia_Asignada_Docente.Id_Docente = ?";
+  const sql = "SELECT Materia_Asignada_Profesor.Id_DocxMath, Materia_Asignada_Profesor.Id_Docente, Materia_Asignada_Profesor.Id_Materia, Materia.Nombre FROM Materia_Asignada_Profesor JOIN Materia ON Materia_Asignada_Profesor.Id_Materia = Materia.Id_Materia WHERE Materia_Asignada_Profesor.Id_Docente = ?";
   const [result] = await pool.query(sql, [id]);
 
   if (result.length === 0) {
