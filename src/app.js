@@ -857,12 +857,14 @@ app.get('/getMaterias_docente/:id', async (req, res) => {
 app.get('/alumnosInscritos/:id_materia', async (req, res) => {
   const { id_materia } = req.params;
   const sql = `
-    SELECT Alumnos.Ncontrol, Alumnos.Nombre, Alumnos.Ap_Paterno, Alumnos.Ap_Materno
-    FROM Alumnos
-    JOIN Carga ON Alumnos.Ncontrol = Carga.NControl
-    JOIN Materia_Asignada_Profesor ON Carga.Id_DocxMath = Materia_Asignada_Profesor.Id_DocxMath
-    JOIN Materia ON Materia_Asignada_Profesor.Id_Materia = Materia.Id_Materia
-    WHERE Materia_Asignada_Profesor.Id_Materia = ?`;
+  SELECT Alumnos.Ncontrol, Alumnos.Nombre, Alumnos.Ap_Paterno, Alumnos.Ap_Materno
+  FROM Alumnos
+  JOIN Carga ON Alumnos.Ncontrol = Carga.NControl
+  JOIN Materia_Asignada_Profesor ON Carga.Id_DocxMath = Materia_Asignada_Profesor.Id_DocxMath
+  JOIN Materia ON Materia_Asignada_Profesor.Id_Materia = Materia.Id_Materia
+  WHERE Materia_Asignada_Profesor.Id_Materia = ?
+  ORDER BY Alumnos.Ap_Paterno ASC;
+  `;
   const [result] = await pool.query(sql, [id_materia]);
 
   if (result.length === 0) {
