@@ -857,7 +857,7 @@ app.get('/getMaterias_docente/:id', async (req, res) => {
 app.get('/alumnosInscritos/:id_materia', async (req, res) => {
   const { id_materia } = req.params;
   const sql = `
-    SELECT Alumnos.Ncontrol, Alumnos.Nombre
+    SELECT Alumnos.Ncontrol, Alumnos.Nombre, Alumnos.Ap_Paterno, Alumnos.Ap_Materno
     FROM Alumnos
     JOIN Carga ON Alumnos.Ncontrol = Carga.NControl
     JOIN Materia_Asignada_Profesor ON Carga.Id_DocxMath = Materia_Asignada_Profesor.Id_DocxMath
