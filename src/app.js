@@ -862,7 +862,7 @@ app.get('/alumnosInscritos/:id_materia', async (req, res) => {
     JOIN Carga ON Alumnos.Ncontrol = Carga.NControl
     JOIN Materia_Asignada_Profesor ON Carga.Id_DocxMath = Materia_Asignada_Profesor.Id_DocxMath
     JOIN Materia ON Materia_Asignada_Profesor.Id_Materia = Materia.Id_Materia
-    WHERE Materia.Id_Materia = ?`;
+    WHERE Materia_Asignada_Profesor.Id_Materia = ?`;
   const [result] = await pool.query(sql, [id_materia]);
 
   if (result.length === 0) {
