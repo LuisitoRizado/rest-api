@@ -843,10 +843,10 @@ app.get('/getMaterias_docente/:id', async (req, res) => {
   }
 
   const userSchema = {
-    "Id_DocxMath": result[0].Id_DocxMath,
-    "Id_Docente": result[0].Id_Docente,
-    "Id_Materia": result[0].Id_Materia,
-    "Materia":result[0].Materia
+    "Id_DocxMath": result.Id_DocxMath,
+    "Id_Docente": result.Id_Docente,
+    "Id_Materia": result.Id_Materia,
+    "Materia":result.Materia
   };
   let data = []
   data.push(userSchema);
