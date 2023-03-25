@@ -846,7 +846,7 @@ app.get('/getMaterias_docente/:id', async (req, res) => {
     "Id_DocxMath": result[0].Id_DocxMath,
     "Id_Docente": result[0].Id_Docente,
     "Id_Materia": result[0].Id_Materia,
-    "Materia":result[0].Nombre
+    "Materia":result[0].Materia
   };
   let data = []
   data.push(userSchema);
