@@ -834,7 +834,7 @@ app.delete('/deleteADocente/:ID_DOCENTE', async (req, res) => {
 });
 app.get('/getMaterias_docente/:id', async (req, res) => {
   const { id } = req.params;
-  const sql = "SELECT * FROM Materia ON Materia_Asignada_Profesor.Id_Materia = Materia.Id_Materia WHERE Materia_Asignada_Profesor.Id_Docente = ?";
+  const sql = "SELECT * FROM Materia_Asignada_Profesor JOIN Materia ON Materia_Asignada_Profesor.Id_Materia = Materia.Id_Materia WHERE Materia_Asignada_Profesor.Id_Docente = ?";
   const [result] = await pool.query(sql, [id]);
 
   if (result.length === 0) {
@@ -842,14 +842,16 @@ app.get('/getMaterias_docente/:id', async (req, res) => {
     return;
   }
 
-  const userSchema = {
-    "Id_DocxMath": result[0].Id_DocxMath,
-    "Id_Docente": result[0].Id_Docente,
-    "Id_Materia": result[0].Id_Materia,
-    "Materia":result[0].Materia
-  };
   let data = []
-  data.push(userSchema);
+  for (let i = 0; i < result.length; i++) {
+    const userSchema = {
+      "Id_DocxMath": result[i].Id_DocxMath,
+      "Id_Docente": result[i].Id_Docente,
+      "Id_Materia": result[i].Id_Materia,
+      "Materia":result[i].Materia
+    };
+    data.push(userSchema);
+  }
   res.json(data);
 });
 
