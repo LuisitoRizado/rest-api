@@ -854,6 +854,24 @@ app.get('/getMaterias_docente/:id', async (req, res) => {
   }
   res.json(data);
 });
+app.get('/alumnosInscritos/:id_materia', async (req, res) => {
+  const { id_materia } = req.params;
+  const sql = `
+    SELECT Alumnos.Ncontrol, Alumnos.Nombre
+    FROM Alumnos
+    JOIN Carga ON Alumnos.Ncontrol = Carga.NControl
+    JOIN Materia_Asignada_Profesor ON Carga.Id_DocxMath = Materia_Asignada_Profesor.Id_DocxMath
+    JOIN Materia ON Materia_Asignada_Profesor.Id_Materia = Materia.Id_Materia
+    WHERE Materia.Id_Materia = ?`;
+  const [result] = await pool.query(sql, [id_materia]);
+
+  if (result.length === 0) {
+    res.status(404).json({ message: "No se encontraron alumnos inscritos en esta materia" });
+    return;
+  }
+
+  res.json(result);
+});
 
 //--------------------------------------------------------------OPERACIONES CON CARRERAS
 //Obtener todas las carrerras
