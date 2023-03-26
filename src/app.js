@@ -246,8 +246,27 @@ app.get('/getCarga/:NCONTROL', async (req, res) => {
   res.status(500).send("Internal server error");
   }
   })
+//Actualizar calificacion
+app.put('/updateCalificacion/:ID_DOCXMATH', async (req,res)=>{
+  const { CALIFICACION } = req.body;
+  const { ID_DOCXMATH } = req.params;
+  const sql = "UPDATE Carga SET Calificacion=?";
+  const params = [CALIFICACION, ID_DOCXMATH];
 
-
+  try {
+    const result = await pool.query(sql, params);
+    console.log(`Updated record for Docente with ID_DOCENTE=${ID_CARRERA}`);
+    res.status(200).json({
+      "NOMBRE": NOMBRE,
+      "PLAN_ESTUDIOS": PLAN_ESTUDIOS,
+    });
+  } catch (error) {
+    console.error(`Error while updating record for Docente with ID_DOCENTE=${ID_CARRERA}: ${error}`);
+    res.status(500).json({
+      "message": `Error while updating record for Docente with ID_DOCENTE=${ID_CARRERA}: ${error.message}`
+    });
+  }
+})
 
 
 
