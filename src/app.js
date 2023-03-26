@@ -250,7 +250,7 @@ app.get('/getCarga/:NCONTROL', async (req, res) => {
 app.put('/updateCalificacion/:ID_DOCXMATH', async (req,res)=>{
   const { CALIFICACION } = req.body;
   const { ID_DOCXMATH } = req.params;
-  const sql = "UPDATE Carga SET Calificacion=?";
+  const sql = "UPDATE Carga SET Calificacion=? whete Id_DocxMath = ?";
   const params = [CALIFICACION, ID_DOCXMATH];
 
   try {
