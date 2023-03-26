@@ -255,15 +255,14 @@ app.put('/updateCalificacion/:ID_CARGA', async (req,res)=>{
 
   try {
     const result = await pool.query(sql, params);
-    console.log(`Updated record for Docente with ID_DOCENTE=${ID_CARRERA}`);
+    console.log(`Updated record for Docente with ID_DOCENTE=${ID_CARGA}`);
     res.status(200).json({
-      "NOMBRE": NOMBRE,
-      "PLAN_ESTUDIOS": PLAN_ESTUDIOS,
+      "CALIFICACION": CALIFICACION,
     });
   } catch (error) {
-    console.error(`Error while updating record for Docente with ID_DOCENTE=${ID_CARRERA}: ${error}`);
+    console.error(`Error while updating record for Docente with ID_DOCENTE=${ID_CARGA}: ${error}`);
     res.status(500).json({
-      "message": `Error while updating record for Docente with ID_DOCENTE=${ID_CARRERA}: ${error.message}`
+      "message": `Error while updating record for Docente with ID_DOCENTE=${ID_CARGA}: ${error.message}`
     });
   }
 })
