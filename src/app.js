@@ -225,7 +225,7 @@ app.post('/addCarga', async (req, res) => {
 //obtener carga de alumno
 app.get('/getCarga/:NCONTROL', async (req, res) => {
   const { NCONTROL } = req.params;
-  const sql = "SELECT Materia.Materia,Materia.Id_Materia, Calificacion , Docente.Nombre, Docente.Ap_Paterno, Docente.Ap_Materno, Horario.Hora_Inicio_Lunes, Horario.Hora_Final_Lunes, Aula.Nombre as NOMBRE FROM Alumnos INNER JOIN Carga ON Alumnos.Ncontrol=Carga.Ncontrol INNER JOIN Materia_Asignada_Profesor ON Carga.Id_DocxMath=Materia_Asignada_Profesor.Id_DocxMath INNER JOIN Materia ON Materia_Asignada_Profesor.Id_Materia=Materia.Id_Materia INNER JOIN Docente ON Materia_Asignada_Profesor.Id_Docente=Docente.Id_Docente INNER JOIN Horario ON Materia.Id_Horario=Horario.Id_Horario INNER JOIN Aula ON Materia.Id_Aula=Aula.Id_Aula WHERE Alumnos.Ncontrol= ?";
+  const sql = "SELECT Materia.Materia,Materia.Id_Materia, Calificacion , Carga.Id_DocxMath Docente.Nombre, Docente.Ap_Paterno, Docente.Ap_Materno, Horario.Hora_Inicio_Lunes, Horario.Hora_Final_Lunes, Aula.Nombre as NOMBRE FROM Alumnos INNER JOIN Carga ON Alumnos.Ncontrol=Carga.Ncontrol INNER JOIN Materia_Asignada_Profesor ON Carga.Id_DocxMath=Materia_Asignada_Profesor.Id_DocxMath INNER JOIN Materia ON Materia_Asignada_Profesor.Id_Materia=Materia.Id_Materia INNER JOIN Docente ON Materia_Asignada_Profesor.Id_Docente=Docente.Id_Docente INNER JOIN Horario ON Materia.Id_Horario=Horario.Id_Horario INNER JOIN Aula ON Materia.Id_Aula=Aula.Id_Aula WHERE Alumnos.Ncontrol= ?";
   
   try {
   const [rows, fields] = await pool.execute(sql, [NCONTROL]);
@@ -238,7 +238,8 @@ app.get('/getCarga/:NCONTROL', async (req, res) => {
   "HORA_FINAL_LUNES":user.Hora_Final_Lunes,
   "AULA": user.NOMBRE,
   "CALIFICACION":user.Calificacion,
-  "ID_MATERIA":user.Id_Materia
+  "ID_MATERIA":user.Id_Materia,
+  "ID_DOCXMATH":user.Id_DocxMath
   }));
   res.json(Users);
   } catch (error) {
@@ -246,7 +247,7 @@ app.get('/getCarga/:NCONTROL', async (req, res) => {
   res.status(500).send("Internal server error");
   }
   })
-//Actualizar calificacion
+//Actualizar calificacion (LISTO)
 app.put('/updateCalificacion/:ID_CARGA', async (req,res)=>{
   const { CALIFICACION } = req.body;
   const { ID_CARGA } = req.params;
