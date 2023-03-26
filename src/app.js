@@ -236,7 +236,8 @@ app.get('/getCarga/:NCONTROL', async (req, res) => {
   "AP_MATERNO": user.Ap_Materno,
   "HORA_INICIO_LUNES": user.Hora_Inicio_Lunes,
   "HORA_FINAL_LUNES":user.Hora_Final_Lunes,
-  "AULA": user.NOMBRE
+  "AULA": user.NOMBRE,
+  "CALIFICACION":user.Calificacion
   }));
   res.json(Users);
   } catch (error) {
