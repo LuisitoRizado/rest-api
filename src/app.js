@@ -247,11 +247,11 @@ app.get('/getCarga/:NCONTROL', async (req, res) => {
   }
   })
 //Actualizar calificacion
-app.put('/updateCalificacion/:ID_DOCXMATH', async (req,res)=>{
+app.put('/updateCalificacion/:ID_CARGA', async (req,res)=>{
   const { CALIFICACION } = req.body;
-  const { ID_DOCXMATH } = req.params;
-  const sql = "UPDATE Carga SET Calificacion=? whete Id_DocxMath = ?";
-  const params = [CALIFICACION, ID_DOCXMATH];
+  const { ID_CARGA } = req.params;
+  const sql = "UPDATE Carga SET Calificacion=? where ID_CARGA = ?";
+  const params = [CALIFICACION, ID_CARGA];
 
   try {
     const result = await pool.query(sql, params);
