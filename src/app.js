@@ -248,6 +248,18 @@ app.get('/getCarga/:NCONTROL', async (req, res) => {
   res.status(500).send("Internal server error");
   }
   })
+  //obtener todas las cargas
+  app.get('/getAllCargas', async (req, res) => {
+    const sql = "SELECT * FROM carga";
+    const [result] = await pool.query(sql);
+    const users = result.map(user => ({
+      Id_Carga: user.Id_Carga,
+      NControl: user.NControl,
+      Id_DocxMath: user.Id_DocxMath,
+      Calificacion: user.Calificacion
+    }));
+    res.json(users);
+  });
 //Actualizar calificacion (LISTO)
 app.put('/updateCalificacion/:ID_CARGA', async (req,res)=>{
   const { CALIFICACION } = req.body;
