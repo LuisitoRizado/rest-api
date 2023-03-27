@@ -250,7 +250,7 @@ app.get('/getCarga/:NCONTROL', async (req, res) => {
   })
   //obtener todas las cargas
   app.get('/getAllCargas', async (req, res) => {
-    const sql = "SELECT * FROM carga";
+    const sql = "SELECT * FROM Carga";
     const [result] = await pool.query(sql);
     const users = result.map(user => ({
       Id_Carga: user.Id_Carga,
