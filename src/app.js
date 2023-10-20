@@ -945,6 +945,20 @@ app.get('/getAllCarreras', async (req, res) => {
       res.status(500).json({ message: "Error al obtener las carreras" });
   }
 })
+app.get('getAllEstatus',async(req,res)=>{
+  try {
+    const sql = "SELECT * FROM Estatus";
+    const result = await pool.query(sql);
+    const Estatus = result[0].map(Estatu => ({
+        Id_Estatus: Estatu.Id_Estatus,
+        Estado: Estatu.Estado,
+    }));
+    res.json(Estatus);
+} catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Error al obtener las carreras" });
+}
+})
 app.post('/addCarrera', async (req, res)=>{
   const { ID_CARRERA, NOMBRE, PLAN_ESTUDIOS } = req.body;
 
