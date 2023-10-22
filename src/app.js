@@ -290,10 +290,9 @@ app.get('/getAula/:id', async (req, res) => {
   const sql = "SELECT * FROM Aula WHERE Id_Aula = ?";
   const [result] = await pool.query(sql, [id]);
   const aulas = result.map(aula => ({
-    Id_Aula: aula.Id_Aula,
-    Nombre: aula.Nombre,
-    Edificio: aula.Edificio,
-    Capacidad: aula.Capacidad
+    Id_Aula: user.Id_Aula,
+    Nombre: user.Nombre,
+    Campus: user.Campus
   }));
   res.json(aulas);
 });
@@ -304,8 +303,7 @@ app.get('/getAllAulas', async (req, res) => {
   const users = result.map(user => ({
     Id_Aula: user.Id_Aula,
     Nombre: user.Nombre,
-    Edificio: user.Edificio,
-    Capacidad: user.Capacidad
+    Campus: user.Campus
   }));
   res.json(users);
 });
