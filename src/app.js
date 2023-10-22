@@ -360,7 +360,7 @@ app.put("/updateAula/:ID_AULA", async (req, res) => {
     console.log(`Updated AULA record with ID_AULA=${ID_AULA}`);
     res.status(200).json({
       "NOMBRE": NOMBRE,
-      "CAMPUS": EDIFICIO,
+      "CAMPUS": EDIFICIO
     });
   } catch (error) {
     console.error(`Error while updating AULA record: ${error}`);
