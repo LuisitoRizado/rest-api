@@ -351,16 +351,16 @@ app.delete('/deleteAula/:Id_Aula', async (req, res) => {
 });
 //---actualizar aula (LISTO)
 app.put("/updateAula/:ID_AULA", async (req, res) => {
-  const { NOMBRE, EDIFICIO, CAPACIDAD } = req.body;
+  const { NOMBRE, CAMPUS } = req.body;
   const { ID_AULA } = req.params;
   
   try {
     const sql = "UPDATE Aula SET NOMBRE = ?, CAMPUS = ? WHERE ID_AULA = ?";
-    await pool.query(sql, [NOMBRE, EDIFICIO, ID_AULA]);
+    await pool.query(sql, [NOMBRE, CAMPUS, ID_AULA]);
     console.log(`Updated AULA record with ID_AULA=${ID_AULA}`);
     res.status(200).json({
       "NOMBRE": NOMBRE,
-      "CAMPUS": EDIFICIO
+      "CAMPUS": CAMPUS
     });
   } catch (error) {
     console.error(`Error while updating AULA record: ${error}`);
