@@ -758,19 +758,21 @@ app.get('/getAllDocentes', async (req, res) => {
 });
 //agregar docente
 app.post('/addDocente', async (req, res) => {
-  const { ID_DOCENTE, NOMBRE, AP_PATERNO, AP_MATERNO } = req.body;
+  const { ID_DOCENTE, NOMBRE, AP_PATERNO, AP_MATERNO, ESTATUS, CORREO } = req.body;
 
   // Secuencia sql para poder agregar el docente a la base de datos
-  const sql = "INSERT INTO Docente(Id_Docente, Nombre, Ap_Paterno, Ap_Materno) VALUES (?, ?, ?, ?)";
+  const sql = "INSERT INTO Docente(Id_Docente, Nombre, Ap_Paterno, Ap_Materno, ESTATUS, CORREO) VALUES (?, ?, ?, ?, ?, ?)";
 
   try {
-    await pool.query(sql, [ID_DOCENTE, NOMBRE, AP_PATERNO, AP_MATERNO]);
+    await pool.query(sql, [ID_DOCENTE, NOMBRE, AP_PATERNO, AP_MATERNO, ESTATUS, CORREO]);
     console.log(`Inserted new DOCENTE record with ID_DOCENTE=${ID_DOCENTE}`);
     res.status(200).json({
       "ID_DOCENTE": ID_DOCENTE,
       "NOMBRE": NOMBRE,
       "AP_PATERNO": AP_PATERNO,
-      "AP_MATERNO": AP_MATERNO
+      "AP_MATERNO": AP_MATERNO,
+      "ESTATUS":ESTATUS,
+      "CORREO":CORREO
     });
   } catch (error) {
     console.error(`Error while adding new DOCENTE record: ${error}`);
