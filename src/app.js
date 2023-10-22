@@ -355,13 +355,12 @@ app.put("/updateAula/:ID_AULA", async (req, res) => {
   const { ID_AULA } = req.params;
   
   try {
-    const sql = "UPDATE Aula SET NOMBRE = ?, EDIFICIO = ?, CAPACIDAD = ? WHERE ID_AULA = ?";
-    await pool.query(sql, [NOMBRE, EDIFICIO, CAPACIDAD, ID_AULA]);
+    const sql = "UPDATE Aula SET NOMBRE = ?, CAMPUS = ? WHERE ID_AULA = ?";
+    await pool.query(sql, [NOMBRE, EDIFICIO, ID_AULA]);
     console.log(`Updated AULA record with ID_AULA=${ID_AULA}`);
     res.status(200).json({
       "NOMBRE": NOMBRE,
-      "EDIFICIO": EDIFICIO,
-      "CAPACIDAD": CAPACIDAD
+      "CAMPUS": EDIFICIO,
     });
   } catch (error) {
     console.error(`Error while updating AULA record: ${error}`);
