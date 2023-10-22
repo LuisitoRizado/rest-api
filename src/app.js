@@ -309,18 +309,17 @@ app.get('/getAllAulas', async (req, res) => {
 });
 //--gregar aula(LISTO)
 app.post('/addAula', async (req, res) => {
-  const { ID_AULA, NOMBRE, EDIFICIO, CAPACIDAD } = req.body;
-  console.log(`Received data: ID_AULA=${ID_AULA}, NOMBRE=${NOMBRE}, EDIFICIO=${EDIFICIO}, CAPACIDAD=${CAPACIDAD}`);
+  const { ID_AULA, NOMBRE, CAMPUS } = req.body;
+  console.log(`Received data: ID_AULA=${ID_AULA}, NOMBRE=${NOMBRE}, EDIFICIO=${CAMPUS}`);
 
   try {
-    const sql = "INSERT INTO Aula (ID_AULA, NOMBRE, EDIFICIO, CAPACIDAD) VALUES (?, ?, ?, ?)";
-    await pool.query(sql, [ID_AULA, NOMBRE, EDIFICIO, CAPACIDAD]);
+    const sql = "INSERT INTO Aula (ID_AULA, NOMBRE, CAMPUS) VALUES (?, ?, ?)";
+    await pool.query(sql, [ID_AULA, NOMBRE, CAMPUS]);
     console.log(`Inserted new AULA record with ID_AULA=${ID_AULA}`);
     res.status(200).json({
       "ID_AULA": ID_AULA,
       "NOMBRE": NOMBRE,
-      "EDIFICIO": EDIFICIO,
-      "CAPACIDAD": CAPACIDAD
+      "CAMPUS": CAMPUS
     });
   } catch (error) {
     console.error(`Error while adding new AULA record: ${error}`);
