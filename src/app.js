@@ -752,7 +752,9 @@ app.get('/getAllDocentes', async (req, res) => {
       Id_Docente: docente.Id_Docente,
       Nombre: docente.Nombre,
       AP_PATERNO: docente.Ap_Paterno,
-      AP_MATERNO: docente.Ap_Materno
+      AP_MATERNO: docente.Ap_Materno,
+      CORREO: docente.Correo,
+      ESTATUS: docente.Estatus
   }));
   res.json(docentes);
 });
