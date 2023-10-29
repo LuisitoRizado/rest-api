@@ -746,7 +746,7 @@ app.put('/updateMat/:ID_MATERIA', async (req, res) => {
 
 //------------------------------------------------------------------OPERACIONES CON  DOCENTES
 app.get('/getAllDocentes', async (req, res) => {
-  const sql = "SELECT Docente.*, Estatus.Estado AS NombreEstatus FROM Docente JOIN Estatus ON Docente.ESTATUS = Estatus.id;";
+  const sql = "SELECT Docente.*, Estatus.Estado AS NombreEstatus FROM Docente JOIN Estatus ON Docente.ESTATUS = Estatus.Id_Estatus;";
   const [result] = await pool.query(sql);
   const docentes = result.map(docente => ({
       Id_Docente: docente.Id_Docente,
