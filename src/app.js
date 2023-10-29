@@ -751,9 +751,9 @@ app.get('/getAllDocentes', async (req, res) => {
   const docentes = result.map(docente => ({
       Id_Docente: docente.Id_Docente,
       Nombre: docente.Nombre,
-      AP_PATERNO: docente.AP_PATERNO, // Ajusta el nombre de la columna
-      AP_MATERNO: docente.AP_MATERNO, // Ajusta el nombre de la columna
-      CORREO: docente.CORREO, // Ajusta el nombre de la columna
+      AP_PATERNO: docente.Ap_Paterno, // Ajusta el nombre de la columna
+      AP_MATERNO: docente.Ap_Materno, // Ajusta el nombre de la columna
+      CORREO: docente.Correo, // Ajusta el nombre de la columna
       ESTATUS: docente.NombreEstatus // Usa el alias definido en la consulta SQL
   }));
   res.json(docentes);
