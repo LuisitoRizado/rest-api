@@ -790,7 +790,7 @@ app.put("/updateDocente/:ID_DOCENTE", async (req, res) => {
   const { NOMBRE, AP_PATERNO, AP_MATERNO, CORREO, ESTATUS } = req.body;
   const { ID_DOCENTE } = req.params;
   const sql = "UPDATE Docente SET Nombre=?, Ap_Paterno=?, Ap_Materno=?, Correo=?, ESTATUS=? WHERE Id_Docente=?";
-  const params = [NOMBRE, AP_PATERNO, AP_MATERNO, ID_DOCENTE, CORREO, ESTATUS];
+  const params = [NOMBRE, AP_PATERNO, AP_MATERNO, CORREO, ESTATUS, ID_DOCENTE]; // Corregido el orden de los parámetros
 
   try {
     const result = await pool.query(sql, params);
@@ -809,6 +809,7 @@ app.put("/updateDocente/:ID_DOCENTE", async (req, res) => {
     });
   }
 });
+
 //Obtener un docente
 app.get('/getDocente/:id', async (req, res) => {
   const { id } = req.params;
