@@ -787,10 +787,10 @@ app.post('/addDocente', async (req, res) => {
 
 //--actualizar docente
 app.put("/updateDocente/:ID_DOCENTE", async (req, res) => {
-  const { NOMBRE, AP_PATERNO, AP_MATERNO } = req.body;
+  const { NOMBRE, AP_PATERNO, AP_MATERNO, CORREO, ESTATUS } = req.body;
   const { ID_DOCENTE } = req.params;
-  const sql = "UPDATE Docente SET Nombre=?, Ap_Paterno=?, Ap_Materno=? WHERE Id_Docente=?";
-  const params = [NOMBRE, AP_PATERNO, AP_MATERNO, ID_DOCENTE];
+  const sql = "UPDATE Docente SET Nombre=?, Ap_Paterno=?, Ap_Materno=?, Correo=?, Estatus=? WHERE Id_Docente=?";
+  const params = [NOMBRE, AP_PATERNO, AP_MATERNO, ID_DOCENTE, CORREO, ESTATUS];
 
   try {
     const result = await pool.query(sql, params);
@@ -798,7 +798,9 @@ app.put("/updateDocente/:ID_DOCENTE", async (req, res) => {
     res.status(200).json({
       "NOMBRE": NOMBRE,
       "AP_PATERNO": AP_PATERNO,
-      "AP_MATERNO": AP_MATERNO
+      "AP_MATERNO": AP_MATERNO,
+      "CORREO": CORREO,
+      "ESTATUS": ESTATUS
     });
   } catch (error) {
     console.error(`Error while updating record for Docente with ID_DOCENTE=${ID_DOCENTE}: ${error}`);
