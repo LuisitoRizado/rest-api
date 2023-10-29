@@ -746,18 +746,19 @@ app.put('/updateMat/:ID_MATERIA', async (req, res) => {
 
 //------------------------------------------------------------------OPERACIONES CON  DOCENTES
 app.get('/getAllDocentes', async (req, res) => {
-  const sql = "SELECT * FROM Docente";
+  const sql = "SELECT Docentes.*, Estatus.nombre AS NombreEstatus FROM Docentes JOIN Estatus ON Docentes.ESTATUS = Estatus.id;";
   const [result] = await pool.query(sql);
   const docentes = result.map(docente => ({
       Id_Docente: docente.Id_Docente,
       Nombre: docente.Nombre,
-      AP_PATERNO: docente.Ap_Paterno,
-      AP_MATERNO: docente.Ap_Materno,
-      CORREO: docente.Correo,
-      ESTATUS: docente.ESTATUS
+      AP_PATERNO: docente.AP_PATERNO, // Ajusta el nombre de la columna
+      AP_MATERNO: docente.AP_MATERNO, // Ajusta el nombre de la columna
+      CORREO: docente.CORREO, // Ajusta el nombre de la columna
+      ESTATUS: docente.NombreEstatus // Usa el alias definido en la consulta SQL
   }));
   res.json(docentes);
 });
+
 //agregar docente
 app.post('/addDocente', async (req, res) => {
   const { ID_DOCENTE, NOMBRE, AP_PATERNO, AP_MATERNO, ESTATUS, CORREO } = req.body;
