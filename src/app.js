@@ -1145,12 +1145,12 @@ app.post('/addAlumno', async (req, res) => {
 app.delete("/deleteAlumno/:ncontrol", async (req, res) => {
   const { ncontrol } = req.params;
   try {
-      // Primero eliminamos los registros hijos
+     /* // Primero eliminamos los registros hijos
       let sql = "DELETE FROM Carga WHERE ncontrol = ?";
       await pool.query(sql, [ncontrol]);
-
+*/
       // Luego eliminamos el registro padre
-      sql = "DELETE FROM Alumnos WHERE ncontrol = ?";
+      sql = "DELETE FROM Alumnos WHERE Ncontrol = ?";
       await pool.query(sql, [ncontrol]);
 
       res.json({ "msg": "Usuario Eliminado" });
