@@ -1125,21 +1125,22 @@ app.put("/updateAlumno/:NCONTROL", async (req, res) => {
 app.post('/addAlumno', async (req, res) => {
   const { NCONTROL, ID_CARRERA, NOMBRE, AP_PATERNO, AP_MATERNO, SEMESTRE, ESTATUS, CONTRASENA } = req.body;
 
-  //Secuencia sql para poder agregar el alumno a la base de datos
-  const sql = "INSERT INTO Alumnos(NCONTROL, ID_CARRERA, NOMBRE, AP_PATERNO, AP_MATERNO, SEMESTRE, ID_CARRERA, ESTATUS , CONTRASENA) VALUES (?, ?, ?, ?, ?, ?, ? ,? ,?)"
+  // Secuencia SQL para agregar un alumno a la base de datos
+  const sql = "INSERT INTO Alumnos(NCONTROL, ID_CARRERA, NOMBRE, AP_PATERNO, AP_MATERNO, SEMESTRE, ESTATUS, CONTRASENA) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
   await pool.query(sql, [NCONTROL, ID_CARRERA, NOMBRE, AP_PATERNO, AP_MATERNO, SEMESTRE, ESTATUS, CONTRASENA]);
   res.status(200).json({
       "NCONTROL": NCONTROL,
       "ID_CARRERA": ID_CARRERA,
       "NOMBRE": NOMBRE,
-      "AP_PATERNO":AP_PATERNO,
-      "AP_MATERNO":AP_MATERNO,
-      "SEMESTRE":SEMESTRE,
+      "AP_PATERNO": AP_PATERNO,
+      "AP_MATERNO": AP_MATERNO,
+      "SEMESTRE": SEMESTRE,
       "ESTATUS": ESTATUS,
-      "CONTRASENA":CONTRASENA
+      "CONTRASENA": CONTRASENA
   });
 });
+
 //Eliminar alumno (LISTO)
 app.delete("/deleteAlumno/:ncontrol", async (req, res) => {
   const { ncontrol } = req.params;
