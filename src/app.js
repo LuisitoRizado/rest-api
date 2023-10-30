@@ -1078,7 +1078,7 @@ app.get('/getAllAlumnos', async (req, res) => {
              C.Nombre AS CarreraNombre, E.Estado AS EstatusNombre
       FROM Alumnos A
       LEFT JOIN Carrera C ON A.Id_Carrera = C.Id_Carrera
-      LEFT JOIN Estatus E ON A.Id_Estatus = E.Id_Estatus;
+      LEFT JOIN Estatus E ON A.Estatus = E.Id_Estatus;
     `;
 
     const [result] = await pool.query(sql);
