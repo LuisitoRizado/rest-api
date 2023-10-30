@@ -418,11 +418,11 @@ app.get('/getAllMaterias', async (req, res) => {
   const sql = `
   SELECT
     m.*,
-    c.Carrera AS NombreCarrera,
-    e.Estatus AS NombreEstatus
+    c.NombreCarrera AS Nombre,
+    e.NombreEstatus AS Estatus
   FROM Materias m
   LEFT JOIN Carrera c ON m.Id_Carrera = c.Id_Carrera
-  LEFT JOIN Estatus e ON m.Estatus = e.Id_Estatus
+  LEFT JOIN Estatus e ON m.Id_Estatus = e.Id_Estatus
 `;
 
   try {
