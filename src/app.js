@@ -422,7 +422,7 @@ app.get('/getAllMaterias', async (req, res) => {
     e.Estado AS NombreEstatus
   FROM Materias m
   LEFT JOIN Carrera c ON m.Id_Carrera = c.Id_Carrera
-  LEFT JOIN Estatus e ON m.Id_Estatus = e.Id_Estatus
+  LEFT JOIN Estatus e ON m.Estatus = e.Id_Estatus
 `;
 
   try {
