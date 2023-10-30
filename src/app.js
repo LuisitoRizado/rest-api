@@ -1123,12 +1123,12 @@ app.put("/updateAlumno/:NCONTROL", async (req, res) => {
 });
 //agregar un alumno (LISTO)
 app.post('/addAlumno', async (req, res) => {
-  const { NCONTROL, ID_CARRERA, NOMBRE, AP_PATERNO, AP_MATERNO, SEMESTRE, PERIODO, CREDITOS_DISPONIBLES, ESPECIALIDAD, CONTRASENA } = req.body;
+  const { NCONTROL, ID_CARRERA, NOMBRE, AP_PATERNO, AP_MATERNO, SEMESTRE, ESTATUS, CONTRASENA } = req.body;
 
   //Secuencia sql para poder agregar el alumno a la base de datos
-  const sql = "INSERT INTO Alumnos(NCONTROL, ID_CARRERA, NOMBRE, AP_PATERNO, AP_MATERNO, SEMESTRE, PERIODO, CREDITOS_DISPONIBLES, ESPECIALIDAD, CONTRASENA) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+  const sql = "INSERT INTO Alumnos(NCONTROL, ID_CARRERA, NOMBRE, AP_PATERNO, AP_MATERNO, SEMESTRE, ID_CARRERA, ESTATUS , CONTRASENA) VALUES (?, ?, ?, ?, ?, ?, ? ,? ,?)"
 
-  await pool.query(sql, [NCONTROL, ID_CARRERA, NOMBRE, AP_PATERNO, AP_MATERNO, SEMESTRE, PERIODO, CREDITOS_DISPONIBLES, ESPECIALIDAD, CONTRASENA]);
+  await pool.query(sql, [NCONTROL, ID_CARRERA, NOMBRE, AP_PATERNO, AP_MATERNO, SEMESTRE, ESTATUS, CONTRASENA]);
   res.status(200).json({
       "NCONTROL": NCONTROL,
       "ID_CARRERA": ID_CARRERA,
@@ -1136,9 +1136,7 @@ app.post('/addAlumno', async (req, res) => {
       "AP_PATERNO":AP_PATERNO,
       "AP_MATERNO":AP_MATERNO,
       "SEMESTRE":SEMESTRE,
-      "PERIODO":PERIODO,
-      "CREDITOS_DISPONIBLES":CREDITOS_DISPONIBLES,
-      "ESPECIALIDAD":ESPECIALIDAD,
+      "ESTATUS": ESTATUS,
       "CONTRASENA":CONTRASENA
   });
 });
