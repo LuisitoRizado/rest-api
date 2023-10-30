@@ -1150,7 +1150,7 @@ app.delete("/deleteAlumno/:ncontrol", async (req, res) => {
       await pool.query(sql, [ncontrol]);
 */
       // Luego eliminamos el registro padre
-      sql = "DELETE FROM Alumnos WHERE Ncontrol = ?";
+      sql = "DELETE FROM Alumnos WHERE NControl = ?";
       await pool.query(sql, [ncontrol]);
 
       res.json({ "msg": "Usuario Eliminado" });
