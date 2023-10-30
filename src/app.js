@@ -1073,26 +1073,35 @@ app.get('/getAlumno/:id', async (req, res) => {
 //obtener todos los alumnos (LISTO)
 app.get('/getAllAlumnos', async (req, res) => {
   try {
-      const sql = "SELECT * FROM Alumnos";
-      const result = await pool.query(sql);
-      const alumnos = result[0].map(alumno => ({
-        NControl: alumno.NControl,
-        Id_Carrera: alumno.Id_Carrera,
-        Nombre: alumno.Nombre,
-        Ap_Paterno: alumno.Ap_Paterno,
-        Ap_Materno: alumno.Ap_Materno,
-        Semestre: alumno.Semestre,
-        Periodo: alumno.Periodo,
-        Creditos_Disponibles: alumno.Creditos_Disponibles,
-        Especialidad: alumno.Especialidad,
-        Contrasena: alumno.Contrasena
-      }));
-      res.json(alumnos);
+    const sql = `
+      SELECT A.NControl, A.Id_Carrera, A.Nombre, A.Ap_Paterno, A.Ap_Materno, A.Semestre, A.Estatus, A.Contrasena,
+             C.Nombre AS CarreraNombre, E.Estado AS EstatusNombre
+      FROM Alumnos A
+      LEFT JOIN Carrera C ON A.Id_Carrera = C.Id_Carrera
+      LEFT JOIN Estatus E ON A.Id_Estatus = E.Id_Estatus;
+    `;
+
+    const [result] = await pool.query(sql);
+    const alumnos = result.map(alumno => ({
+      NControl: alumno.NControl,
+      Id_Carrera: alumno.Id_Carrera,
+      CarreraNombre: alumno.CarreraNombre, // Nombre de la carrera
+      Nombre: alumno.Nombre,
+      Ap_Paterno: alumno.Ap_Paterno,
+      Ap_Materno: alumno.Ap_Materno,
+      Semestre: alumno.Semestre,
+      Id_Estatus: alumno.Id_Estatus,
+      EstatusNombre: alumno.EstatusNombre, // Nombre del estatus
+      Contrasena: alumno.Contrasena
+    }));
+
+    res.json(alumnos);
   } catch (error) {
-      console.log(error);
-      res.status(500).json({ message: "Error al obtener los alumnos" });
+    console.log(error);
+    res.status(500).json({ message: "Error al obtener los alumnos" });
   }
-})
+});
+
 //actualizar un alumno /LISTO/ (MANDAR TODO EN MAYUSCULAS)
 app.put("/updateAlumno/:NCONTROL", async (req, res) => {
   const { NOMBRE, AP_PATERNO, AP_MATERNO, SEMESTRE, PERIODO, CREDITOS_DISPONIBLES, ESPECIALIDAD } = req.body;
