@@ -374,14 +374,14 @@ app.put("/updateAula/:ID_AULA", async (req, res) => {
 //-------------------------------------------------------------------OPERACIONES CON MATERIAS
 //AGREGAR MATERIA (FUNCIONA)
 app.post('/addNewMateria', async (req, res) => {
-  const { ID_MATERIA, ID_HORARIO, ID_AULA, ID_CARRERA, MATERIA, CREDITOS, CUPO, SEMESTRE} = req.body;
+  const { ID_MATERIA,  ID_CARRERA,ID_ESTATUS, MATERIA, CREDITOS, SEMESTRE} = req.body;
 
   //Secuencia sql para poder agregar la materia a la base de datos
   //Primero agregamos la materia sin asignar el docente
-  const sql = "INSERT INTO Materia (ID_MATERIA, ID_HORARIO, ID_AULA, ID_CARRERA, MATERIA, CREDITOS, CUPO, SEMESTRE) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+  const sql = "INSERT INTO Materia (ID_MATERIA,  ID_CARRERA, ID_ESTATUS, MATERIA, CREDITOS, SEMESTRE) VALUES (?, ?, ?, ?, ?, ?)";
 
   try {
-    await pool.query(sql, [ID_MATERIA, ID_HORARIO, ID_AULA, ID_CARRERA, MATERIA, CREDITOS, CUPO, SEMESTRE]);
+    await pool.query(sql, [ID_MATERIA, ID_CARRERA, ID_ESTATUS,  MATERIA, CREDITOS, CUPO, SEMESTRE]);
     console.log(`Inserted new MATERIA record with ID_MATERIA=${ID_MATERIA}`);
     res.status(200).json({});
   } catch (error) {
