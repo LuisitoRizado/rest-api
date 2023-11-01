@@ -292,7 +292,7 @@ app.get('/getAula/:id', async (req, res) => {
   const aulas = result.map(user => ({
     Id_Aula: user.Id_Aula,
     Nombre: user.Nombre,
-    Campus: user.Edificio
+    Campus: user.Campus
   }));
   res.json(aulas);
 });
