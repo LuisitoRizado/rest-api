@@ -381,7 +381,7 @@ app.post('/addNewMateria', async (req, res) => {
   const sql = "INSERT INTO Materia (ID_MATERIA,  ID_CARRERA, ID_ESTATUS, MATERIA, CREDITOS, SEMESTRE) VALUES (?, ?, ?, ?, ?, ?)";
 
   try {
-    await pool.query(sql, [ID_MATERIA, ID_CARRERA, ID_ESTATUS,  MATERIA, CREDITOS, CUPO, SEMESTRE]);
+    await pool.query(sql, [ID_MATERIA, ID_CARRERA, ID_ESTATUS,  MATERIA, CREDITOS, SEMESTRE]);
     console.log(`Inserted new MATERIA record with ID_MATERIA=${ID_MATERIA}`);
     res.status(200).json({});
   } catch (error) {
