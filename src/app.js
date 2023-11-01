@@ -1054,26 +1054,32 @@ app.get('/getCarrera/:ID_CARRERA', async (req, res) => {
 app.get('/getAlumno/:id', async (req, res) => {
   const { id } = req.params;
   try {
-      const sql = "SELECT * FROM Alumnos WHERE NControl = ?";
-      const result = await pool.query(sql, [id]);
-      const alumnos = result[0].map(alumno => ({
-        NControl: alumno.NControl,
-        Id_Carrera: alumno.Id_Carrera,
-        Nombre: alumno.Nombre,
-        Ap_Paterno: alumno.Ap_Paterno,
-        Ap_Materno: alumno.Ap_Materno,
-        Semestre: alumno.Semestre,
-        Periodo: alumno.Periodo,
-        Creditos_Disponibles: alumno.Creditos_Disponibles,
-        Especialidad: alumno.Especialidad,
-        Contrasena: alumno.Contrasena
-      }));
-      res.json(alumnos);
+    const sql = `
+      SELECT Alumnos.NControl, Alumnos.Id_Carrera, Alumnos.Nombre, Alumnos.Ap_Paterno, 
+             Alumnos.Ap_Materno, Alumnos.Semestre,
+             Carrera.Nombre AS CarreraNombre
+      FROM Alumnos
+      LEFT JOIN Carrera ON Alumnos.Id_Carrera = Carrera.Id_Carrera
+      WHERE Alumnos.NControl = ?`;
+      
+    const result = await pool.query(sql, [id]);
+    const alumnos = result[0].map(alumno => ({
+      NControl: alumno.NControl,
+      Id_Carrera: alumno.Id_Carrera,
+      Nombre: alumno.Nombre,
+      Ap_Paterno: alumno.Ap_Paterno,
+      Ap_Materno: alumno.Ap_Materno,
+      Semestre: alumno.Semestre,
+      Contrasena: alumno.Contrasena,
+      Carrera: alumno.CarreraNombre
+    }));
+    res.json(alumnos);
   } catch (error) {
-      console.log(error);
-      res.status(500).json({ message: "Error al obtener el alumno" });
+    console.log(error);
+    res.status(500).json({ message: "Error al obtener el alumno" });
   }
-})
+});
+
 //obtener todos los alumnos (LISTO)
 app.get('/getAllAlumnos', async (req, res) => {
   try {
