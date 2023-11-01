@@ -378,7 +378,7 @@ app.post('/addNewMateria', async (req, res) => {
 
   //Secuencia sql para poder agregar la materia a la base de datos
   //Primero agregamos la materia sin asignar el docente
-  const sql = "INSERT INTO Materia (ID_MATERIA,  ID_CARRERA, ID_ESTATUS, MATERIA, CREDITOS, SEMESTRE) VALUES (?, ?, ?, ?, ?, ?)";
+  const sql = "INSERT INTO Materia (ID_MATERIA,  ID_CARRERA, ESTATUS, MATERIA, CREDITOS, SEMESTRE) VALUES (?, ?, ?, ?, ?, ?)";
 
   try {
     await pool.query(sql, [ID_MATERIA, ID_CARRERA, ID_ESTATUS,  MATERIA, CREDITOS, SEMESTRE]);
