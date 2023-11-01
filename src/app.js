@@ -289,10 +289,10 @@ app.get('/getAula/:id', async (req, res) => {
   const { id } = req.params;
   const sql = "SELECT * FROM Aula WHERE Id_Aula = ?";
   const [result] = await pool.query(sql, [id]);
-  const aulas = result.map(aula => ({
+  const aulas = result.map(user => ({
     Id_Aula: user.Id_Aula,
     Nombre: user.Nombre,
-    Campus: user.Campus
+    Campus: user.Edificio
   }));
   res.json(aulas);
 });
