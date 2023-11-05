@@ -817,7 +817,12 @@ app.put("/updateDocente/:ID_DOCENTE", async (req, res) => {
 //Obtener un docente
 app.get('/getDocente/:id', async (req, res) => {
   const { id } = req.params;
-  const sql = "SELECT * FROM Docente WHERE Id_Docente = ?";
+  const sql = `
+  SELECT D.*, E.NombreEstatus AS Estatus
+  FROM Docente D
+  INNER JOIN Estatus E ON D.Estatus = E.Id_Estatus
+  WHERE D.Id_Docente = ?;
+`;
   const [result] = await pool.query(sql, [id]);
 
   if (result.length === 0) {
@@ -830,8 +835,9 @@ app.get('/getDocente/:id', async (req, res) => {
     "Nombre": result[0].Nombre,
     "AP_PATERNO": result[0].Ap_Paterno,
     "AP_MATERNO": result[0].Ap_Materno,
-    "ESTATUS": result[0].Estatus,
-    "CORREO": result[0].Correo
+    "ESTATUS": result[0].NombreEstatus,
+    "CORREO": result[0].Correo,
+    "ID_ESTATUS":result[0].Estatus
   };
   let data = []
   data.push(userSchema);
