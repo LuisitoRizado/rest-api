@@ -601,13 +601,13 @@ app.put("/updateMateria/:ID_MATERIA", async (req, res) => {
 });
 //MODIFICAR MATERIA
 app.put('/updateMat/:ID_MATERIA', async (req, res) => {
-  const {ID_HORARIO, ID_AULA, ID_CARRERA, MATERIA, CREDITOS, CUPO,SEMESTRE} = req.body;
+  const { ID_CARRERA, MATERIA, CREDITOS, ESTATUS,SEMESTRE} = req.body;
   const {ID_MATERIA} = req.params;
 
-  const sql = "UPDATE Materia set Id_Horario = ?, Id_Aula = ?, Id_Carrera = ?, Materia = ?, Creditos = ?, Cupo=?, Semestre=? WHERE Id_Materia=?";
+  const sql = "UPDATE Materia set  Id_Carrera = ?, Materia = ?, Creditos = ?, Estatus= ? , Semestre=? WHERE Id_Materia=?";
 
   try {
-    const result = await pool.query(sql, [ID_HORARIO, ID_AULA, ID_CARRERA, MATERIA, CREDITOS, CUPO, SEMESTRE, ID_MATERIA]);
+    const result = await pool.query(sql, [ ID_CARRERA, MATERIA, CREDITOS, ESTATUS, SEMESTRE, ID_MATERIA]);
     res.status(200).json();
   } catch (error) {
     console.error(`Error while updating MATERIA record: ${error}`);
