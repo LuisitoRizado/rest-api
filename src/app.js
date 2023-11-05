@@ -37,19 +37,17 @@ app.get('/getEmpleado/:usuario/:contrasena', async (req, res) => {
 //-----------------------LOGIN
 app.get('/getLogin/:id/:password', async (req, res) => {
   const { id, password } = req.params;
-  const sql = "SELECT * FROM Alumnos WHERE NControl = ? AND CONTRASENA = ?";
+  const sql = "SELECT * FROM Alumnos WHERE NControl = ? AND Contrasena = ?";
   const [result] = await pool.query(sql, [id, password]);
   const users = result.map(user => ({
     NControl: user.NControl,
-    ID_Carrera: user.Id_Carrera,
+    Id_Carrera: user.Id_Carrera,
+    Id_Estatus: user.Id_Estatus,
     Nombre: user.Nombre,
-    AP_PATERNO: user.Ap_Paterno,
-    AP_MATERNO: user.Ap_Materno,
-    SEMESTRE: user.Semestre,
-    PERIODO: user.Periodo,
-    CREDITOS_DISPONIBLES: user.Creditos_Disponibles,
-    ESPECIALIDAD: user.Especialidad,
-    CONTRASENA: user.Contrasena
+    Ap_Paterno: user.Ap_Paterno,
+    Ap_Materno: user.Ap_Materno,
+    Semestre: user.Semestre,
+    Contrasena: user.Contrasena
   }));
   res.json(users);
 })
