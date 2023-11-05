@@ -818,7 +818,7 @@ app.put("/updateDocente/:ID_DOCENTE", async (req, res) => {
 app.get('/getDocente/:id', async (req, res) => {
   const { id } = req.params;
   const sql = `
-  SELECT D.*, E.NombreEstatus AS Estatus
+  SELECT D.*, E.Estado AS NombreEstatus
   FROM Docente D
   INNER JOIN Estatus E ON D.Estatus = E.Id_Estatus
   WHERE D.Id_Docente = ?;
