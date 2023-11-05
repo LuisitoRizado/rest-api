@@ -694,6 +694,7 @@ app.get('/getJusAtMateria/:ID_MATERIA', async (req, res) => {
   FROM Materia m
   LEFT JOIN Carrera c ON m.Id_Carrera = c.Id_Carrera
   LEFT JOIN Estatus e ON m.Estatus = e.Id_Estatus
+  where Id_Materia = ?
 `;
   let [result] = await pool.execute(sql, [ID_MATERIA]);
   let users = [];
