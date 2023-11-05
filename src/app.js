@@ -837,7 +837,7 @@ app.get('/getDocente/:id', async (req, res) => {
     "AP_MATERNO": result[0].Ap_Materno,
     "ESTATUS": result[0].NombreEstatus,
     "CORREO": result[0].Correo,
-    "ID_ESTATUS":result[0].Estatus
+    "ID_ESTATUS":result[0].ESTATUS
   };
   let data = []
   data.push(userSchema);
