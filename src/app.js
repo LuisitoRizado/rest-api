@@ -686,26 +686,28 @@ app.delete("/deleteMateria_Asignada/:ID_DOCXMATH", async (req, res) => {
 //Obtener solo una materia:  (LISTO)
 app.get('/getJusAtMateria/:ID_MATERIA', async (req, res) => {
   const { ID_MATERIA } = req.params;
-  const sql = "SELECT Id_Materia, Materia.Id_Horario, Hora_Inicio_Lunes, Hora_Final_Lunes, Materia.Id_Aula, Materia.Id_Carrera, Materia.Materia, Materia.Creditos, Materia.Cupo, Materia.Semestre, Carrera.Nombre, Aula.Nombre AS NOMBRE FROM Materia INNER JOIN Carrera ON Materia.Id_Carrera = Carrera.Id_Carrera INNER JOIN Horario ON Materia.Id_Horario = Horario.Id_Horario INNER JOIN Aula ON Materia.Id_Aula = Aula.Id_Aula WHERE Materia.Id_Materia = ?";
-
+  const sql = `
+  SELECT
+    m.*,
+    c.Nombre AS NombreCarrera,
+    e.Estado AS NombreEstatus
+  FROM Materia m
+  LEFT JOIN Carrera c ON m.Id_Carrera = c.Id_Carrera
+  LEFT JOIN Estatus e ON m.Estatus = e.Id_Estatus
+`;
   let [result] = await pool.execute(sql, [ID_MATERIA]);
   let users = [];
 
   result.map(user => {
       let userSchema = {
-          "ID_MATERIA": user.Id_Materia,
-          "ID_HORARIO": user.Id_Horario,
-          "HORA_INICIO_LUNES": user.Hora_Inicio_Lunes,
-          "HORA_FINAL_LUNES": user.Hora_Final_Lunes,
-          "ID_AULA": user.Id_Aula,
-          "ID_CARRERA": user.Id_Carrera,
-          "MATERIA": user.Materia,
-          "CREDITOS": user.Creditos,
-          "CUPO": user.Cupo,
-          "SEMESTRE": user.Semestre,
-          "Nombre": user.Nombre,
-          "NOMBRE": user.NOMBRE
-
+        Id_Materia: user.Id_Materia,
+        Id_Estatus: user.Estatus,
+        Id_Carrera: user.Id_Carrera,
+        Materia: user.Materia,
+        Creditos: user.Creditos,
+        Semestre: user.Semestre,
+        Estatus: user.NombreEstatus,
+        Carrera: user.NombreCarrera
       }
 
       users.push(userSchema);
