@@ -769,7 +769,7 @@ app.post('/addDocente', async (req, res) => {
   const { ID_DOCENTE, NOMBRE, AP_PATERNO, AP_MATERNO, ESTATUS, CORREO } = req.body;
 
   // Secuencia sql para poder agregar el docente a la base de datos
-  const sql = "INSERT INTO Docente(Id_Docente, Nombre, Ap_Paterno, Ap_Materno, ESTATUS, CORREO) VALUES (?, ?, ?, ?, ?, ?)";
+  const sql = "INSERT INTO Docente(Id_Docente, Nombre, Ap_Paterno, Ap_Materno, ESTATUS, Correo) VALUES (?, ?, ?, ?, ?, ?)";
 
   try {
     await pool.query(sql, [ID_DOCENTE, NOMBRE, AP_PATERNO, AP_MATERNO, ESTATUS, CORREO]);
