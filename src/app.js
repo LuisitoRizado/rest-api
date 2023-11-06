@@ -1143,7 +1143,7 @@ app.post('/addAlumno', async (req, res) => {
   const { NCONTROL, ID_CARRERA, NOMBRE, AP_PATERNO, AP_MATERNO, SEMESTRE, ESTATUS, CONTRASENA } = req.body;
 
   // Secuencia SQL para agregar un alumno a la base de datos
-  const sql = "INSERT INTO Alumnos(NCONTROL, ID_CARRERA, NOMBRE, AP_PATERNO, AP_MATERNO, SEMESTRE, ESTATUS, CONTRASENA) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+  const sql = "INSERT INTO Alumnos(NControl, Id_Carrera, Nombre, Ap_Paterno, Ap_Materno, Semestre, Estatus, Contrasena) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
   await pool.query(sql, [NCONTROL, ID_CARRERA, NOMBRE, AP_PATERNO, AP_MATERNO, SEMESTRE, ESTATUS, CONTRASENA]);
   res.status(200).json({
