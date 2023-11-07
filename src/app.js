@@ -1121,17 +1121,20 @@ app.get('/getAllAlumnos', async (req, res) => {
 
 //actualizar un alumno /LISTO/ (MANDAR TODO EN MAYUSCULAS)
 app.put("/updateAlumno/:NCONTROL", async (req, res) => {
-  const { NOMBRE, AP_PATERNO, AP_MATERNO, SEMESTRE, PERIODO, CREDITOS_DISPONIBLES, ESPECIALIDAD } = req.body;
+  const { NOMBRE, AP_PATERNO, AP_MATERNO, SEMESTRE, ID_ESTATUS, ID_CARRERA} = req.body;
   const { NCONTROL } = req.params;
-  const sql = "UPDATE Alumnos SET Nombre = ?, Ap_Paterno = ?, Ap_Materno = ?, Semestre = ?, Periodo = ?, Creditos_Disponibles = ?, Especialidad = ? WHERE NControl = ?";
-  const values = [NOMBRE, AP_PATERNO, AP_MATERNO, SEMESTRE, PERIODO, CREDITOS_DISPONIBLES, ESPECIALIDAD, NCONTROL];
+  const sql = "UPDATE Alumnos SET Nombre = ?, Ap_Paterno = ?, Ap_Materno = ?, Semestre = ? , Id_Estatus= ? ,Id_Carrera = ? WHERE NControl = ?";
+  const values = [NOMBRE, AP_PATERNO, AP_MATERNO, SEMESTRE, ID_ESTATUS, ID_CARRERA,  NCONTROL];
 
   try {
       const result = await pool.query(sql, values);
       res.status(200).json({
           "NOMBRE": NOMBRE,
           "AP_PATERNO": AP_PATERNO,
-          "AP_MATERNO": AP_MATERNO
+          "AP_MATERNO": AP_MATERNO,
+          "SEMESTRE":SEMESTRE,
+          "ID_ESTATUS":ID_ESTATUS,
+          "ID_CARRERA":ID_CARRERA
       });
   } catch (error) {
       console.log(error);
