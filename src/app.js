@@ -1123,7 +1123,7 @@ app.get('/getAllAlumnos', async (req, res) => {
 app.put("/updateAlumno/:NCONTROL", async (req, res) => {
   const { NOMBRE, AP_PATERNO, AP_MATERNO, SEMESTRE, ID_ESTATUS, ID_CARRERA} = req.body;
   const { NCONTROL } = req.params;
-  const sql = "UPDATE Alumnos SET Nombre = ?, Ap_Paterno = ?, Ap_Materno = ?, Semestre = ? , Id_Estatus= ? ,Id_Carrera = ? WHERE NControl = ?";
+  const sql = "UPDATE Alumnos SET Nombre = ?, Ap_Paterno = ?, Ap_Materno = ?, Semestre = ? , Estatus= ? ,Id_Carrera = ? WHERE NControl = ?";
   const values = [NOMBRE, AP_PATERNO, AP_MATERNO, SEMESTRE, ID_ESTATUS, ID_CARRERA,  NCONTROL];
 
   try {
@@ -1133,7 +1133,7 @@ app.put("/updateAlumno/:NCONTROL", async (req, res) => {
           "AP_PATERNO": AP_PATERNO,
           "AP_MATERNO": AP_MATERNO,
           "SEMESTRE":SEMESTRE,
-          "ID_ESTATUS":ID_ESTATUS,
+          "ESTATUS":ID_ESTATUS,
           "ID_CARRERA":ID_CARRERA
       });
   } catch (error) {
