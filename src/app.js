@@ -1062,12 +1062,15 @@ app.get('/getAlumno/:id', async (req, res) => {
   const { id } = req.params;
   try {
     const sql = `
-      SELECT Alumnos.NControl, Alumnos.Id_Carrera, Alumnos.Nombre, Alumnos.Ap_Paterno, 
-             Alumnos.Ap_Materno, Alumnos.Semestre,
-             Carrera.Nombre AS CarreraNombre
-      FROM Alumnos
-      LEFT JOIN Carrera ON Alumnos.Id_Carrera = Carrera.Id_Carrera
-      WHERE Alumnos.NControl = ?`;
+    SELECT Alumnos.NControl, Alumnos.Id_Carrera, Alumnos.Nombre, Alumnos.Ap_Paterno, 
+           Alumnos.Ap_Materno, Alumnos.Semestre,
+           Carrera.Nombre AS CarreraNombre, 
+           Estatus.Estado AS EstadoAlumno
+    FROM Alumnos
+    LEFT JOIN Carrera ON Alumnos.Id_Carrera = Carrera.Id_Carrera
+    LEFT JOIN Estatus ON Alumnos.Estatus = Estatus.Id_Estatus
+    WHERE Alumnos.NControl = ?`;
+
       
     const result = await pool.query(sql, [id]);
     const alumnos = result[0].map(alumno => ({
@@ -1078,7 +1081,8 @@ app.get('/getAlumno/:id', async (req, res) => {
       Ap_Materno: alumno.Ap_Materno,
       Semestre: alumno.Semestre,
       Contrasena: alumno.Contrasena,
-      Carrera: alumno.CarreraNombre
+      Carrera: alumno.CarreraNombre,
+      Estado: alumno.EstadoAlumno
     }));
     res.json(alumnos);
   } catch (error) {
@@ -1121,10 +1125,10 @@ app.get('/getAllAlumnos', async (req, res) => {
 
 //actualizar un alumno /LISTO/ (MANDAR TODO EN MAYUSCULAS)
 app.put("/updateAlumno/:NCONTROL", async (req, res) => {
-  const { NOMBRE, AP_PATERNO, AP_MATERNO, SEMESTRE, ID_ESTATUS, ID_CARRERA} = req.body;
+  const { NOMBRE, AP_PATERNO, AP_MATERNO, SEMESTRE, ESTATUS, ID_CARRERA} = req.body;
   const { NCONTROL } = req.params;
   const sql = "UPDATE Alumnos SET Nombre = ?, Ap_Paterno = ?, Ap_Materno = ?, Semestre = ? , Estatus= ? ,Id_Carrera = ? WHERE NControl = ?";
-  const values = [NOMBRE, AP_PATERNO, AP_MATERNO, SEMESTRE, ID_ESTATUS, ID_CARRERA,  NCONTROL];
+  const values = [NOMBRE, AP_PATERNO, AP_MATERNO, SEMESTRE, ESTATUS, ID_CARRERA,  NCONTROL];
 
   try {
       const result = await pool.query(sql, values);
@@ -1133,7 +1137,7 @@ app.put("/updateAlumno/:NCONTROL", async (req, res) => {
           "AP_PATERNO": AP_PATERNO,
           "AP_MATERNO": AP_MATERNO,
           "SEMESTRE":SEMESTRE,
-          "ESTATUS":ID_ESTATUS,
+          "ESTATUS":ESTATUS,
           "ID_CARRERA":ID_CARRERA
       });
   } catch (error) {
