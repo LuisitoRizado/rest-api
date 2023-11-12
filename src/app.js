@@ -392,7 +392,7 @@ app.post('/addNewMateria', async (req, res) => {
 //Materas por semestre:(FUNCIONA)
 app.get('/getMaterias/:semestre/:Id_Carrera', async (req, res) => {
   const { semestre, Id_Carrera } = req.params;
-  const sql = "SELECT Id_Materia, Materia, Cupo, Creditos, Semestre FROM Materia WHERE Semestre=? AND Id_Carrera=?";
+  const sql = "SELECT Id_Materia, Materia, Creditos, Semestre FROM Materia WHERE Semestre=? AND Id_Carrera=?";
   try {
     const [result] = await pool.query(sql, [semestre, Id_Carrera]);
     const users = result.map(user => ({
