@@ -223,29 +223,30 @@ app.post('/addCarga', async (req, res) => {
 //obtener carga de alumno
 app.get('/getCarga/:NCONTROL', async (req, res) => {
   const { NCONTROL } = req.params;
-  const sql = "SELECT Materia.Materia,Materia.Id_Materia, Carga.Id_Carga, Calificacion , Carga.Id_DocxMath, Docente.Nombre, Docente.Ap_Paterno, Docente.Ap_Materno, Horario.Hora_Inicio_Lunes, Horario.Hora_Final_Lunes, Aula.Nombre as NOMBRE FROM Alumnos INNER JOIN Carga ON Alumnos.Ncontrol=Carga.Ncontrol INNER JOIN Materia_Asignada_Profesor ON Carga.Id_DocxMath=Materia_Asignada_Profesor.Id_DocxMath INNER JOIN Materia ON Materia_Asignada_Profesor.Id_Materia=Materia.Id_Materia INNER JOIN Docente ON Materia_Asignada_Profesor.Id_Docente=Docente.Id_Docente INNER JOIN Horario ON Materia.Id_Horario=Horario.Id_Horario INNER JOIN Aula ON Materia.Id_Aula=Aula.Id_Aula WHERE Alumnos.Ncontrol= ?";
+  const sql = `
+    SELECT Materia.Nombre AS Nombre_Materia, Materia.Semestre, Docente.Nombre AS Nombre_Docente
+    FROM Alumno
+    INNER JOIN Materia_Cargada_Alumno ON Alumno.NControl = Materia_Cargada_Alumno.NControl_Alumno
+    INNER JOIN Grupos ON Materia_Cargada_Alumno.Id_Carga = Grupos.Id_Grupo
+    INNER JOIN Materia ON Grupos.Id_Materia = Materia.Id_Materia
+    INNER JOIN Docente ON Grupos.No_Empleado = Docente.Id_Docente
+    WHERE Alumno.NControl = ?
+  `;
   
   try {
-  const [rows, fields] = await pool.execute(sql, [NCONTROL]);
-  const Users = rows.map(user => ({
-  "MATERIA": user.Materia,
-  "NOMBRE": user.Nombre,
-  "AP_PATERNO": user.Ap_Paterno,
-  "AP_MATERNO": user.Ap_Materno,
-  "HORA_INICIO_LUNES": user.Hora_Inicio_Lunes,
-  "HORA_FINAL_LUNES":user.Hora_Final_Lunes,
-  "AULA": user.NOMBRE,
-  "CALIFICACION":user.Calificacion,
-  "ID_MATERIA":user.Id_Materia,
-  "ID_DOCXMATH":user.Id_DocxMath,
-  "CARGA":user.Id_Carga
-  }));
-  res.json(Users);
+    const [rows, fields] = await pool.execute(sql, [NCONTROL]);
+    const gruposAlumno = rows.map(grupo => ({
+      "Nombre_Materia": grupo.Nombre_Materia,
+      "Semestre": grupo.Semestre,
+      "Nombre_Docente": grupo.Nombre_Docente
+    }));
+    res.json(gruposAlumno);
   } catch (error) {
-  console.error(error);
-  res.status(500).send("Internal server error");
+    console.error(error);
+    res.status(500).send("Internal server error");
   }
-  })
+});
+
   //obtener todas las cargas
   app.get('/getAllCargas', async (req, res) => {
     const sql = "SELECT * FROM Carga";
