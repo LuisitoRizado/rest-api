@@ -124,12 +124,12 @@ app.get('/getHorario/:id', async (req, res) => {
 });
 //actualizar horario(LISTO)
 app.put("/updateHorario/:ID_HORARIO", async (req, res) => {
-  const { HORA_INICIO_LUNES, HORA_FINAL_LUNES } = req.body;
+  const { Hora_Inicio, Hora_Final } = req.body;
   const { ID_HORARIO } = req.params;
-  const sql = "UPDATE Horario SET HORA_INICIO_LUNES=?, HORA_FINAL_LUNES=? WHERE ID_HORARIO=?";
+  const sql = "UPDATE Horas SET Hora_Inicio=?, Hora_Final=? WHERE ID_HORARIO=?";
   
   try {
-    const [result] = await pool.execute(sql, [HORA_INICIO_LUNES, HORA_FINAL_LUNES, ID_HORARIO]);
+    const [result] = await pool.execute(sql, [Hora_Inicio, Hora_Final, ID_HORARIO]);
 
     if (result.affectedRows === 0) {
       res.status(404).json({
@@ -137,8 +137,8 @@ app.put("/updateHorario/:ID_HORARIO", async (req, res) => {
       });
     } else {
       res.status(200).json({
-        HORA_INICIO_LUNES: HORA_INICIO_LUNES,
-        HORA_FINAL_LUNES: HORA_FINAL_LUNES
+        Hora_Inicio: HORA_INICIO_LUNES,
+        Hora_Final: HORA_FINAL_LUNES
       });
     }
   } catch (error) {
