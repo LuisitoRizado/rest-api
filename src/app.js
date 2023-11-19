@@ -224,13 +224,13 @@ app.post('/addCarga', async (req, res) => {
 app.get('/getCarga/:NCONTROL', async (req, res) => {
   const { NCONTROL } = req.params;
   const sql = `
-    SELECT Materia.Nombre AS Nombre_Materia, Materia.Semestre, Docente.Nombre AS Nombre_Docente
-    FROM Alumnos
-    INNER JOIN Materia_Cargada_Alumno ON Alumnos.NControl = Materia_Cargada_Alumno.NControl_Alumno
-    INNER JOIN Grupos ON Materia_Cargada_Alumno.Id_Carga = Grupos.Id_Grupo
-    INNER JOIN Materia ON Grupos.Id_Materia = Materia.Id_Materia
-    INNER JOIN Docente ON Grupos.No_Empleado = Docente.Id_Docente
-    WHERE Alumnos.NControl = ?
+  SELECT Materia.Materia AS Nombre_Materia, Materia.Semestre, Docente.Nombre AS Nombre_Docente
+  FROM Alumnos
+  INNER JOIN Materia_Cargada_Alumno ON Alumnos.NControl = Materia_Cargada_Alumno.NControl_Alumno
+  INNER JOIN Grupos ON Materia_Cargada_Alumno.Id_Carga = Grupos.Id_Grupo
+  INNER JOIN Materia ON Grupos.Id_Materia = Materia.Id_Materia
+  INNER JOIN Docente ON Grupos.No_Empleado = Docente.Id_Docente
+  WHERE Alumnos.NControl = ?
   `;
   
   try {
@@ -243,7 +243,7 @@ app.get('/getCarga/:NCONTROL', async (req, res) => {
     res.json(gruposAlumno);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Internal server error");
+    res.status(500).send("Internal ssserver error");
   }
 });
 
