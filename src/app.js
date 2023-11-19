@@ -90,7 +90,7 @@ app.delete('/deleteHorario/:id', async (req, res) => {
 //Obtener un solo horario(LISTO)
 app.get('/getHorario/:id', async (req, res) => {
   const { id } = req.params;
-  const sql = "SELECT * FROM Horario WHERE Id_Horario = ?";
+  const sql = "SELECT * FROM Horas WHERE Id_Horario = ?";
   try {
     const [result] = await pool.query(sql, [id]);
     if (result.length === 0) {
@@ -100,16 +100,9 @@ app.get('/getHorario/:id', async (req, res) => {
     } else {
       const horario = {
         "Id_Horario": result[0].Id_Horario,
-        "Hora_Inicio_Lunes": result[0].Hora_Inicio_Lunes,
-        "Hora_Final_Lunes": result[0].Hora_Final_Lunes,
-        "Hora_Inicio_Martes": result[0].Hora_Inicio_Martes,
-        "Hora_Final_Martes": result[0].Hora_Final_Martes,
-        "Hora_Inicio_Miercoles": result[0].Hora_Inicio_Miercoles,
-        "Hora_Final_Miercoles": result[0].Hora_Final_Miercoles,
-        "Hora_Inicio_Jueves": result[0].Hora_Inicio_Jueves,
-        "Hora_Final_Jueves": result[0].Hora_Final_Jueves,
-        "Hora_Inicio_Viernes": result[0].Hora_Inicio_Viernes,
-        "Hora_Final_Viernes": result[0].Hora_Final_Viernes
+        "Hora_Inicio": result[0].Hora_Inicio,
+        "Hora_Final": result[0].Hora_Final,
+      
       };
       let data= [];
       data.push(horario)
