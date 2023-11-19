@@ -150,16 +150,16 @@ app.put("/updateHorario/:ID_HORARIO", async (req, res) => {
 });
 //Agregar un horario(LISTO)
 app.post('/addHorario', async (req, res) => {
-  const { ID_HORARIO, HORA_INICIO_LUNES, HORA_FINAL_LUNES } = req.body;
+  const { ID_HORARIO, Hora_Inicio, Hora_Final } = req.body;
 
   try {
-    const sql = "INSERT INTO Horario (ID_HORARIO, HORA_INICIO_LUNES, HORA_FINAL_LUNES) VALUES (?, ?, ?)";
-    await pool.query(sql, [ID_HORARIO, HORA_INICIO_LUNES, HORA_FINAL_LUNES]);
+    const sql = "INSERT INTO Horario (ID_HORARIO, Hora_Inicio, Hora_Final) VALUES (?, ?, ?)";
+    await pool.query(sql, [ID_HORARIO, Hora_Inicio, Hora_Final]);
 
     res.status(200).json({
       "ID_HORARIO": ID_HORARIO,
-      "HORA_INICIO_LUNES": HORA_INICIO_LUNES,
-      "HORA_FINAL_LUNES": HORA_FINAL_LUNES,
+      "HORA_INICIO_LUNES": Hora_Inicio,
+      "HORA_FINAL_LUNES": Hora_Final,
     });
   } catch (error) {
     console.error(`Error while adding horario record: ${error}`);
