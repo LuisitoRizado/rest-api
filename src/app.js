@@ -224,13 +224,16 @@ app.post('/addCarga', async (req, res) => {
 app.get('/getCarga/:NCONTROL', async (req, res) => {
   const { NCONTROL } = req.params;
   const sql = `
-  SELECT Materia.Materia AS Nombre_Materia, Materia.Semestre, Docente.Nombre AS Nombre_Docente
-  FROM Alumnos
-  INNER JOIN Materia_Cargada_Alumno ON Alumnos.NControl = Materia_Cargada_Alumno.NControl_Alumno
-  INNER JOIN Grupos ON Materia_Cargada_Alumno.Id_Carga = Grupos.Id_Grupo
-  INNER JOIN Materia ON Grupos.Id_Materia = Materia.Id_Materia
-  INNER JOIN Docente ON Grupos.No_Empleado = Docente.Id_Docente
-  WHERE Alumnos.NControl = ?
+    SELECT Materia.Materia AS Nombre_Materia, Materia.Semestre, Docente.Nombre AS Nombre_Docente,
+    Aula.Nombre AS Nombre_Aula, Horario.Hora_Inicio, Horario.Hora_Final
+    FROM Alumnos
+    INNER JOIN Materia_Cargada_Alumno ON Alumnos.NControl = Materia_Cargada_Alumno.NControl_Alumno
+    INNER JOIN Grupos ON Materia_Cargada_Alumno.Id_Carga = Grupos.Id_Grupo
+    INNER JOIN Materia ON Grupos.Id_Materia = Materia.Id_Materia
+    INNER JOIN Docente ON Grupos.No_Empleado = Docente.Id_Docente
+    INNER JOIN Aula ON Grupos.Id_Aula = Aula.Id_Aula
+    INNER JOIN Horario ON Grupos.Id_Horario = Horario.Id_Horario
+    WHERE Alumnos.NControl = ?
   `;
   
   try {
@@ -238,14 +241,18 @@ app.get('/getCarga/:NCONTROL', async (req, res) => {
     const gruposAlumno = rows.map(grupo => ({
       "Nombre_Materia": grupo.Nombre_Materia,
       "Semestre": grupo.Semestre,
-      "Nombre_Docente": grupo.Nombre_Docente
+      "Nombre_Docente": grupo.Nombre_Docente,
+      "Nombre_Aula": grupo.Nombre_Aula,
+      "Hora_Inicio": grupo.Hora_Inicio,
+      "Hora_Final": grupo.Hora_Final
     }));
     res.json(gruposAlumno);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Internal ssserver error");
+    res.status(500).send("Internal server error");
   }
 });
+
 
   //obtener todas las cargas
   app.get('/getAllCargas', async (req, res) => {
