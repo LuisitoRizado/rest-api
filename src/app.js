@@ -56,12 +56,12 @@ app.get('/getLogin/:id/:password', async (req, res) => {
 //-----------------------------------------------------------------------OPERACIONES CON HORARIOS
 //GET ALL HORARIOS (LISTO)
 app.get('/getAllHorarios', async (req, res) => {
-  const sql = "SELECT * FROM Horario";
+  const sql = "SELECT * FROM Horas";
   const [result] = await pool.query(sql);
   const users = result.map(user => ({
     Id_Horario: user.Id_Horario,
-    Hora_Inicio_Lunes: user.Hora_Inicio_Lunes,
-    Hora_Final_Lunes: user.Hora_Final_Lunes
+    Hora_Inicio: user.Hora_Inicio,
+    Hora_Final: user.Hora_Final
   }));
   res.json(users);
 });
