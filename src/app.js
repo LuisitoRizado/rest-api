@@ -69,7 +69,7 @@ app.get('/getAllHorarios', async (req, res) => {
 app.delete('/deleteHorario/:id', async (req, res) => {
   const id = req.params.id;
   try {
-    const sql = "DELETE FROM Horario WHERE Id_Horario = ?";
+    const sql = "DELETE FROM Horas WHERE Id_Horario = ?";
     const [result] = await pool.execute(sql, [id]);
     if (result.affectedRows === 0) {
       res.status(404).json({
@@ -153,7 +153,7 @@ app.post('/addHorario', async (req, res) => {
   const { ID_HORARIO, Hora_Inicio, Hora_Final } = req.body;
 
   try {
-    const sql = "INSERT INTO Horario (ID_HORARIO, Hora_Inicio, Hora_Final) VALUES (?, ?, ?)";
+    const sql = "INSERT INTO Horas (ID_HORARIO, Hora_Inicio, Hora_Final) VALUES (?, ?, ?)";
     await pool.query(sql, [ID_HORARIO, Hora_Inicio, Hora_Final]);
 
     res.status(200).json({
