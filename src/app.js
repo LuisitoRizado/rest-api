@@ -158,8 +158,8 @@ app.post('/addHorario', async (req, res) => {
 
     res.status(200).json({
       "ID_HORARIO": ID_HORARIO,
-      "HORA_INICIO_LUNES": Hora_Inicio,
-      "HORA_FINAL_LUNES": Hora_Final,
+      "Hora_Inicio": Hora_Inicio,
+      "Hora_Final": Hora_Final,
     });
   } catch (error) {
     console.error(`Error while adding horario record: ${error}`);
