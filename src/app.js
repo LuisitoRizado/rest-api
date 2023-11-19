@@ -165,34 +165,39 @@ app.post('/addHorario', async (req, res) => {
 //----------------------------------------------------OPERACIONES GRUPOS/CARGA(PENDIENTE)
 app.get('/getGrupos/:MATERIA', async (req, res) => {
   const { MATERIA } = req.params;
-  const sql = `SELECT Materia.Id_Materia, Materia.Materia, Docente.Nombre, Docente.Ap_Paterno, Docente.Ap_Materno, Aula.Nombre as NOMBRE, Horario.Hora_Inicio_Lunes, Horario.Hora_Final_Lunes, Id_DocxMath
-  FROM Materia
-  INNER JOIN Materia_Asignada_Profesor ON Materia.Id_Materia = Materia_Asignada_Profesor.Id_Materia
-  INNER JOIN Docente ON Materia_Asignada_Profesor.Id_Docente = Docente.Id_Docente
-  INNER JOIN Aula ON Materia.Id_Aula = Aula.Id_Aula
-  INNER JOIN Horario ON Materia.Id_Horario = Horario.Id_Horario WHERE Materia= ?
-  `;
+  const sql = `SELECT 
+    Materia.Materia,
+    Grupos.Id_Aula,
+    Aula.Campus,
+    Grupos.No_Empleado,
+    Horas.Id_Horario,
+    Horas.Hora_Inicio,
+    Horas.Hora_Final
+  FROM Grupos
+  INNER JOIN Materia ON Grupos.Id_Materia = Materia.Id_Materia
+  INNER JOIN Aula ON Grupos.Id_Aula = Aula.Id_Aula
+  INNER JOIN Horas ON Grupos.Id_Horario = Horas.Id_Horario
+  WHERE Materia.Id_Materia = ?`;
 
   try {
     const [result] = await pool.query(sql, [MATERIA]);
-    const users = result.map(user => ({
-      ID_MATERIA: user.Id_Materia,
-      MATERIA: user.Materia,
-      NOMBRE: user.Nombre,
-      AP_PATERNO: user.Ap_Paterno,
-      AP_MATERNO: user.Ap_Materno,
-      HORA_INICIO_LUNES: user.Hora_Inicio_Lunes,
-      HORA_FINAL_LUNES: user.Hora_Final_Lunes,
-      AULA: user.NOMBRE,
-      ID_DOCXMATH: user.Id_DocxMath
+    const groups = result.map(group => ({
+      MATERIA: group.Materia,
+      ID_AULA: group.Id_Aula,
+      CAMPUS: group.Campus,
+      NO_EMPLEADO: group.No_Empleado,
+      ID_HORARIO: group.Id_Horario,
+      HORA_INICIO: group.Hora_Inicio,
+      HORA_FINAL: group.Hora_Final
     }));
 
-    res.json(users);
+    res.json(groups);
   } catch (error) {
     console.error(error.message);
     res.status(500).send('Server error');
   }
 });
+
 app.post('/addCarga', async (req, res) => {
   const { Id_Carga, Ncontrol, Id_DocxMath, Calificacion } = req.body;
 
