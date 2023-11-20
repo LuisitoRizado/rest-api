@@ -217,7 +217,7 @@ app.post('/addCarga', async (req, res) => {
     res.status(200).json({
       "Id_Carga": Id_Carga,
       "Id_Grupo": Ncontrol,
-      "NControl_Alumno": Id_DocxMath,
+      "NControl_Alumno": NControl_Alumno,
       "Calificacion": Calificacion
     });
   } catch (error) {
