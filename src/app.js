@@ -208,16 +208,16 @@ app.get('/getGrupos/:MATERIA', async (req, res) => {
 });
 
 app.post('/addCarga', async (req, res) => {
-  const { Id_Carga, Ncontrol, Id_DocxMath, Calificacion } = req.body;
+  const { Id_Carga, Id_Grupo, NControl_Alumno, Calificacion } = req.body;
 
-  const sql = "INSERT INTO Carga(Id_Carga, NControl, Id_DocxMath, Calificacion) VALUES (?, ?, ?, ?)";
+  const sql = "INSERT INTO Materia_Cargada_Alumno(Id_Carga, Id_Grupo, NControl_Alumno, Calificacion) VALUES (?, ?, ?, ?)";
 
   try {
-    const result = await pool.query(sql, [Id_Carga, Ncontrol, Id_DocxMath, Calificacion]);
+    const result = await pool.query(sql, [Id_Carga, Id_Grupo, NControl_Alumno, Calificacion]);
     res.status(200).json({
       "Id_Carga": Id_Carga,
-      "Ncontrol": Ncontrol,
-      "Id_DocxMath": Id_DocxMath,
+      "Id_Grupo": Ncontrol,
+      "NControl_Alumno": Id_DocxMath,
       "Calificacion": Calificacion
     });
   } catch (error) {
