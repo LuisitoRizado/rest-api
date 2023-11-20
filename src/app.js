@@ -172,6 +172,7 @@ app.get('/getGrupos/:MATERIA', async (req, res) => {
     Docente.Ap_Paterno,
     Docente.Ap_Materno,
     Aula.Campus,
+    Aula.Nombre AS Aula_Nombre
     Grupos.No_Empleado,
     Horas.Id_Horario,
     Horas.Hora_Inicio,
@@ -187,6 +188,7 @@ app.get('/getGrupos/:MATERIA', async (req, res) => {
     const [result] = await pool.query(sql, [MATERIA]);
     const groups = result.map(group => ({
       MATERIA: group.Materia,
+      AULA_NOMBRE: group.Aula_Nombre,
       NOMBRE_DOCENTE: group.Nombre,
       AP_PATERNO: group.Ap_Paterno,
       Ap_Materno : group.Ap_Materno,
