@@ -172,7 +172,7 @@ app.get('/getGrupos/:MATERIA', async (req, res) => {
     Docente.Ap_Paterno,
     Docente.Ap_Materno,
     Aula.Campus,
-    Aula.Nombre AS Aula_Nombre
+    Aula.Nombre AS Aula_Nombre,
     Grupos.No_Empleado,
     Horas.Id_Horario,
     Horas.Hora_Inicio,
