@@ -187,6 +187,9 @@ app.get('/getGrupos/:MATERIA', async (req, res) => {
     const [result] = await pool.query(sql, [MATERIA]);
     const groups = result.map(group => ({
       MATERIA: group.Materia,
+      NOMBRE_DOCENTE: group.Nombre,
+      AP_PATERNO: group.Ap_Paterno,
+      Ap_Materno : group.Ap_Materno,
       ID_AULA: group.Id_Aula,
       CAMPUS: group.Campus,
       NO_EMPLEADO: group.No_Empleado,
