@@ -168,7 +168,7 @@ app.get('/getGrupos/:MATERIA', async (req, res) => {
   const sql = `SELECT 
     Materia.Materia,
     Grupos.Id_Aula,
-    Docente.Nombre
+    Docente.Nombre,
     Docente.Ap_Paterno,
     Docente.Ap_Materno,
     Aula.Campus,
