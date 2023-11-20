@@ -177,7 +177,7 @@ app.get('/getGrupos/:MATERIA', async (req, res) => {
     Horas.Hora_Inicio,
     Horas.Hora_Final
   FROM Grupos
-  INNER JOIN Docente ON Grupos.No_Emlpeado = Docente.Id_Docente
+  INNER JOIN Docente ON Grupos.Empleado = Docente.Id_Docente
   INNER JOIN Materia ON Grupos.Id_Materia = Materia.Id_Materia
   INNER JOIN Aula ON Grupos.Id_Aula = Aula.Id_Aula
   INNER JOIN Horas ON Grupos.Id_Horario = Horas.Id_Horario
