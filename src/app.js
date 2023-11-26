@@ -48,8 +48,8 @@ app.get('/getProfesor/:usuario/:contrasena', async (req, res) => {
     let data = []
     
     const userSchema = {
-        "Id_Docente": result[0].usuario,
-        "Contrasena": result[0].contrasena,
+        "usuario": result[0].Id_Docente,
+        "contrasena": result[0].Contrasena,
     };
     data.push(userSchema)
     res.json(data);
