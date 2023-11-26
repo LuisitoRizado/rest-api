@@ -33,7 +33,31 @@ app.get('/getEmpleado/:usuario/:contrasena', async (req, res) => {
   }
 });
 
+app.get('/getProfesor/:usuario/:contrasena', async (req, res) => {
 
+  const { usuario, contrasena } = req.params;
+
+  const sql = "SELECT * FROM Docente WHERE Id_Docente = ? AND Contrasena = ?";
+  try {
+    let [result] = await pool.query(sql, [usuario, contrasena]);
+
+    if (result.length === 0) {
+        res.status(401).json({ message: "Usuario o contraseña incorrectos" });
+        return;
+    }
+    let data = []
+    
+    const userSchema = {
+        "Id_Docente": result[0].usuario,
+        "Contrasena": result[0].contrasena,
+    };
+    data.push(userSchema)
+    res.json(data);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Error en la consulta: " + err.message });
+  }
+});
 //-----------------------LOGIN
 app.get('/getLogin/:id/:password', async (req, res) => {
   const { id, password } = req.params;
