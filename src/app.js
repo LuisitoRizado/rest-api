@@ -539,7 +539,7 @@ app.get('/getMaterias_asigandas', async (req, res) => {
 //(OBTENER MATERIA POR ID (LISTO)
 app.get('/getMateria/:id', async (req, res) => {
   const { id } = req.params;
-  const sql = `SELECT Materia.Id_Materia, Materia.Materia, Docente.Nombre, Docente.Ap_Paterno, Docente.Ap_Materno, Aula.Nombre AS NOMBRE, Horas.Hora_Inicio, Horas.Hora_Final, Grupos.Id_Aula, Grupos.Id_Carrera, Grupos.Id_Horario, Materia.Semestre, Materia.Cupo, Materia.Creditos, Carrera.Nombre AS Nombre_Carrera
+  const sql = `SELECT Materia.Id_Materia, Materia.Materia, Docente.Nombre, Docente.Ap_Paterno, Docente.Ap_Materno, Aula.Nombre AS NOMBRE, Horas.Hora_Inicio, Horas.Hora_Final, Grupos.Id_Aula, Grupos.Id_Carrera, Grupos.Id_Horario, Materia.Semestre, Materia.Creditos, Carrera.Nombre AS Nombre_Carrera
 FROM Grupos
 INNER JOIN Materia ON Materia.Id_Materia = Grupos.Id_Materia
 INNER JOIN Docente ON Grupos.No_Empleado = Docente.Id_Docente
