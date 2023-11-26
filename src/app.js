@@ -562,8 +562,8 @@ WHERE Grupos.Id_Materia=?`;
     Ap_Materno: user.Ap_Materno,
     Creditos:user.Creditos,
     Semestre:user.Semestre,
-    Hora_Inicio: user.Hora_Inicio_Lunes,
-    Hora_Final: user.Hora_Final_Lunes,
+    Hora_Inicio: user.Hora_Inicio,
+    Hora_Final: user.Hora_Final,
     Aula: user.NOMBRE,
     Nombre_Carrera: user.Nombre_Carrera
   }));
