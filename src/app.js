@@ -562,8 +562,7 @@ WHERE Grupos.Id_Materia= ?`;
     Semestre:user.Semestre,
     Hora_Inicio: user.Hora_Inicio,
     Hora_Final: user.Hora_Final,
-    Aula: user.NOMBRE,
-    Nombre_Carrera: user.Nombre_Carrera
+    Aula: user.NOMBRE
   }));
   
   res.json(users);
