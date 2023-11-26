@@ -539,14 +539,13 @@ app.get('/getMaterias_asigandas', async (req, res) => {
 //(OBTENER MATERIA POR ID (LISTO)
 app.get('/getMateria/:id', async (req, res) => {
   const { id } = req.params;
-  const sql = `SELECT Materia.Id_Materia, Materia.Materia, Docente.Nombre, Docente.Ap_Paterno, Docente.Ap_Materno, Aula.Nombre AS NOMBRE, Horas.Hora_Inicio, Horas.Hora_Final, Grupos.Id_Aula, Grupos.Id_Carrera, Grupos.Id_Horario, Materia.Semestre, Materia.Creditos, Carrera.Nombre AS Nombre_Carrera
+  const sql = `SELECT Materia.Id_Materia, Materia.Materia, Docente.Nombre, Docente.Ap_Paterno, Docente.Ap_Materno, Aula.Nombre AS NOMBRE, Horas.Hora_Inicio, Horas.Hora_Final, Grupos.Id_Aula,  Grupos.Id_Horario, Materia.Semestre, Materia.Creditos
 FROM Grupos
 INNER JOIN Materia ON Grupos.Id_Materia = Materia.Id_Materia
 INNER JOIN Docente ON Grupos.No_Empleado = Docente.Id_Docente
 INNER JOIN Aula ON Grupos.Id_Aula = Aula.Id_Aula
 INNER JOIN Horas ON Grupos.Id_Horario = Horas.Id_Horario
-INNER JOIN Carrera ON Grupos.Id_Carrera = Carrera.Id_Carrera
-WHERE Grupos.Id_Materia=?`;
+WHERE Grupos.Id_Materia= ?`;
 
   const result = await pool.query(sql, [id]);
   const data = result[0];
@@ -555,7 +554,6 @@ WHERE Grupos.Id_Materia=?`;
     Id_Materia: user.Id_Materia,
     Id_Horario: user.Id_Horario,
     Id_Aula: user.Id_Aula,
-    Id_Carrera: user.Id_Carrera,
     Materia: user.Materia,
     Nombre: user.Nombre,
     Ap_Paterno: user.Ap_Paterno,
