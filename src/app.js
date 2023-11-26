@@ -256,7 +256,7 @@ app.get('/getCarga/:NCONTROL', async (req, res) => {
   const { NCONTROL } = req.params;
   const sql = `
   SELECT Materia.Materia AS Nombre_Materia, Materia.Semestre, Docente.Nombre AS Nombre_Docente,
-  Aula.Nombre AS Nombre_Aula, Horas.Hora_Inicio, Horas.Hora_Final, Alumnos.Nombre AS Nombre_Alumno, Alumnos.Ap_Paterno, Alumnos.Ap_Materno,
+  Aula.Nombre AS Nombre_Aula, Horas.Hora_Inicio, Horas.Hora_Final, Alumnos.Nombre AS Nombre_Alumno, Alumnos.Ap_Paterno, Alumnos.Ap_Materno
   FROM Alumnos
   INNER JOIN Materia_Cargada_Alumno ON Alumnos.NControl = Materia_Cargada_Alumno.NControl_Alumno
   INNER JOIN Grupos ON Materia_Cargada_Alumno.Id_Carga = Grupos.Id_Grupo
@@ -272,6 +272,9 @@ app.get('/getCarga/:NCONTROL', async (req, res) => {
     const gruposAlumno = rows.map(grupo => ({
       "Nombre_Materia": grupo.Nombre_Materia,
       "Semestre": grupo.Semestre,
+      "Nombre_Alumno":grupo.Nombre_Alumno,
+      "Ap_Paterno":grupo.Ap_Paterno,
+      "Ap_Materno":grupo.Ap_Materno,
       "Nombre_Docente": grupo.Nombre_Docente,
       "Nombre_Aula": grupo.Nombre_Aula,
       "Hora_Inicio": grupo.Hora_Inicio,
