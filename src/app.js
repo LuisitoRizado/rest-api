@@ -210,13 +210,13 @@ app.get('/getGrupos/:MATERIA', async (req, res) => {
 app.post('/addCarga', async (req, res) => {
   const { Id_Carga, Id_Grupo, NControl_Alumno, Calificacion } = req.body;
 
-  const sql = "INSERT INTO Materia_Cargada_Alumno(Id_Carga, Id_Grupo, NControl_Alumno, Calificacion) VALUES (?, ?, ?, ?)";
+  const sql = "INSERT INTO Materia_Cargada_Alumno (Id_Carga, Id_Grupo, NControl_Alumno, Calificacion) VALUES (?, ?, ?, ?)";
 
   try {
     const result = await pool.query(sql, [Id_Carga, Id_Grupo, NControl_Alumno, Calificacion]);
     res.status(200).json({
       "Id_Carga": Id_Carga,
-      "Id_Grupo": Ncontrol,
+      "Id_Grupo": Id_Grupo,
       "NControl_Alumno": NControl_Alumno,
       "Calificacion": Calificacion
     });
@@ -900,7 +900,7 @@ app.delete('/deleteADocente/:ID_DOCENTE', async (req, res) => {
 });
 app.get('/getMaterias_docente/:id', async (req, res) => {
   const { id } = req.params;
-  const sql = "SELECT * FROM Materia_Asignada_Profesor JOIN Materia ON Materia_Asignada_Profesor.Id_Materia = Materia.Id_Materia WHERE Materia_Asignada_Profesor.Id_Docente = ?";
+  const sql = "SELECT Materia.Materia, Grupos.Id_Grupo  FROM Materia JOIN Grupos ON Grupos.Id_Materia = Materia.Id_Materia ";
   const [result] = await pool.query(sql, [id]);
 
   if (result.length === 0) {
@@ -911,10 +911,9 @@ app.get('/getMaterias_docente/:id', async (req, res) => {
   let data = []
   for (let i = 0; i < result.length; i++) {
     const userSchema = {
-      "Id_DocxMath": result[i].Id_DocxMath,
-      "Id_Docente": result[i].Id_Docente,
-      "Id_Materia": result[i].Id_Materia,
-      "Materia":result[i].Materia
+      "Id_Grupo": result[i].Id_Grupo,
+      "Materia": result[i].Materia
+   
     };
     data.push(userSchema);
   }
