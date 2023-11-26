@@ -900,7 +900,7 @@ app.delete('/deleteADocente/:ID_DOCENTE', async (req, res) => {
 });
 app.get('/getMaterias_docente/:id', async (req, res) => {
   const { id } = req.params;
-  const sql = "SELECT Materia.Materia, Grupos.Id_Grupo  FROM Materia JOIN Grupos ON Grupos.Id_Materia = Materia.Id_Materia ";
+  const sql = "SELECT Materia.Materia, Grupos.Id_Grupo  FROM Materia JOIN Grupos ON Grupos.Id_Materia = Materia.Id_Materia where Grupos.No_Empleado = ? ";
   const [result] = await pool.query(sql, [id]);
 
   if (result.length === 0) {
