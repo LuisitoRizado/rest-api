@@ -141,7 +141,7 @@ app.get('/getHorario/:id', async (req, res) => {
 });
 
 //actualizar calificacion
-app.put("/updateCalificacion/:Id_Alumno:Id_Grupo", async (req, res) => {
+app.put("/updateCalificacion/:Id_Alumno/:Id_Grupo", async (req, res) => {
   const { Calificacion } = req.body;
   const { Id_Alumno } = req.params;
   const sql = "UPDATE Materia_Cargada_Alumno SET Calificacion=? WHERE Id_Alumno=? AND Id_Grupo = ?";
