@@ -139,6 +139,33 @@ app.get('/getHorario/:id', async (req, res) => {
     });
   }
 });
+
+//actualizar calificacion
+app.put("/updateCalificacion/:Id_Alumno", async (req, res) => {
+  const { Calificacion } = req.body;
+  const { Id_Alumno } = req.params;
+  const sql = "UPDATE Materia_Cargada_Alumno SET Calificacion=? WHERE Id_Alumno=?";
+  
+  try {
+    const [result] = await pool.execute(sql, [Calificacion, Id_Alumno]);
+
+    if (result.affectedRows === 0) {
+      res.status(404).json({
+        message: `No se encontró el horario con el ID ${Id_Alumno}`
+      });
+    } else {
+      res.status(200).json({
+        Calificacion: Calificacion,
+        
+      });
+    }
+  } catch (error) {
+    console.error(`Error while updating horario record: ${error}`);
+    res.status(500).json({
+      message: "Error al actualizar el horario"
+    });
+  }
+});
 //actualizar horario(LISTO)
 app.put("/updateHorario/:ID_HORARIO", async (req, res) => {
   const { Hora_Inicio, Hora_Final } = req.body;
