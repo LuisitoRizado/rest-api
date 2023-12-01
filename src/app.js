@@ -137,37 +137,13 @@ app.get('/getHorario/:id', async (req, res) => {
     res.status(500).json({
       message: "Error al obtener el horario"
     });
-  }app.put("/updateCalificacion/:NControl_Alumno/:Id_Grupo", async (req, res) => {
-    const { Calificacion } = req.body;
-    const { NControl_Alumno, Id_Grupo } = req.params; // Corregido el nombre de Id_Alumno a NControl_Alumno
-    const sql = "UPDATE Materia_Cargada_Alumno SET Calificacion=? WHERE NControl_Alumno=? AND Id_Grupo = ?";
-    
-    try {
-      const [result] = await pool.execute(sql, [Calificacion, NControl_Alumno, Id_Grupo]);
-  
-      if (result.affectedRows === 0) {
-        res.status(404).json({
-          message: `No se encontró el horario con el ID ${NControl_Alumno}` // Actualizado a NControl_Alumno
-        });
-      } else {
-        res.status(200).json({
-          Calificacion: Calificacion
-        });
-      }
-    } catch (error) {
-      console.error(`Error while updating horario record: ${error}`);
-      res.status(500).json({
-        message: "Error al actualizar el horario"
-      });
-    }
-  });
-  
+  }
 });
 
 //actualizar calificacion
 app.put("/updateCalificacion/:NControl_Alumno/:Id_Grupo", async (req, res) => {
   const { Calificacion } = req.body;
-  const { Id_Alumno } = req.params;
+  const { NControl_Alumno, Id_Grupo } = req.params; // Corregido el nombre de Id_Alumno a NControl_Alumno
   const sql = "UPDATE Materia_Cargada_Alumno SET Calificacion=? WHERE NControl_Alumno=? AND Id_Grupo = ?";
   
   try {
@@ -175,12 +151,11 @@ app.put("/updateCalificacion/:NControl_Alumno/:Id_Grupo", async (req, res) => {
 
     if (result.affectedRows === 0) {
       res.status(404).json({
-        message: `No se encontró el horario con el ID ${Id_Alumno}`
+        message: `No se encontró el horario con el ID ${NControl_Alumno}` // Actualizado a NControl_Alumno
       });
     } else {
       res.status(200).json({
-        Calificacion: Calificacion,
-        
+        Calificacion: Calificacion
       });
     }
   } catch (error) {
@@ -190,6 +165,7 @@ app.put("/updateCalificacion/:NControl_Alumno/:Id_Grupo", async (req, res) => {
     });
   }
 });
+
 //actualizar horario(LISTO)
 app.put("/updateHorario/:ID_HORARIO", async (req, res) => {
   const { Hora_Inicio, Hora_Final } = req.body;
