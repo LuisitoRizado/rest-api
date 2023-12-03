@@ -966,7 +966,10 @@ app.get('/getMaterias_docente/:id', async (req, res) => {
   for (let i = 0; i < result.length; i++) {
     const userSchema = {
       "Id_Grupo": result[i].Id_Grupo,
-      "Materia": result[i].Materia
+      "Materia": result[i].Materia,
+      "Hora_Inicio": result[i].Hora_Inicio,
+      "Hora_Final": result[i].Hora_Final
+
    
     };
     data.push(userSchema);
