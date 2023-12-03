@@ -170,7 +170,7 @@ app.put("/updateCalificacion/:NControl_Alumno/:Id_Grupo", async (req, res) => {
 app.put("/updateHorario/:ID_HORARIO", async (req, res) => {
   const { Hora_Inicio, Hora_Final } = req.body;
   const { ID_HORARIO } = req.params;
-  const sql = "UPDATE Horas SET Hora_Inicio=?, Hora_Final=? WHERE ID_HORARIO=?";
+  const sql = "UPDATE Horas SET Hora_Inicio=?, Hora_Final=? WHERE Id_Horario=?";
   
   try {
     const [result] = await pool.execute(sql, [Hora_Inicio, Hora_Final, ID_HORARIO]);
