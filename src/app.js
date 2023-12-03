@@ -282,7 +282,7 @@ app.post('/addCarga', async (req, res) => {
 app.get('/getCarga/:NCONTROL', async (req, res) => {
   const { NCONTROL } = req.params;
   const sql = `
-  SELECT Materia.Materia AS Nombre_Materia, Materia.Semestre, Docente.Nombre AS Nombre_Docente Docente.Ap_Paterno AS Paterno_Docente, Docente.Ap_Materno AS Materno_Docente, Materia_Cargada_Alumno.Calificacion,
+  SELECT Materia.Materia AS Nombre_Materia, Materia.Semestre, Docente.Nombre AS Nombre_Docente, Docente.Ap_Paterno AS Paterno_Docente, Docente.Ap_Materno AS Materno_Docente, Materia_Cargada_Alumno.Calificacion,
   Aula.Nombre AS Nombre_Aula, Horas.Hora_Inicio, Horas.Hora_Final, Alumnos.Nombre AS Nombre_Alumno, Alumnos.Ap_Paterno, Alumnos.Ap_Materno
   FROM Alumnos
   INNER JOIN Materia_Cargada_Alumno ON Alumnos.NControl = Materia_Cargada_Alumno.NControl_Alumno
