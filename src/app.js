@@ -1042,18 +1042,17 @@ app.get('getAllEstatus',async(req,res)=>{
 }
 })
 app.post('/addCarrera', async (req, res)=>{
-  const { ID_CARRERA, NOMBRE, PLAN_ESTUDIOS } = req.body;
+  const { ID_CARRERA, NOMBRE } = req.body;
 
   // Secuencia sql para poder agregar el docente a la base de datos
-  const sql = "INSERT INTO Carrera(ID_CARRERA, NOMBRE, PLAN_ESTUDIOS) VALUES (?, ?, ?)";
+  const sql = "INSERT INTO Carrera(ID_CARRERA, NOMBRE) VALUES (?, ?)";
 
   try {
-    await pool.query(sql, [ID_CARRERA, NOMBRE, PLAN_ESTUDIOS]);
+    await pool.query(sql, [ID_CARRERA, NOMBRE]);
     console.log(`Inserted new Carrera record with Id_Carrera=${ID_CARRERA}`);
     res.status(200).json({
       "ID_CARRERA": ID_CARRERA,
       "NOMBRE": NOMBRE,
-      "PLAN_ESTUDIOS": PLAN_ESTUDIOS,
     });
   } catch (error) {
     console.error(`Error while adding new CARRERA record: ${error}`);
