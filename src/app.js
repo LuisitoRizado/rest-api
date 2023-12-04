@@ -217,6 +217,7 @@ app.post('/addHorario', async (req, res) => {
 app.get('/getGrupos/:MATERIA', async (req, res) => {
   const { MATERIA } = req.params;
   const sql = `SELECT 
+    Grupos.Id_Grupo,
     Materia.Materia,
     Grupos.Id_Aula,
     Docente.Nombre,
@@ -238,6 +239,7 @@ app.get('/getGrupos/:MATERIA', async (req, res) => {
   try {
     const [result] = await pool.query(sql, [MATERIA]);
     const groups = result.map(group => ({
+      ID_GRUPO: group.ID_GRUPO,
       MATERIA: group.Materia,
       AULA_NOMBRE: group.Aula_Nombre,
       NOMBRE_DOCENTE: group.Nombre,
