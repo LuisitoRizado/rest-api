@@ -540,7 +540,7 @@ INNER JOIN Horas ON Grupos.Id_Horario = Horas.Id_Horario`;
 
 
 try {
-  const [result] = await pool.query(sql, [MATERIA]);
+  const [result] = await pool.query(sql, []);
   const groups = result.map(group => ({
     MATERIA: group.Materia,
     AULA_NOMBRE: group.Aula_Nombre,
