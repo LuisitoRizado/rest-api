@@ -239,7 +239,7 @@ app.get('/getGrupos/:MATERIA', async (req, res) => {
   try {
     const [result] = await pool.query(sql, [MATERIA]);
     const groups = result.map(group => ({
-      ID_GRUPO: group.ID_GRUPO,
+      ID_GRUPO: group.Id_Grupo,
       MATERIA: group.Materia,
       AULA_NOMBRE: group.Aula_Nombre,
       NOMBRE_DOCENTE: group.Nombre,
