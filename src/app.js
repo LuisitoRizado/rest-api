@@ -501,7 +501,7 @@ app.get('/getAllMaterias', async (req, res) => {
     const Users = result.map(user => ({
       Id_Materia: user.Id_Materia,
       Id_Estatus: user.Estatus,
-      Id_Carrera: user.Id_Carrera,
+       Id_Carrera: user.Id_Carrera,
       Materia: user.Materia,
       Creditos: user.Creditos,
       Semestre: user.Semestre,
@@ -519,32 +519,47 @@ app.get('/getAllMaterias', async (req, res) => {
 
 //EOBTENER TODAS LAS MATERIAS ASIGNDAS A PROFESOR(lISTO)
 app.get('/getAllMats', async (req, res) => {
-  try {
-    const [result] = await pool.query(`
-      SELECT Id_Docxmath,Docente.Id_Docente, Materia.Id_Materia, Materia.Materia, Docente.Nombre,Docente.Ap_Paterno, Docente.Ap_Materno, Aula.Nombre AS NOMBRE, Horario.Hora_Inicio_Lunes, Horario.Hora_Final_Lunes
-      FROM Materia
-      INNER JOIN Materia_Asignada_Profesor ON Materia.Id_Materia = Materia_Asignada_Profesor.Id_Materia
-      INNER JOIN Docente ON Materia_Asignada_Profesor.Id_Docente = Docente.Id_Docente
-      INNER JOIN Aula ON Materia.Id_Aula = Aula.Id_Aula
-      INNER JOIN Horario ON Materia.Id_Horario = Horario.Id_Horario
-    `);
-    const Users = result.map(user => ({
-      Id_Docxmath: user.Id_Docxmath,
-      Id_Docente: user.Id_Docente,
-      Id_Materia: user.Id_Materia,
-      Materia: user.Materia,
-      Nombre: user.Nombre,
-      Ap_Paterno: user.Ap_Paterno,
-      Ap_Materno: user.Ap_Materno,
-      Hora_Inicio_Lunes: user.Hora_Inicio_Lunes,
-      Hora_Final_Lunes: user.Hora_Final_Lunes,
-      NOMBRE: user.NOMBRE
-    }));
-    res.json(Users);
-  } catch (error) {
-    console.error(`Error al obtener las materias: ${error}`);
-    res.status(500).json({ error: `Error al obtener las materias: ${error.message}` });
-  }
+
+  const sql = `SELECT 
+  Materia.Materia,
+  Grupos.Id_Aula,
+  Docente.Nombre,
+  Docente.Ap_Paterno,
+  Docente.Ap_Materno,
+  Aula.Campus,
+  Aula.Nombre AS Aula_Nombre,
+  Grupos.No_Empleado,
+  Horas.Id_Horario,
+  Horas.Hora_Inicio,
+  Horas.Hora_Final
+FROM Grupos
+INNER JOIN Docente ON Grupos.No_Empleado = Docente.Id_Docente
+INNER JOIN Materia ON Grupos.Id_Materia = Materia.Id_Materia
+INNER JOIN Aula ON Grupos.Id_Aula = Aula.Id_Aula
+INNER JOIN Horas ON Grupos.Id_Horario = Horas.Id_Horario`;
+
+
+try {
+  const [result] = await pool.query(sql, [MATERIA]);
+  const groups = result.map(group => ({
+    MATERIA: group.Materia,
+    AULA_NOMBRE: group.Aula_Nombre,
+    NOMBRE_DOCENTE: group.Nombre,
+    AP_PATERNO: group.Ap_Paterno,
+    Ap_Materno : group.Ap_Materno,
+    ID_AULA: group.Id_Aula,
+    CAMPUS: group.Campus,
+    NO_EMPLEADO: group.No_Empleado,
+    ID_HORARIO: group.Id_Horario,
+    HORA_INICIO: group.Hora_Inicio,
+    HORA_FINAL: group.Hora_Final
+  }));
+
+  res.json(groups);
+} catch (error) {
+  console.error(error.message);
+  res.status(500).send('Server error');
+}
 });
 //CONSULTAR MATERIA POR NOMBRE(no listo)
 app.get('/getMats/:MAT', async (req, res) => {
