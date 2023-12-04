@@ -753,7 +753,7 @@ app.delete("/deleteMateria_Asignada/:ID_DOCXMATH", async (req, res) => {
 
   try {
       // Query para eliminar la materia asignada del profesor
-      const sql = 'DELETE FROM Materia_Asignada_Profesor WHERE Id_DocxMath = ?';
+      const sql = 'DELETE FROM Grupos WHERE Id_Grupo = ?';
       
       // Ejecutar la consulta utilizando la conexión del pool
       await pool.query(sql, [ID_DOCXMATH]);
