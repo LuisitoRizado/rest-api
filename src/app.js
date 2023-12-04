@@ -219,6 +219,7 @@ app.get('/getGrupos/:MATERIA', async (req, res) => {
   const sql = `SELECT 
     Grupos.Id_Grupo,
     Materia.Materia,
+    Materia.Id_Materia,
     Grupos.Id_Aula,
     Docente.Nombre,
     Docente.Ap_Paterno,
@@ -240,6 +241,7 @@ app.get('/getGrupos/:MATERIA', async (req, res) => {
     const [result] = await pool.query(sql, [MATERIA]);
     const groups = result.map(group => ({
       ID_GRUPO: group.Id_Grupo,
+      ID_MATERIA:group.Id_Materia,
       MATERIA: group.Materia,
       AULA_NOMBRE: group.Aula_Nombre,
       NOMBRE_DOCENTE: group.Nombre,
