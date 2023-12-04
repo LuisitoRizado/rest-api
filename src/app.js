@@ -807,7 +807,7 @@ app.post('/addMateria_Asignada', async (req, res) => {
             "Id_Horario":Id_Horario,
             "No_Empleado":No_Empleado,
             "Cupo_Total":Cupo_Total,
-            "Fecha_Creacion":Fecha_Periodo,
+            "Fecha_Creacion":Fecha_Creacion,
             "Periodo":Periodo,
             "Alumnos_Inscritos":Alumnos_Inscritos
 
