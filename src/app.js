@@ -795,15 +795,21 @@ app.get('/getJusAtMateria/:ID_MATERIA', async (req, res) => {
 
 //AGREGAR MATERIA ASIGNADA (LISTO)
 app.post('/addMateria_Asignada', async (req, res) => {
-    const { ID_DOCXMATH, ID_DOCENTE, ID_MATERIA } = req.body;
-    const sql = "Insert into Materia_Asignada_Profesor VALUES (?, ?, ?)";
+    const { Id_Grupo, Id_Materia, Id_Aula, Id_Horario, No_Empleado, Cupo_Total, Fecha_Periodo, Alumnos_Inscritos } = req.body;
+    const sql = "Insert into Grupos VALUES (?, ?, ?, ?, ?,?,?,?)";
 
     try {
-        await pool.query(sql, [ID_DOCXMATH, ID_DOCENTE, ID_MATERIA]);
+        await pool.query(sql, [Id_Grupo, Id_Materia, Id_Aula, Id_Horario,No_Empleado, Cupo_Total,Fecha_Periodo, Alumnos_Inscritos]);
         res.status(200).json({
-            "ID_DOCXMATH": ID_DOCXMATH,
-            "ID_DOCENTE": ID_DOCENTE,
-            "ID_MATERIA": ID_MATERIA,
+            "Id_Grupo": Id_Grupo,
+            "Id_Materia": Id_Materia,
+            "Id_Aula": Id_Aula,
+            "Id_Horario":Id_Horario,
+            "No_Empleado":No_Empleado,
+            "Cupo_Total":Cupo_Total,
+            "Fecha_Periodo":Fecha_Periodo,
+            "Alumnos_Inscritos":Alumnos_Inscritos
+
         });
     } catch (error) {
         console.log(error);
