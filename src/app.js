@@ -287,16 +287,12 @@ app.post('/addCarga', async (req, res) => {
 app.get('/getCarga/:NCONTROL', async (req, res) => {
   const { NCONTROL } = req.params;
   const sql = `
-  SELECT Materia.Materia AS Nombre_Materia, Materia.Semestre, Docente.Nombre AS Nombre_Docente, Docente.Ap_Paterno AS Paterno_Docente, Docente.Ap_Materno AS Materno_Docente, Materia_Cargada_Alumno.Calificacion,
-  Aula.Nombre AS Nombre_Aula, Horas.Hora_Inicio, Horas.Hora_Final, Alumnos.Nombre AS Nombre_Alumno, Alumnos.Ap_Paterno, Alumnos.Ap_Materno
-  FROM Alumnos
-  INNER JOIN Materia_Cargada_Alumno ON Alumnos.NControl = Materia_Cargada_Alumno.NControl_Alumno
-  INNER JOIN Grupos ON Materia_Cargada_Alumno.Id_Carga = Grupos.Id_Grupo
+  SELECT Materia.Materia AS Nombre_Materia, Materia.Semestre,  Materia_Cargada_Alumno.Calificacion,
+    Alumnos.Nombre AS Nombre_Alumno, Alumnos.Ap_Paterno, Alumnos.Ap_Materno
+  FROM Materia_Cargada_Alumno
+  INNER JOIN Grupos ON Materia_Cargada_Alumno.Id_Grupo = Grupos.Id_Grupo
   INNER JOIN Materia ON Grupos.Id_Materia = Materia.Id_Materia
-  INNER JOIN Docente ON Grupos.No_Empleado = Docente.Id_Docente
-  INNER JOIN Aula ON Grupos.Id_Aula = Aula.Id_Aula
-  INNER JOIN Horas ON Grupos.Id_Horario = Horas.Id_Horario
-  WHERE Materia_Cargada_Alumno.NControl_Alumno =  ?;
+  where  Materia_Cargada_Alumno.NControl_Alumno = ? ;
   `;
   
   try {
