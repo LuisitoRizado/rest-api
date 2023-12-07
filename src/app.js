@@ -291,6 +291,7 @@ app.get('/getCarga/:NCONTROL', async (req, res) => {
     Alumnos.Nombre AS Nombre_Alumno, Alumnos.Ap_Paterno, Alumnos.Ap_Materno
   FROM Materia_Cargada_Alumno
   INNER JOIN Grupos ON Materia_Cargada_Alumno.Id_Grupo = Grupos.Id_Grupo
+  INNER JOIN Alumnos ON Materia_Cargada_Alumno.NControl_Alumno = Alumnos.NControl
   INNER JOIN Materia ON Grupos.Id_Materia = Materia.Id_Materia
   where  Materia_Cargada_Alumno.NControl_Alumno = ? ;
   `;
