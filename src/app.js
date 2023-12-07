@@ -296,7 +296,7 @@ app.get('/getCarga/:NCONTROL', async (req, res) => {
   INNER JOIN Docente ON Grupos.No_Empleado = Docente.Id_Docente
   INNER JOIN Aula ON Grupos.Id_Aula = Aula.Id_Aula
   INNER JOIN Horas ON Grupos.Id_Horario = Horas.Id_Horario
-  WHERE Alumnos.NControl =  ?;
+  WHERE Materia_Cargada_Alumno.NControl_Alumno =  ?;
   `;
   
   try {
